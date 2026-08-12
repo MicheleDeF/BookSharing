@@ -1,0 +1,73 @@
+<form id="registration" class="registration-needs-validation" novalidate>
+    <div class="row g-4">
+        <div class="col-12 col-md-6">
+            <label for="first_name" class="form-label fw-semibold text-secondary">Nome <span class="text-danger" aria-hidden="true">*</span></label>
+            <input type="text" id="first_name" value="" name="first_name"
+                class="form-control form-control-lg border-secondary-subtle"
+                placeholder="Inserisci il tuo nome" required>
+            <div class="invalid-feedback">Inserisci il tuo nome".</div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <label for="last_name" class="form-label fw-semibold text-secondary">Cognome <span class="text-danger" aria-hidden="true">*</span></label>
+            <input type="text" id="last_name" value="" name="last_name" class="form-control form-control-lg border-secondary-subtle" placeholder="Inserisci il tuo cognome" required>
+            <div class="invalid-feedback">Inserisci il tuo cognome.</div>
+        </div>    
+    
+        <div class="col-12 col-md-12">
+            <label for="email" class="form-label fw-semibold text-secondary">Indirizzo Email <span class="text-danger" aria-hidden="true">*</span></label>
+            <input type="email" id="email" value="" name="email" class="form-control form-control-lg border-secondary-subtle" placeholder="nome@esempio.com" required>
+            <div class="invalid-feedback">Inserisci un indirizzo email valido.</div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <label for="password" class="form-label fw-semibold text-secondary">Password <span class="text-danger" aria-hidden="true">*</span></label>
+            <div class="input-group mb-3">
+            <input type="password" id="password" value="" name="password" minlength="8" class="form-control form-control-lg border-secondary-subtle" placeholder="Minimo 8 caratteri" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="button_view_password" required>
+            <button class="btn btn-outline-secondary" type="button" id="button_view_password" onmouseover="viewPassword(this)"><i class="fa-solid fa-eye"></i></button>
+            <div class="invalid-feedback">Password non valida</div>
+            </div>
+            
+        </div>
+
+        <div class="col-12 col-md-6">
+            <label for="password_confirm" class="form-label fw-semibold text-secondary">Conferma Password <span class="text-danger" aria-hidden="true">*</span></label>
+            <div class="input-group mb-3">
+                <input type="password" id="password_confirm" value="" onChange="checkPasswordMatch();"  name="password_confirm" class="form-control form-control-lg border-secondary-subtle" placeholder="Ripeti la password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="button_view_password" required>
+                <button class="btn btn-outline-secondary" type="button" id="button_view_password" onmouseover="viewPassword(this)"><i class="fa-solid fa-eye"></i></button>
+                <div class="invalid-feedback">Conferma password non valida</div>
+            </div>                            
+        </div>    
+        <div class="col-12 col-md-12">
+                <label for="address" class="form-label fw-semibold text-secondary">Indirizzo <span class="text-danger" aria-hidden="true">*</span></label>
+                <div class="input-group">
+                    <input type="text" id="address" value="" name="address" required class="form-control form-control-lg border-secondary-subtle" placeholder="Es. Via Toledo, Napoli">
+                    <div class="invalid-feedback">Specifica un indirizzo per la geolocalizzazione sulla mappa.</div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="radius" class="form-label fw-semibold text-secondary">Raggio massimo visibilità *</label>
+                <select id="radius" name="radius" required class="form-select form-select-lg border-secondary-subtle">
+                    <option value="" selected>Seleziona un raggio</option>
+                    <option value="500">Entro 500 metri (A piedi)</option>
+                    <option value="1500">Entro 1.5 km (Nel quartiere)</option>
+                    <option value="5000">Entro 5 km (In città)</option>
+                </select>
+                <div class="invalid-feedback">Seleziona un raggio.</div>
+            </div>
+
+        <input type="hidden" id="latitude"  value="" name="latitude">
+        <input type="hidden" id="longitude" value="" name="longitude">
+
+        <div class="mb-4 form-check">
+            <input type="checkbox" class="form-check-input" name="agree_terms" id="agree_terms" required>
+            <label class="form-check-label text-muted small" for="agree_terms">Accetto i termini di servizio, <a href="#">leggi termini di servizio</a></label>
+            <div class="invalid-feedback">È necessario accettare i termini per continuare.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold py-3 shadow-sm">
+            Crea il mio profilo
+        </button>    
+    </div>
+</form>

@@ -1,0 +1,41 @@
+<form id="login" class="needs-validation" novalidate>
+      <div class="alert alert-warning alert-dismissible fade show d-lg-none" role="alert">
+            <strong>Attenzione!</strong> Credenziali non valide.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <div class="row g-4">
+        <div class="col-12">
+            <label for="email" class="form-label fw-semibold text-secondary">Email 
+            <span class="text-danger" aria-hidden="true">*</span></label>
+            <input type="text" id="email" name="email" class="form-control form-control-lg border-secondary-subtle" placeholder="Inserisci la tua email, es. nome@dominio.it" required>
+            <div class="invalid-feedback">Inserisci la tua email</div>
+        </div>
+
+        <div class="col-12">
+            <label for="password" class="form-label fw-semibold text-secondary">Password 
+                <span class="text-danger" aria-hidden="true">*</span></label>
+                <input type="password" id="password" name="password" class="form-control form-control-lg border-secondary-subtle" minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Inserisci la tua password" required>
+            <div class="invalid-feedback">Inserisci la tua password</div>
+        </div>
+
+        <div class="col-12 pt-3">
+            <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold py-3 shadow-sm">
+                Accedi alla Community 
+            </button>
+        </div>
+
+        <div class="col-12">
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <a href="#" class="text-muted small text-decoration-none">Password dimenticata?</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="#" class="text-muted small text-decoration-none">-</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="sign-up" class="text-muted small text-decoration-none">Non hai un account? Registrati</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</form>

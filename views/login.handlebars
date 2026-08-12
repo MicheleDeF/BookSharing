@@ -1,0 +1,20 @@
+<main class="container-xl py-5 flex-grow-1">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">                
+            <div class="mb-4">
+                <h1 class="h2 fw-extrabold text-dark">Bentornato!</h1>
+                <p class="text-secondary"><span class="text-danger" aria-hidden="true">*</span> campo obbligatorio</p>
+            </div>                
+            <div class="card p-4 p-md-5 shadow-sm border-secondary-subtle rounded-3 bg-white">                    
+                {{> pages/login/form }}
+            </div>
+        </div>
+    </div>
+</main>
+{{#section 'script'}}
+<script src="/js/login/login.js"></script> 
+{{/section}}
+
+{{#section 'title'}}
+Book Sharing - Sign-In
+{{/section}}

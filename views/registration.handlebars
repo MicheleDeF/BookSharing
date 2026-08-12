@@ -1,0 +1,31 @@
+<main class="container-xl py-5 flex-grow-1">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="mb-4">
+                <h1 class="h2 fw-extrabold text-dark">Entra nella community!</h1>
+                <div class="alert alert-info" role="alert">                
+                <p><i class="fa-solid fa-circle-info"></i> Formato password corretto:</p>
+                <ul class="list">
+                    <li>Almeno 1 lettera maiuscola</li>
+                    <li>Almeno 1 lettera minuscola</li>
+                    <li>Almeno 1 numero</li>
+                    <li>Minimo 8 caratteri</li>
+                </ul>
+               </div>
+                <p class="text-secondary"><span class="text-danger" aria-hidden="true">*</span> 
+                i campi contrassegnati sono obbligatori</p>
+              </div>
+
+            <div class="card p-4 p-md-5 shadow-sm border-secondary-subtle rounded-3 bg-white">
+               {{> pages/registration/form }}
+            </div>
+        </div>
+    </div>
+</main>
+{{#section 'script'}}
+<script src="/js/registration/registration.js"></script> 
+{{/section}}
+
+{{#section 'title'}}
+Book Sharing - Sign-Up
+{{/section}}

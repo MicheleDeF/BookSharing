@@ -1,0 +1,93 @@
+<form id="insert-book" enctype="multipart/form-data" class="needs-validation" novalidate>
+    
+    <div class="row g-4">        
+        <div class="col-12">
+            <label for="title" class="form-label fw-semibold text-secondary">Titolo del Libro <span class="text-danger" aria-hidden="true">*</span></label>
+            <input type="text" id="title" name="title" class="form-control form-control-lg border-secondary-subtle" placeholder="Inserisci il titolo del libro, es. Divina Commedia" required>
+            <div class="invalid-feedback">Inserisci il titolo del libro.</div>
+        </div>
+
+        
+        <div class="col-12 col-md-12">
+            <label for="author" class="form-label fw-semibold text-secondary">Autore <span class="text-danger" aria-hidden="true">*</span></label>
+            <input type="text" id="author" name="author" class="form-control form-control-lg border-secondary-subtle" placeholder="Inserisci l'autore del libro, es. Dante Alighieri" required>
+            <div class="invalid-feedback">Inserisci l'autore del libro.</div>
+        </div>
+
+        
+        <div class="col-12 col-md-4">
+            <label for="publish_year" class="form-label fw-semibold text-secondary">Anno di pubblicazione</label>
+            <input type="number" id="publish_year" name="publish_year" class="form-control form-control-lg border-secondary-subtle" min="1000" max="2026" placeholder="es. 1472">
+        </div>
+
+        
+        <div class="col-12 col-md-4">
+            <label for="category" class="form-label fw-semibold text-secondary">Categoria / Genere <span class="text-danger" aria-hidden="true">*</span></label>
+            <select id="category" name="category" class="form-select form-select-lg border-secondary-subtle" required>
+                <option value="" selected>Scegli un genere...</option>
+                <option value="Romanzo">Romanzo</option>
+                <option value="Gialli/Thriller">Gialli/Thriller</option>
+                <option value="Fantascienza">Fantascienza</option>
+                <option value="Fumetti">Fumetti</option>
+                <option value="Altro">Altro</option>
+            </select>
+            <div class="invalid-feedback">Seleziona una categoria.</div>
+        </div>
+
+        <div class="col-12 col-md-4">
+        <label for="radius" class="form-label fw-semibold text-secondary">Raggio massimo visibilità <span class="text-danger" aria-hidden="true">*</span></label>
+        <select id="radius" name="radius" required class="form-select form-select-lg border-secondary-subtle">
+            <option value="" selected>Seleziona un raggio</option>
+            <option value="500">Entro 500 metri (A piedi)</option>
+            <option value="1500">Entro 1.5 km (Nel quartiere)</option>
+            <option value="5000">Entro 5 km (In città)</option>
+        </select>
+        </div>
+
+
+        <div class="col-12 col-md-12">
+            <label for="description" class="form-label fw-semibold text-secondary">Descrizione <span class="text-danger" aria-hidden="true">*</span></label>
+            <textarea id="description" name="description" class="form-control form-control-lg border-secondary-subtle" placeholder="Inserisci una breve descrizione, massimo 500 caratteri.." maxlength="500" rows="8" required ></textarea>
+            <div class="invalid-feedback">Inserisci una descrizione.</div>
+
+        </div>
+
+        <div class="col-12 col-md-12">
+            <label for="address" class="form-label fw-semibold text-secondary">Indirizzo <span class="text-danger" aria-hidden="true">*</span></label>
+            <div class="input-group">
+                <input type="text" id="address" value="" name="address" required class="form-control form-control-lg border-secondary-subtle" placeholder="Es. Via Toledo, Napoli">
+                <div class="invalid-feedback">Specifica un indirizzo per la geolocalizzazione sulla mappa.</div>
+            </div>
+        </div>        
+
+        
+        <div class="col-12 border-top pt-4 mt-4">
+            <h2 class="h5 fw-bold text-dark mb-3">Immagine di Copertina</h2>
+            
+            <div class="d-flex flex-column flex-sm-row gap-4 align-items-center align-items-sm-start">
+                
+                <div class="preview-cover-wrapper rounded-3 d-flex align-items-center justify-content-center shadow-xs">                    
+                    <img id="cover-preview" src="images/placeholder-300x400.png" class="cover-preview">
+                </div>
+                
+                <div class="flex-grow-1 w-100">
+                    <label for="cover-upload" class="form-label fw-semibold text-secondary">Seleziona un file immagine 
+                    <span class="text-danger" aria-hidden="true">*</span></label>
+                    <input type="file" id="cover-upload" name="cover" class="form-control border-secondary-subtle" accept="image/png, image/jpeg" required>
+                    <div class="invalid-feedback">Caricare un'immagine di copertina, dimensioni minime 600x800.</div>
+                    <div class="form-text text-muted small mt-2">
+                        <i class="fa-solid fa-circle-info"></i> Formati accettati: JPG, PNG, dimensioni minime 600x800.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <input type="hidden" id="latitude"  value="" name="latitude">
+        <input type="hidden" id="longitude" value="" name="longitude">
+        
+        <div class="col-12 pt-3">
+            <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold py-3 shadow-sm">
+                <i class="bi bi-plus-circle-fill me-2"></i> Pubblica </button>
+        </div>
+    </div>
+</form>

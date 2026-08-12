@@ -1,0 +1,7 @@
+@use '../font-awersome-scss/variables' with (
+  $font-path: '../webfonts'
+);
+@use '../font-awersome-scss/fontawesome.scss';
+@use '../font-awersome-scss/fa' as fa;
+@use '../font-awersome-scss/solid.scss' as fa-solid;
+@use '../font-awersome-scss/brands.scss' as fa-brands;

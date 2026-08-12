@@ -1,0 +1,41 @@
+<header class="navbar fixed-top navbar-expand-md navbar-white bg-white border-bottom sticky-navbar shadow-sm">
+        <div class="container-xl">
+            
+            <a class="navbar-brand fw-black text-primary d-flex align-items-center gap-2 fs-3" href="/" aria-label="BookSharing Home">
+                <span><i class="fa-solid fa-book"></i></span> <span class="fw-bold">BookSharing</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Attiva menu di navigazione">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <nav class="navbar-nav mx-auto gap-md-3" role="navigation" aria-label="Menu principale">
+                    <a class="nav-link text-secondary fw-medium" href="/"><i class="fa-solid fa-house"></i> Home</a>
+                    <a class="nav-link text-secondary fw-medium" href="view-map"><i class="fa-solid fa-location-dot"></i> Cerca sulla Mappa</a>
+                    <a class="nav-link text-secondary fw-medium" href="insert-book"><i class="fa-solid fa-share"></i> Condividi un Libro</a>
+                    <a class="nav-link text-secondary fw-medium" href="dashboard"><i class="fa-solid fa-user-gear"></i> Area Personale</a>
+                </nav>
+                {{#if userLogged.logged}}   
+                    <ul class="list-inline">
+                    <li class="list-inline-item"><img src="{{userLogged.avatar}}" style="width: 50px;border-radius: 50%" class="img-thumbnail" alt="..."></li>
+                    <li class="list-inline-item">
+                    <div class="dropdown">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Ciao, <strong>{{userLogged.lastName}} {{userLogged.firstName}}</strong>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="dashboard">Area Personale</a></li>
+                        <li><a class="dropdown-item" id="logout" href="#">Esci</a></li>                           
+                    </ul>
+                    </div>
+                    </li>
+                    </ul>
+                  {{else}}                    
+                <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
+                    <a href="login" class="btn btn-link text-dark text-decoration-none fw-semibold">Accedi</a>
+                    <a href="sign-up" class="btn btn-primary px-3 shadow-sm font-semibold">Registrati</a>
+                </div>
+                {{/if}} 
+            </div>
+        </div>
+    </header>

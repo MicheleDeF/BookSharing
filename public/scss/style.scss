@@ -1,0 +1,85 @@
+@import 'font-awersome.css';
+
+body 
+{
+    margin-top:80px;
+
+    div#divLoading{
+        display : none;
+
+    }
+
+    div#divLoading.show{
+        display : block;
+        position : fixed;
+        z-index: 100;
+        background-image : url('../images/ajax-loader-gif.gif');
+        background-color:#ffffff;
+        opacity : 0.4;
+        background-repeat : no-repeat;
+        background-position : center;
+        left : 0;
+        bottom : 0;
+        right : 0;
+        top : 0;
+    }
+
+    div#cropperModal{
+
+        div.modal-dialog.modal-lg{
+
+            div.modal-content{
+
+                div.modal-body{
+
+                    div.img-container{
+                        max-height: 100%;
+
+                        img{
+                            max-width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    main.container-xl.py-5.flex-grow-1{
+
+        div.row.justify-content-center{
+
+            div.col-12.col-lg-8{
+
+                div.card.p-4.p-md-5.shadow-sm.border-secondary-subtle.rounded-3.bg-white{
+
+                    form.needs-validation{
+
+                        div.row.g-4{
+
+                            div.col-12.border-top.pt-4.mt-4{
+
+                                div.d-flex.flex-column.flex-sm-row.gap-4.align-items-center.align-items-sm-start{
+
+                                    div.preview-cover-wrapper.rounded-3.d-flex.align-items-center.justify-content-center.shadow-xs{
+
+                                        img.cover-preview{
+                                            border: 1px solid grey;
+                                            border-radius: 8px;
+                                            width: 300px;
+                                            height: 400px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    
+                    }
+
+
+                }
+            }
+        }
+    }
+ 
+
+}

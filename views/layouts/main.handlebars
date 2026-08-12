@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="it" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>{{{_sections.title}}}</title>
+     <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+     {{{_sections.leaflet}}}
+     <link href="/css/bootstrap.min.css" rel="stylesheet"> 
+     {{{_sections.css}}}
+     <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body class="d-flex flex-column h-100">
+       <div id="divLoading" class=""></div>
+       {{> nav }}
+       {{{ body }}}
+       {{> footer}}
+    <script src="/jquery.min.js"></script>   
+    <script src="/js/bootstrap.bundle.min.js"></script>    
+    <script src="/js/script.js"></script> 
+    {{{_sections.script}}}
+   </body>
+</html>

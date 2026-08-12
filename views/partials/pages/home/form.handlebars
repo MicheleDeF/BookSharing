@@ -1,0 +1,18 @@
+<form>
+    <div class="mb-3">
+        <label for="home-search" class="form-label fw-semibold text-secondary">Cosa vuoi leggere?</label>
+        <input type="text" id="home-search" class="form-sizing form-control form-control-lg bg-white border-secondary-subtle" placeholder="Titolo, autore o genere...">
+    </div>
+    <div class="mb-4">
+        <label for="home-radius" class="form-label fw-semibold text-secondary">Distanza massima</label>
+        <select id="home-radius" class="form-sizing form-select form-select-lg bg-white border-secondary-subtle" required>
+            <option value="" selected>Seleziona un'opzione..</option>
+            <option value="500">Entro 500 metri (A piedi)</option>
+            <option value="1500">Entro 1.5 km (Nel quartiere)</option>
+            <option value="5000">Entro 5 km (In città)</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg w-full w-100 fw-bold py-3">
+        Cerca Libri Disponibili
+    </button>
+</form>
