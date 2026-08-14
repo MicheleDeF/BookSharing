@@ -61,12 +61,13 @@ app.set('view engine', '.handlebars');
 
 app.get('/', async (req, res) => {
     let interceptedData = null;
-    const mockRes = {
+    /** mocks the response object, simulating a request to the url '/api/books/' */
+    const mockResponse = {
       status: function() { return this; }, 
       json: function(data) { interceptedData = data; } 
     };
     req.params = { page: 1, limit: 4 };
-    await bookController.getAllBooks(req, mockRes);
+    await bookController.getAllBooks(req, mockResponse);
     const latestBooks = interceptedData && interceptedData.books ? interceptedData.books.map(book => typeof book.get === 'function' ? book.get({ plain: true }) : book) : [];
     res.render('home',{
       latestBooks: latestBooks,      
