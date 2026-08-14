@@ -10,7 +10,6 @@ require('dotenv').config();
 const verifyToken = require('./middlewares/verifyToken');
 const bookController = require('./controller/bookController');
 
-
 app.use(express.static(path.join(__dirname, '/node_modules/leaflet/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/jquery/dist')));
