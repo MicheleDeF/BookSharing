@@ -2,11 +2,13 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const app = express();
 const path = require('path');
-const verifyToken = require('./middlewares/verifyToken');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const session = require('express-session');
 require('dotenv').config();
+
+const verifyToken = require('./middlewares/verifyToken');
+const bookController = require('./controller/bookController');
 
 app.use(express.static(path.join(__dirname, '/node_modules/leaflet/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist')));
@@ -44,15 +46,31 @@ var hbs = exphbs.create({
         this._sections[name] = options.fn(this); 
         return null;
       },
-      getCurrentYear: () => new Date().getFullYear()
+      getCurrentYear: () => new Date().getFullYear(),
+      truncate: function (str, len) {
+      if (str && str.length > len) {
+        return str.substring(0, len) + '...';
+      }
+      return str;
+    }
   }    
 });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', '.handlebars');
 
-app.get('/', (req, res) => {
-  res.render('home');
+app.get('/', async (req, res) => {
+    let interceptedData = null;
+    const mockRes = {
+      status: function() { return this; }, 
+      json: function(data) { interceptedData = data; } 
+    };
+    req.params = { page: 1, limit: 4 };
+    await bookController.getAllBooks(req, mockRes);
+    const latestBooks = interceptedData && interceptedData.books ? interceptedData.books.map(book => typeof book.get === 'function' ? book.get({ plain: true }) : book) : [];
+    res.render('home',{
+      latestBooks: latestBooks,      
+    });  
 });
 
 app.get('/insert-book', verifyToken, (req, res) => {

@@ -1,0 +1,128 @@
+{
+  "info": {
+    "_postman_id": "68f798e2-8a37-4736-9ec5-45c819054ab2",
+    "name": "BookSharing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "19919465"
+  },
+  "item": [
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n    \"email\": \"Godiva.Vaccaro94@email.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{dasepath}}/api/login",
+          "host": [
+            "{{dasepath}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        },
+        "description": "Questa è la richiesta POST per effettuare il login, restituisce un jwt da utilizzare nelle successive richieste che lo necessitano, il token jwt viene salvato in un cookie."
+      },
+      "response": []
+    },
+    {
+      "name": "logout",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{dasepath}}/api/logout",
+          "host": [
+            "{{dasepath}}"
+          ],
+          "path": [
+            "api",
+            "logout"
+          ]
+        },
+        "description": "Questa è la richiesta POST per effettuare il logout, elimina tutte le sessioni attive ed i cookie."
+      },
+      "response": []
+    },
+    {
+      "name": "user-books",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{dasepath}}/api/user-books/1",
+          "host": [
+            "{{dasepath}}"
+          ],
+          "path": [
+            "api",
+            "user-books",
+            "1"
+          ]
+        },
+        "description": "Questa richiesta restituisce i libri relativi ad uno specifico utente."
+      },
+      "response": []
+    },
+    {
+      "name": "all books",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{dasepath}}/api/books/1/10",
+          "host": [
+            "{{dasepath}}"
+          ],
+          "path": [
+            "api",
+            "books",
+            "1",
+            "10"
+          ]
+        },
+        "description": "Questa richiesta restituisce i libri con un sistema di paginazione, parametri richiesti numero di pagina e il limite di contenuti visualizzati, esempio \"/books/1/10\" 1 è il numero di pagina e 10 è il numero massimo di libri da visualizzare, se il limite è 0 vengono visualizzati tutti i libri.\n\nInoltre questa richiesta restituisce il totale dei libri, il numero delle pagine."
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "dasepath",
+      "value": "http://localhost:3000"
+    }
+  ]
+}

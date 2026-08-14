@@ -39,7 +39,8 @@ module.exports = {
         allowNull: false,
       },
       cover: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       lat: {
         type: Sequelize.STRING,

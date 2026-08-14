@@ -6,6 +6,19 @@ Book Sharing - Home
             <div class="row align-items-center g-5">
                 
                 <div class="col-12 col-lg-7">
+                    <p class="lead text-secondary mb-4">
+                      <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <span class="badge text-bg-primary">A piedi</span>
+                        </li>
+                        <li class="list-inline-item">
+                            <span class="badge text-bg-primary">Nel quartiere</span>
+                        </li>
+                        <li class="list-inline-item">
+                            <span class="badge text-bg-primary">In città</span>
+                        </li>
+                        </ul>
+                     </p>
                     <h1 id="hero-heading" class="display-5 fw-extrabold tracking-tight text-contrast-high mb-3">
                         I libri che cerchi sono a pochi passi da te.
                     </h1>
@@ -30,5 +43,32 @@ Book Sharing - Home
             </div>
         </div>
     </section>
+    <br/>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-6">Libri Recenti</h1>
+            </div>
+        </div>
+        <div class="row">
+            {{#each latestBooks}}
+            <div class="col">
+                <div class="card" style="width: 300px;">
+                    <img src="{{this.cover}}" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h6 class="card-title">{{this.title}}</h6>
+                        <p class="card-text">{{truncate this.description 50}} </p>
+                        <a href="#" class="btn btn-primary">
+                            Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{else}}
+             <div class="col">Nessun Libro Recente.</div>
+            {{/each}}
+        </div>
+    </div>
+    <hr/>
 
         

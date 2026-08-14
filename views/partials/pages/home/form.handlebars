@@ -1,11 +1,18 @@
 <form>
     <div class="mb-3">
         <label for="home-search" class="form-label fw-semibold text-secondary">Cosa vuoi leggere?</label>
-        <input type="text" id="home-search" class="form-sizing form-control form-control-lg bg-white border-secondary-subtle" placeholder="Titolo, autore o genere...">
+        <select id="category" name="category" class="form-select form-select-lg border-secondary-subtle" required>
+            <option value="" selected>Scegli un genere...</option>
+            <option value="Romanzo">Romanzo</option>
+            <option value="Gialli/Thriller">Gialli/Thriller</option>
+            <option value="Fantascienza">Fantascienza</option>
+            <option value="Fumetti">Fumetti</option>
+            <option value="Altro">Altro</option>
+        </select>
     </div>
     <div class="mb-4">
         <label for="home-radius" class="form-label fw-semibold text-secondary">Distanza massima</label>
-        <select id="home-radius" class="form-sizing form-select form-select-lg bg-white border-secondary-subtle" required>
+        <select id="home-radius" class="form-sizing form-select form-select-lg bg-white border-secondary-subtle">
             <option value="" selected>Seleziona un'opzione..</option>
             <option value="500">Entro 500 metri (A piedi)</option>
             <option value="1500">Entro 1.5 km (Nel quartiere)</option>

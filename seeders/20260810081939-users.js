@@ -1,9 +1,9 @@
 'use strict';
 
-const { Faker, it } = require('@faker-js/faker');
+const { Faker, it, de_AT, de, en, base } = require('@faker-js/faker');
 const bcrypt = require('bcrypt');
 
-const faker = new Faker({ locale: [it] });
+const faker = new Faker({ locale: [it, de_AT, de, en, base] });
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -23,6 +23,7 @@ module.exports = {
       await queryInterface.bulkInsert('Users', [{
         lastName: faker.person.lastName(),
         firstName: faker.person.firstName(),
+        description: faker.lorem.sentence(),
         email: faker.internet.email(),
         avatar: faker.image.avatar(),
         password_hash: passwordHash,
