@@ -1,3 +1,61 @@
 {{#section 'title'}}
 Book Sharing - Area Personale
 {{/section}}
+{{#section 'script'}}
+<script>const userBooks = {{{json userBooks}}};</script>
+<script src="/js/dashboard/dashboard.js"></script> 
+{{/section}}
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="books-tab" data-bs-toggle="tab" data-bs-target="#books-tab-pane" type="button" role="tab" aria-controls="books-tab-pane" aria-selected="true">
+                        I miei Libri (<strong><span id="totalBooks"></span></strong>)
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="statistics-tab" data-bs-toggle="tab" data-bs-target="#statistics-tab-pane" type="button" role="tab" aria-controls="statistics-tab-pane" aria-selected="false">
+                        Statistiche
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages-tab-pane" type="button" role="tab" aria-controls="messages-tab-pane" aria-selected="false">Messaggi</button>
+                </li>
+             </ul>
+             <hr/>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="books-tab-pane" role="tabpanel" aria-labelledby="books-tab" tabindex="0">                 
+                 
+                   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="content-container">
+                    {{#each (limit userBooks 10) }}
+                      <div class="col">
+                        <div class="card" style="width: 20rem;">
+                        <img src="{{this.cover}}" class="card-img-top">
+                        <div class="card-body">
+                            <h6 class="card-title">{{this.title}}</h5>
+                            <p><em>Autore: {{this.author}}</em></p>
+                            <p class="card-text">{{truncate this.description 50}}</p>
+                            <a href="#" class="btn btn-primary">
+                                Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
+                            </a>
+                          </div>
+                        </div>
+                    </div>
+                    {{else}}
+                        <div class="col">Nessun Libro Recente.</div>
+                    {{/each}}
+                   </div>             
+                </div>
+                <div class="tab-pane fade" id="statistics-tab-pane" role="tabpanel" aria-labelledby="statistics-tab" tabindex="0">
+                    Statistiche
+                </div>
+                <div class="tab-pane fade" id="messages-tab-pane" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">
+                   Messaggi
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>

@@ -8,7 +8,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
 
 
-     for (let i = 0; i < 5; i++) {
+     for (let i = 0; i < 10; i++) {
 
       const street = faker.location.streetAddress();
       const city = faker.location.city();
@@ -21,12 +21,12 @@ module.exports = {
          publish_year: faker.date.past({ years: 100 }).getFullYear(),
          category: 'Romanzo',
          address: `${street}, ${zipcode} ${city} (${province})`,
-         radius: '500',
+         radius: '1.500',
          description: faker.commerce.productDescription(),
          cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
          lat: faker.location.latitude({ max: 41, min: 40 }),
          lon: faker.location.longitude({max: 15, min: 14 }),
-         userId: 2,
+         userId: 1,
          createdAt: new Date(),
          updatedAt: new Date()      
 

@@ -1,6 +1,20 @@
 $(document).ready(function(){
-    
-geolocationStart('insert-book');
+
+ 
+setInterval(()=>{
+    if( localStorage.getItem('display_name_address') !== null && 
+    localStorage.getItem('latitude') !== null && 
+    localStorage.getItem('longitude') !== null){
+    let latitude = localStorage.getItem('latitude');
+    let longitude = localStorage.getItem('longitude');
+    let display_name_address = localStorage.getItem('display_name_address');
+    $(`form#insert-book`).find('input#latitude').val(latitude);
+    $(`form#insert-book`).find('input#longitude').val(longitude);
+    $(`form#insert-book`).find('input#address').val(display_name_address);
+}
+}, 2000);    
+
+
 
 let cropper;
 const $coverUpload = $('#cover-upload');

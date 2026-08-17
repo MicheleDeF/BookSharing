@@ -37,7 +37,10 @@ const getUserBooks = async (req, res) => {
         description: user.description,
         avatar: user.avatar
       },
-      books: user.books
+       books:{
+         total: (user.books).length,
+         items: user.books
+       } 
     });
   
   } catch (error) {
@@ -89,9 +92,15 @@ const userLogin = async(req, res) =>{
         lastName: user.lastName,
         email: user.email,
         avatar: user.avatar,
+        description: user.description
     };
 
-    return res.status(200).json({ message: 'Login effettuato con successo!'});
+    return res.status(200).json({ 
+                                  message: 'Login effettuato con successo!',
+                                  id: user.id,
+                                  firstName: user.firstName,
+                                  lastName: user.lastName, 
+                                });
 
   } catch (error) {
       return res.status(500).json({ message: error });

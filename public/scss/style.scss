@@ -4,6 +4,25 @@ body
 {
     margin-top:80px;
 
+    header.navbar.fixed-top.navbar-expand-md.navbar-white.bg-white.border-bottom.sticky-navbar.shadow-sm{
+
+        div.container-xl{
+
+            div.collapse.navbar-collapse{
+
+                ul.list-inline{
+
+                    li.list-inline-item{
+                        img.img-thumbnail{
+                          width: 50px;
+                          border-radius: 50%
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     div#divLoading{
         display : none;
 
@@ -80,6 +99,8 @@ body
             }
         }
     }
+
+
  
 
 }

@@ -9,6 +9,7 @@ require('dotenv').config();
 
 const verifyToken = require('./middlewares/verifyToken');
 const bookController = require('./controller/bookController');
+const userController = require('./controller/userController');
 
 app.use(express.static(path.join(__dirname, '/node_modules/leaflet/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist')));
@@ -52,6 +53,11 @@ var hbs = exphbs.create({
         return str.substring(0, len) + '...';
       }
       return str;
+    },
+    json: (context) => JSON.stringify(context),
+    limit: (arr, limit)=>{
+        if (!Array.isArray(arr)) { return []; }
+         return arr.slice(0, limit);
     }
   }    
 });
@@ -60,6 +66,7 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', '.handlebars');
 
 app.get('/', async (req, res) => {
+    
     let interceptedData = null;
     /** mocks the response object, simulating a request to the url '/api/books/' */
     const mockResponse = {
@@ -90,8 +97,24 @@ app.get('/sign-up', (req, res) => {
   res.render('registration');
 });
 
-app.get('/dashboard', verifyToken, (req, res) => {
-  res.render('dashboard');
+app.get('/dashboard', verifyToken, async (req, res) => {
+    let interceptedData = null;
+    try {
+
+    const mockResponse = {
+      status: function() { return this; }, 
+      json: function(data) { interceptedData = data; } 
+    };
+      req.params = { iduser: req.session.userLogged.id};
+      await userController.getUserBooks(req, mockResponse);
+      const userBooks = interceptedData && interceptedData.books.items ? interceptedData.books.items.map(book => typeof book.get === 'function' ? book.get({ plain: true }) : book) : [];
+      res.render('dashboard', {userBooks: userBooks});
+    } catch (error) {
+      res.render('dashboard');
+    }
+  
+  
+    
 });
 
 const routeApi = require('./api');

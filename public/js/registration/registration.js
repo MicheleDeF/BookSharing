@@ -1,6 +1,31 @@
+function viewPassword(item) {
+    var $inputPassword = $(item).siblings('input[type=password]');
+    $(item)
+        .hover(function () {
+            $inputPassword.attr('type', 'text');
+        }, function () {
+            $inputPassword.attr('type', 'password');
+        }
+        ).click(function (e) { e.preventDefault(); });
+}
+
 $(document).ready(function(){
 
-geolocationStart('registration');
+  setInterval(()=>{
+  if( localStorage.getItem('display_name_address') !== null && 
+    localStorage.getItem('latitude') !== null && 
+    localStorage.getItem('longitude') !== null){
+    let latitude = localStorage.getItem('latitude');
+    let longitude = localStorage.getItem('longitude');
+    let display_name_address = localStorage.getItem('display_name_address');
+    $(`form#registration`).find('input#latitude').val(latitude);
+    $(`form#registration`).find('input#longitude').val(longitude);
+    $(`form#registration`).find('input#address').val(display_name_address);
+
+}
+}, 2000); 
+
+
 
 function checkPasswordMatch() {
     var password = $('form#registration').find("input#password").val();
