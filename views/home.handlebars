@@ -50,16 +50,16 @@ Book Sharing - Home
                 <h1 class="display-6">Libri Recenti</h1>
             </div>
         </div>
-        <div class="row">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
             {{#each latestBooks}}
             <div class="col">
-                <div class="card" style="width: 300px;">
-                    <img src="{{this.cover}}" class="card-img-top" alt="">
+                <div class="card" style="width: 20rem;">
+                    <img src="{{this.cover}}" class="card-img-top">
                     <div class="card-body">
                         <h6 class="card-title">{{this.title}}</h6>
                         <p><em>Autore: {{this.author}}</em></p>
                         <p class="card-text">{{truncate this.description 50}} </p>
-                        <a href="#" class="btn btn-primary">
+                        <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-primary">
                             Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
                         </a>
                     </div>

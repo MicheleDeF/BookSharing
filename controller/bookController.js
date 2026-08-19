@@ -16,15 +16,16 @@ const getAllBooks = async (req, res) => {
     const { count, rows: books } = await Book.findAndCountAll({
       limit: limitbooks,
       offset: offset,  
+      order: [['id', 'DESC']],
       include: [{
         model: User,
         as: 'user', 
         attributes: ['id', 'firstName', 'lastName', 'avatar', 'description'] 
-      }],
-      order: [['createdAt', 'ASC']] 
+      }]
     });
 
     return res.status(200).json({
+      success: true,
       message: 'Libri recuperati con successo.',
       meta: {
         totalItems: count,
@@ -37,6 +38,7 @@ const getAllBooks = async (req, res) => {
 
   } catch (error) {
     return res.status(500).json({
+      success: false,
       message: "Errore interno del server durante il recupero dei libri.",
       error: error.message
     });
@@ -44,9 +46,57 @@ const getAllBooks = async (req, res) => {
 
 
 
-}
+};
+
+const getBook = async (req, res) => {
+
+  const {id, slug} = req.params;
+
+  try {
+
+     const parseIdbook = Number(id);
+
+    if (!Number.isInteger(parseIdbook)) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Errore: 'id' deve essere un numero intero valido!" 
+      });
+    } 
+     
+     const book = await Book.findOne(  
+       {
+        where: {
+         id: id,
+         slug: slug
+       },
+        include: [{model: User,as: 'user',attributes: ['id','firstName','lastName','avatar','description']}]
+     });
+
+    if (!book) {
+            return res.status(404).json({
+                success: false,
+                message: 'Libro non trovato'
+            });
+     }
+
+     return res.status(200).json({
+            success: true,
+            data: book
+        });
+
+
+    
+  } catch (error) {
+      return res.status(500).json({
+            success: false,
+            message: 'Errore interno del server'
+        });
+  }
+
+};
 
 
 module.exports = {
-  getAllBooks
+  getAllBooks,
+  getBook
 };

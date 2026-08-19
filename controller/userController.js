@@ -13,6 +13,7 @@ const getUserBooks = async (req, res) => {
 
     if (!Number.isInteger(parsedUserId)) {
       return res.status(400).json({ 
+        success: false,
         message: "Errore: 'iduser' deve essere un numero intero valido!" 
       });
     }  
@@ -25,10 +26,11 @@ const getUserBooks = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: 'Utente non trovato!' });
+      return res.status(404).json({ success: false, message: 'Utente non trovato!'});
     }
 
     return res.status(200).json({
+      success: true,
       message: 'Richiesta effettuata con successo.',
       user: {
         id: user.id,
@@ -45,6 +47,7 @@ const getUserBooks = async (req, res) => {
   
   } catch (error) {
     return res.status(500).json({ 
+      success: false,
       message: "Errore interno del server.",
       error: error.message 
     });
@@ -59,13 +62,13 @@ const userLogin = async(req, res) =>{
     const user = await User.findOne({ where: { email } });
     
     if (!user) {
-      return res.status(401).json({ message: 'Credenziali non valide.' });
+      return res.status(401).json({success: false, message: 'Credenziali non valide.' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!isMatch) {
-      return res.status(401).json({ message: 'Credenziali non valide.' });
+      return res.status(401).json({ success: false, message: 'Credenziali non valide.' });
     }
 
    const payload = {
@@ -96,6 +99,7 @@ const userLogin = async(req, res) =>{
     };
 
     return res.status(200).json({ 
+                                  success: true,
                                   message: 'Login effettuato con successo!',
                                   id: user.id,
                                   firstName: user.firstName,
@@ -103,7 +107,7 @@ const userLogin = async(req, res) =>{
                                 });
 
   } catch (error) {
-      return res.status(500).json({ message: error });
+      return res.status(500).json({success: false, message: error });
   }
 
 }
@@ -111,18 +115,18 @@ const userLogin = async(req, res) =>{
 const userLogout = async (req, res) => {
 
   if (!req.session) {
-    return res.status(400).json({ message: "Nessuna sessione attiva" });
+    return res.status(400).json({ success: false, message: "Nessuna sessione attiva" });
   }
 
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).json({ message: "Impossibile effettuare il logout" });
+      return res.status(500).json({ success: false, message: "Impossibile effettuare il logout" });
     }
     res
     .clearCookie('token')
     .clearCookie('connect.sid'); 
 
-    return res.status(200).json({ message: "Logout effettuato con successo" });
+    return res.status(200).json({ success: true, message: "Logout effettuato con successo" });
   });
 
 };

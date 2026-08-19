@@ -25,6 +25,17 @@ navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
 });
 
 $('body')
+.on('click', 'returnTop', function(e){
+   e.preventDefault();
+    window.scrollTo({
+      top: 0,         
+      left: 0,       
+      behavior: 'smooth'
+    });
+});
+
+
+$('body')
 .on('click', '#logout', function (e) 
 {
     e.preventDefault();

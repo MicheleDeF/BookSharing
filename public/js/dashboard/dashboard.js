@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-var itemsPerPage = 10;
+var itemsForPage = 10;
 var currentIndex = 10; 
 $('body').find('#totalBooks').text(userBooks.length);
 
@@ -18,12 +18,22 @@ function loadMoreItems() {
             return;
         }
 
-        var nextSlice = userBooks.slice(currentIndex, currentIndex + itemsPerPage);
-        nextSlice.forEach(function(item) {
-        var itemHtml = `<div class="col"><div class="card" style="width: 20rem;"><img src="${item.cover}" class="card-img-top"><div class="card-body"><h6 class="card-title">${item.title}</h5><p><em>Autore: ${item.author}</em></p><p class="card-text">${truncate(item.description)}</p><a href="#" class="btn btn-primary">Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i></a></div></div></div>`;
+        var nextItems = userBooks.slice(currentIndex, currentIndex + itemsForPage);
+        nextItems.forEach(function(item) {
+        var itemHtml = `<div class="col">
+                         <div class="card" style="width: 20rem;">
+                           <img src="${item.cover}" class="card-img-top">
+                            <div class="card-body">
+                             <h6 class="card-title">${item.title}</h5>
+                              <p><em>Autore: ${item.author}</em></p>
+                               <p class="card-text">${truncate(item.description)}</p>
+                                <a href="/book/${item.id}/${item.slug}" class="btn btn-primary">Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i></a>
+                            </div>
+                         </div>
+                        </div>`;
             $('#content-container').append(itemHtml);
         });
-        currentIndex += itemsPerPage;
+        currentIndex += itemsForPage;
     }
 
      $(window).scroll(function() {

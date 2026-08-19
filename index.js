@@ -7,10 +7,6 @@ const cors = require('cors');
 const session = require('express-session');
 require('dotenv').config();
 
-const verifyToken = require('./middlewares/verifyToken');
-const bookController = require('./controller/bookController');
-const userController = require('./controller/userController');
-
 app.use(express.static(path.join(__dirname, '/node_modules/leaflet/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/jquery/dist')));
@@ -61,64 +57,12 @@ var hbs = exphbs.create({
     }
   }    
 });
-
 app.engine('handlebars', hbs.engine);
 app.set('view engine', '.handlebars');
 
-app.get('/', async (req, res) => {
-    
-    let interceptedData = null;
-    /** mocks the response object, simulating a request to the url '/api/books/' */
-    const mockResponse = {
-      status: function() { return this; }, 
-      json: function(data) { interceptedData = data; } 
-    };
-    req.params = { page: 1, limit: 4 };
-    await bookController.getAllBooks(req, mockResponse);
-    const latestBooks = interceptedData && interceptedData.books ? interceptedData.books.map(book => typeof book.get === 'function' ? book.get({ plain: true }) : book) : [];
-    res.render('home',{
-      latestBooks: latestBooks,      
-    });  
-});
-
-app.get('/insert-book', verifyToken, (req, res) => {
-  res.render('insert-book');
-});
-
-app.get('/view-map', (req, res) => {
-  res.render('mappa');
-});
-
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-app.get('/sign-up', (req, res) => {
-  res.render('registration');
-});
-
-app.get('/dashboard', verifyToken, async (req, res) => {
-    let interceptedData = null;
-    try {
-
-    const mockResponse = {
-      status: function() { return this; }, 
-      json: function(data) { interceptedData = data; } 
-    };
-      req.params = { iduser: req.session.userLogged.id};
-      await userController.getUserBooks(req, mockResponse);
-      const userBooks = interceptedData && interceptedData.books.items ? interceptedData.books.items.map(book => typeof book.get === 'function' ? book.get({ plain: true }) : book) : [];
-      res.render('dashboard', {userBooks: userBooks});
-    } catch (error) {
-      res.render('dashboard');
-    }
-  
-  
-    
-});
-
 const routeApi = require('./api');
-
+const routePages = require('./routers');
+app.use('/', routePages);
 app.use('/api', routeApi);
 
 app.listen(`${process.env.PORT}`, () => {

@@ -28,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     cover: DataTypes.STRING, 
     lat: DataTypes.STRING,
     lon: DataTypes.STRING,
-    userId: DataTypes.NUMBER,      
+    userId: DataTypes.NUMBER,   
+    slug: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Book',

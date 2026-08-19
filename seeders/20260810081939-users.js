@@ -28,7 +28,7 @@ module.exports = {
         avatar: faker.image.avatar(),
         password_hash: passwordHash,
         address: `${street}, ${zipcode} ${city} (${province})`,
-        radius: '1.500',
+        radius: '500',
         lon: faker.location.longitude({max: 15, min: 14 }),
         lat: faker.location.latitude({ max: 41, min: 40 }),
         createdAt: new Date(),
