@@ -40,15 +40,15 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{dasepath}}/api/books/2/10",
+              "raw": "{{dasepath}}/api/books/1/5",
               "host": [
                 "{{dasepath}}"
               ],
               "path": [
                 "api",
                 "books",
-                "2",
-                "10"
+                "1",
+                "5"
               ]
             },
             "description": "Questa richiesta restituisce i libri con un sistema di paginazione, parametri richiesti numero di pagina e il limite di contenuti visualizzati, esempio \"/books/1/10\" 1 è il numero di pagina e 10 è il numero massimo di libri da visualizzare, se il limite è 0 vengono visualizzati tutti i libri.\n\nInoltre questa richiesta restituisce il totale dei libri, il numero delle pagine."
@@ -61,15 +61,15 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{dasepath}}/api/book/1/atonement",
+              "raw": "{{dasepath}}/api/book/17/dune",
               "host": [
                 "{{dasepath}}"
               ],
               "path": [
                 "api",
                 "book",
-                "1",
-                "atonement"
+                "17",
+                "dune"
               ]
             }
           },

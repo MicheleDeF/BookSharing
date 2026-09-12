@@ -54,6 +54,15 @@ var hbs = exphbs.create({
     limit: (arr, limit)=>{
         if (!Array.isArray(arr)) { return []; }
          return arr.slice(0, limit);
+    },
+     customizeData: function (d) {
+      if (!d) return '';
+      const data = new Date(d);
+      return data.toLocaleDateString('it-IT', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
     }
   }    
 });

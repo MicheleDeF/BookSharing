@@ -4,6 +4,25 @@ body
 {
     margin-top:80px;
 
+    div.container.detail-book{
+
+        div.row.g-4{
+
+            div.col-md-7.col-lg-8{
+
+                div.card.shadow-sm.p-4.bg-white.rounded{
+                    div.d-flex.align-items-start.align-items-sm-center.flex-column.flex-sm-row{
+                        img.rounded-circle.mb-3.mb-sm-0.me-sm-4.shadow-sm{
+                                    width: 64px;
+                                    height: 64px;
+                                    object-fit: cover;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     header.navbar.fixed-top.navbar-expand-md.navbar-white.bg-white.border-bottom.sticky-navbar.shadow-sm{
 
         div.container-xl{
