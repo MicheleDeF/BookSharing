@@ -72,7 +72,7 @@ Book Sharing - {{detailBook.title}}
                 </div>
 
                 <h1 class="display-5 fw-bold text-dark mb-1">{{detailBook.title}}</h1>
-                <p class="fs-4 text-muted mb-3">di <span class="text-dark fw-semibold">{{detailBook.author}}</span></p>
+                <p class="fs-4 text-muted mb-3">di <span class="text-dark fw-semibold">{{detailBook.author}}</span>, anno di pubblicazione <span class="text-dark fw-semibold">{{detailBook.publish_year}}</span></p>
                 
                 <hr class="my-4">
 
@@ -81,8 +81,8 @@ Book Sharing - {{detailBook.title}}
                         <div class="d-flex align-items-center">
                             <i class="fa-solid fa-calendar text-primary fs-4 me-3"></i>
                             <div>
-                                <small class="text-muted d-block">Anno di Pubblicazione</small>
-                                <span class="fw-medium">{{detailBook.publish_year}}</span>
+                                <small class="text-muted d-block">Data di Inserimento</small>
+                                <span class="fw-medium">{{customizeData detailBook.createdAt}}</span>
                             </div>
                         </div>
                     </div>
