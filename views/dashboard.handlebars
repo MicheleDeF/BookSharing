@@ -37,9 +37,27 @@ Book Sharing - Area Personale
                             <h6 class="card-title">{{this.title}}</h5>
                             <p><em>Autore: {{this.author}}</em></p>
                             <p class="card-text">{{truncate this.description 50}}</p>
-                            <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-primary">
-                                Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
-                            </a>
+
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                  <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-primary">
+                                     Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
+                                   </a> 
+                                </li>
+                                <li class="list-inline-item">
+                                    <button type="button" data-bs-toggle="tooltip" data-bs-title="Modifica" class="btn btn-secondary">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                </li>
+                                <li class="list-inline-item">
+                                    <button type="button" data-bs-toggle="tooltip" data-bs-title="Elimina" class="btn btn-danger">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                            
+     
+                          
                           </div>
                         </div>
                     </div>

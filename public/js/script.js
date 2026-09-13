@@ -1,6 +1,25 @@
 $(document)
 .ready(function(){
 
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+const accept_cookies = document.cookie.indexOf('accept_cookies=');
+
+if(accept_cookies == -1){
+ $('#acceptCookies').modal('show');
+}
+
+$('#acceptCookies')
+.find('#heconfirms')
+.click(function (e) {
+    e.preventDefault();
+    const cname = "accept_cookies"; const cvalue = 1; const exdays = 1; const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    $('#acceptCookies').modal('hide');    
+});
+
 // Verifica lo stato del permesso di geolocalizzazione
 navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
   if (result.state === 'denied') {

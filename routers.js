@@ -11,4 +11,7 @@ router.get('/sign-up', routersController.getSignUp);
 router.get('/dashboard', verifyToken, routersController.getDashboard);
 router.get('/book/:id/:slug', routersController.getBook);
 router.get('/404', routersController.getPageNotFound);
+router.get('/cookie-policy', routersController.getCookiePolicy);
+router.get('/terms-and-conditions', routersController.getTermsAndConditions);
+router.get('/privacy-policy', routersController.getPrivacyPolicy);
 module.exports = router;

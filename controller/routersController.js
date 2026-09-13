@@ -89,7 +89,17 @@ const getPageNotFound = (req, res)=>{
     res.render('404');
 };
 
+const getCookiePolicy = (req, res)=>{
+    res.render('cookie-policy'); 
+}
 
+const getTermsAndConditions = (req, res)=>{
+    res.render('terms-and-conditions'); 
+}
+
+const getPrivacyPolicy = (req, res)=>{
+    res.render('privacy-policy'); 
+}
 module.exports = {
   getHome,
   getInsertBook,
@@ -98,5 +108,8 @@ module.exports = {
   getSignUp,
   getDashboard,
   getBook,
-  getPageNotFound
+  getPageNotFound,
+  getCookiePolicy,
+  getTermsAndConditions,
+  getPrivacyPolicy
 };
