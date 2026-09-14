@@ -61,17 +61,56 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{dasepath}}/api/book/17/dune",
+              "raw": "{{dasepath}}/api/book/30/ruth-fielding-in-alaska",
               "host": [
                 "{{dasepath}}"
               ],
               "path": [
                 "api",
                 "book",
-                "17",
-                "dune"
+                "30",
+                "ruth-fielding-in-alaska"
               ]
             }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "map",
+      "item": [
+        {
+          "name": "get books for search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{dasepath}}/api/map/?category=Gialli/Thriller&lat=40.901952070657906&lon=14.335972101420015",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "map",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "Gialli/Thriller"
+                },
+                {
+                  "key": "lat",
+                  "value": "40.901952070657906"
+                },
+                {
+                  "key": "lon",
+                  "value": "14.335972101420015"
+                }
+              ]
+            },
+            "description": "Esmpio di libri nelle vicinanze a Casalnuovo di Napoli"
           },
           "response": []
         }
