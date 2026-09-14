@@ -17,13 +17,14 @@ function generateAlias(text) {
         .replace(/-+/g, '-');           
 }
 
+const userLat = 40.901952070657906;
+const userLng = 14.335972101420015;
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-
-     for (let i = 0; i < 10; i++) {
+     for (let i = 0; i < 5; i++) {
 
       const street = faker.location.streetAddress();
       const city = faker.location.city();
@@ -40,14 +41,14 @@ module.exports = {
          radius: '500',
          description: faker.commerce.productDescription(),
          cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
-         lat: faker.location.latitude({ max: 41, min: 40 }),
-         lon: faker.location.longitude({max: 15, min: 14 }),
-         userId: 5,
+        //  lat: faker.location.latitude({ max: 41, min: 40 }),
+        //  lon: faker.location.longitude({max: 15, min: 14 }),
+         lat: userLat + 0.0035,
+         lon: userLng - 0.0020,
+         userId: 4,
          slug: generateAlias(bookTitle),
          createdAt: new Date(),
-         updatedAt: new Date()      
-
-
+         updatedAt: new Date()   
        }], {});
 
      }
