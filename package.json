@@ -25,7 +25,8 @@
     "leaflet": "^1.9.4",
     "mysql2": "^3.23.1",
     "nodemon": "^3.1.14",
-    "sequelize": "^6.37.8"
+    "sequelize": "^6.37.8",
+    "sweetalert2": "^11.26.25"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.5.0",

@@ -7,12 +7,13 @@ const cors = require('cors');
 const session = require('express-session');
 require('dotenv').config();
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '/node_modules/leaflet/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/jquery/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/cropperjs/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/jquery-cropper/dist')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/sweetalert2',express.static(path.join(__dirname, '/node_modules/sweetalert2/dist')));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({

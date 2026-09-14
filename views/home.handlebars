@@ -1,43 +1,31 @@
 {{#section 'title'}}
 Book Sharing - Home
 {{/section}}
-<section class=" border-bottom py-5 py-lg-5" aria-labelledby="hero-heading">
+<section class=" border-bottom py-5 py-lg-5">
         <div class="container-xl py-4">
-            <div class="row align-items-center g-5">
-                
+            <div class="row align-items-center g-5">                
                 <div class="col-12 col-lg-7">
-                    <p class="lead text-secondary mb-4">
-                      <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <span class="badge text-bg-primary">A piedi</span>
-                        </li>
-                        <li class="list-inline-item">
-                            <span class="badge text-bg-primary">Nel quartiere</span>
-                        </li>
-                        <li class="list-inline-item">
-                            <span class="badge text-bg-primary">In città</span>
-                        </li>
-                        </ul>
+                    <p class="lead mb-4">
+                     <h5><span class="badge text-bg-primary text-light ms-1">nel quartiere <i class="fa-solid fa-person-walking"></i></span></h5>
                      </p>
-                    <h1 id="hero-heading" class="display-5 fw-extrabold tracking-tight text-contrast-high mb-3">
+                    <h1 class="display-6 fw-extrabold mb-3">
                         I libri che cerchi sono a pochi passi da te.
                     </h1>
-                    <p class="lead text-secondary mb-4">
+                    <p class="lead mb-4">
                         Condividi le tue letture con la comunità locale, scopri i testi disponibili nel tuo palazzo e scambia cultura a costo zero e senza spedizioni.
                     </p>
                     <div class="d-flex flex-wrap gap-3">
-                        <a href="view-map" class="btn btn-primary btn-lg px-4 py-3 fw-bold shadow-sm">
-                            Esplora i libri vicini
+                        <a href="view-map" class="btn btn-primary text-light px-4 py-3 fw-bold border">
+                            Esplora i libri vicini <i class="fa-solid fa-map-location-dot"></i>
                         </a>
-                        <a href="insert-book" class="btn btn-light btn-lg px-4 py-3 fw-bold border text-secondary">
-                            Aggiungi un libro
+                        <a href="insert-book" class="btn btn-primary text-light px-4 py-3 fw-bold border">
+                            Aggiungi un libro <i class="fa-solid fa-book"></i>
                         </a>
                     </div>
                 </div>
                 <div class="col-12 col-lg-5">
                     <div class="card p-4 shadow-lg border-light rounded-4 bg-light">
-                        <h2 class="h4 fw-bold text-dark mb-4">Trova un libro adesso</h2>
-                         {{> pages/home/form }}
+                        {{> pages/home/form }}
                     </div>
                 </div>
             </div>
@@ -70,6 +58,4 @@ Book Sharing - Home
             {{/each}}
         </div>
     </div>
-    <hr/>
-
-        
+    <hr/>       

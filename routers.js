@@ -14,4 +14,5 @@ router.get('/404', routersController.getPageNotFound);
 router.get('/cookie-policy', routersController.getCookiePolicy);
 router.get('/terms-and-conditions', routersController.getTermsAndConditions);
 router.get('/privacy-policy', routersController.getPrivacyPolicy);
+router.get('/recover-password', routersController.getRecoverPassword);
 module.exports = router;

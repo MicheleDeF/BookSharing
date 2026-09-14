@@ -15,13 +15,14 @@
         </div>
 
         
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-5">
             <label for="publish_year" class="form-label fw-semibold text-secondary">Anno di pubblicazione</label>
-            <input type="number" id="publish_year" name="publish_year" class="form-control form-control-lg border-secondary-subtle" min="1000" max="2026" placeholder="es. 1472">
+            <input type="number" id="publish_year" name="publish_year" class="form-control form-control-lg border-secondary-subtle" min="1000" max="2026" placeholder="es. 1472" required>
+            <div class="invalid-feedback">Inserisci l'anno di pubblicazione.</div>
         </div>
 
         
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-7">
             <label for="category" class="form-label fw-semibold text-secondary">Categoria / Genere <span class="text-danger" aria-hidden="true">*</span></label>
             <select id="category" name="category" class="form-select form-select-lg border-secondary-subtle" required>
                 <option value="" selected>Scegli un genere...</option>
@@ -33,17 +34,6 @@
             </select>
             <div class="invalid-feedback">Seleziona una categoria.</div>
         </div>
-
-        <div class="col-12 col-md-4">
-        <label for="radius" class="form-label fw-semibold text-secondary">Raggio massimo visibilità <span class="text-danger" aria-hidden="true">*</span></label>
-        <select id="radius" name="radius" required class="form-select form-select-lg border-secondary-subtle">
-            <option value="" selected>Seleziona un raggio</option>
-            <option value="500">Entro 500 metri (A piedi)</option>
-            <option value="1500">Entro 1.5 km (Nel quartiere)</option>
-            <option value="5000">Entro 5 km (In città)</option>
-        </select>
-        </div>
-
 
         <div class="col-12 col-md-12">
             <label for="description" class="form-label fw-semibold text-secondary">Descrizione <span class="text-danger" aria-hidden="true">*</span></label>

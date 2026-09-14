@@ -62,7 +62,6 @@ var elements = form.elements;
                    element.name == 'password'   ||
                    element.name == 'password_confirm' ||
                    element.name == 'address'    ||
-                   element.name == 'radius'     ||
                    element.name == 'latitude'   ||
                    element.name == 'longitude'  ||
                    element.name == 'agree_terms'){

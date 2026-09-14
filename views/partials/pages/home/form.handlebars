@@ -1,4 +1,13 @@
 <form>
+   <figure>
+        <blockquote class="blockquote">
+            <p><h2 class="h4 fw-bold text-dark mb-4">Trova un libro adesso <i class="fa-solid fa-book-open-reader"></i></h2></p>
+        </blockquote>
+        <figcaption class="blockquote-footer">            
+            A piedi entro <cite title="500 metri">500 metri</cite>
+        </figcaption>
+    </figure>
+
     <div class="mb-3">
         <label for="home-search" class="form-label fw-semibold text-secondary">Cosa vuoi leggere?</label>
         <select id="category" name="category" class="form-select form-select-lg border-secondary-subtle" required>
@@ -8,15 +17,6 @@
             <option value="Fantascienza">Fantascienza</option>
             <option value="Fumetti">Fumetti</option>
             <option value="Altro">Altro</option>
-        </select>
-    </div>
-    <div class="mb-4">
-        <label for="home-radius" class="form-label fw-semibold text-secondary">Distanza massima</label>
-        <select id="home-radius" class="form-sizing form-select form-select-lg bg-white border-secondary-subtle">
-            <option value="" selected>Seleziona un'opzione..</option>
-            <option value="500">Entro 500 metri (A piedi)</option>
-            <option value="1500">Entro 1.5 km (Nel quartiere)</option>
-            <option value="5000">Entro 5 km (In città)</option>
         </select>
     </div>
     <button type="submit" class="btn btn-primary btn-lg w-full w-100 fw-bold py-3">

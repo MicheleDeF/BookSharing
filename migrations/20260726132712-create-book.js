@@ -30,7 +30,7 @@ module.exports = {
         allowNull: false,
       },
       radius: {
-        type: Sequelize.ENUM('500', '1.500', '5000'),
+        type: Sequelize.ENUM('500'),
         defaultValue: '500',
         allowNull: false,
       },

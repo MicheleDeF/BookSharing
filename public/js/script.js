@@ -6,19 +6,23 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 const accept_cookies = document.cookie.indexOf('accept_cookies=');
 
 if(accept_cookies == -1){
- $('#acceptCookies').modal('show');
-}
-
-$('#acceptCookies')
-.find('#heconfirms')
-.click(function (e) {
-    e.preventDefault();
+setTimeout(()=>{
+Swal.fire({
+  title: 'Cookies & Privacy',
+  html: `Questo sito web utilizza i cookie per garantirti la migliore esperienza sul nostro sito.<br/><br/><a href="/cookie-policy">Per Saperne di più</a>`,
+  icon: "info",
+  confirmButtonText: 'Conferma' 
+}).then((result) => {  
+  if(result.isConfirmed == true){
     const cname = "accept_cookies"; const cvalue = 1; const exdays = 1; const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    $('#acceptCookies').modal('hide');    
+  }
+ 
 });
+}, 2000); 
+}
 
 // Verifica lo stato del permesso di geolocalizzazione
 navigator.permissions.query({ name: 'geolocation' }).then(function(result) {

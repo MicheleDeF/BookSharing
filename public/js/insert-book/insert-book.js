@@ -86,7 +86,6 @@ var elements = form.elements;
                     element.name == 'publish_year' || 
                     element.name == 'category'     || 
                     element.name == 'address'      ||
-                    element.name == 'radius'       ||
                     element.name == 'description'  ||
                     element.name == 'latitude'     ||
                     element.name == 'longitude'

@@ -52,23 +52,12 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-6">
-                <label for="radius" class="form-label fw-semibold text-secondary">Raggio massimo visibilità *</label>
-                <select id="radius" name="radius" required class="form-select form-select-lg border-secondary-subtle">
-                    <option value="" selected>Seleziona un raggio</option>
-                    <option value="500">Entro 500 metri (A piedi)</option>
-                    <option value="1500">Entro 1.5 km (Nel quartiere)</option>
-                    <option value="5000">Entro 5 km (In città)</option>
-                </select>
-                <div class="invalid-feedback">Seleziona un raggio.</div>
-            </div>
-
         <input type="hidden" id="latitude"  value="" name="latitude">
         <input type="hidden" id="longitude" value="" name="longitude">
 
         <div class="mb-4 form-check">
             <input type="checkbox" class="form-check-input" name="agree_terms" id="agree_terms" required>
-            <label class="form-check-label text-muted small" for="agree_terms">Accetto i termini di servizio, <a href="#">leggi termini di servizio</a></label>
+            <label class="form-check-label text-muted small" for="agree_terms">Accetto i termini di servizio, <a href="/terms-and-conditions">leggi termini di servizio</a></label>
             <div class="invalid-feedback">È necessario accettare i termini per continuare.</div>
         </div>
 

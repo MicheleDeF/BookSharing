@@ -91,15 +91,21 @@ const getPageNotFound = (req, res)=>{
 
 const getCookiePolicy = (req, res)=>{
     res.render('cookie-policy'); 
-}
+};
 
 const getTermsAndConditions = (req, res)=>{
     res.render('terms-and-conditions'); 
-}
+};
 
 const getPrivacyPolicy = (req, res)=>{
     res.render('privacy-policy'); 
-}
+};
+
+const getRecoverPassword = (req, res)=>{
+    res.render('recover-password'); 
+};
+
+
 module.exports = {
   getHome,
   getInsertBook,
@@ -111,5 +117,6 @@ module.exports = {
   getPageNotFound,
   getCookiePolicy,
   getTermsAndConditions,
-  getPrivacyPolicy
+  getPrivacyPolicy,
+  getRecoverPassword
 };
