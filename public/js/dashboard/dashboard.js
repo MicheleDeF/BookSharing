@@ -4,13 +4,6 @@ var itemsForPage = 10;
 var currentIndex = 10; 
 $('body').find('#totalBooks').text(userBooks.length);
 
-function truncate(text, limit = 50) {
-    if (text.length > limit) {
-        return text.slice(0, limit) + '...';
-    }
-    return text;
- }
-
 function loadMoreItems() {
     
     if (currentIndex >= userBooks.length) {

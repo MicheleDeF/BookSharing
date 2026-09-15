@@ -1,6 +1,13 @@
+function truncate(text, limit = 50) {
+    if (text.length > limit) {
+        return text.slice(0, limit) + '...';
+    }
+    return text;
+ }
+
 $(document)
 .ready(function(){
-
+/** Tooltip Bootstrap */
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 const accept_cookies = document.cookie.indexOf('accept_cookies=');
@@ -55,6 +62,25 @@ $('body')
       left: 0,       
       behavior: 'smooth'
     });
+});
+
+$('body')
+.on('click', '#view-map', function(event){
+  event.preventDefault();
+  let lat = localStorage.getItem('latitude');
+  let lon = localStorage.getItem('longitude');
+  if(!lat || !lon){
+
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Non hai condiviso la tua posizone! Non possiamo mostrarti contenuti vicino a te",   
+      confirmButtonText: 'Chiudi'    
+    });
+
+  }else{      
+    window.location.href = `/view-map?lat=${lat}&lon=${lon}`;
+  }
 });
 
 

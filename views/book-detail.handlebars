@@ -126,9 +126,25 @@ Book Sharing - {{detailBook.title}}
                 </div>
                 
                 <div class="mt-4 pt-3 border-top d-flex justify-content-end">
-                    <button class="btn btn-outline-primary">
-                     <i class="fa-solid fa-message me-2"></i> Contatta il proprietario
-                   </button>
+                    {{#if userLogged.logged}} 
+
+                        {{#if (eq userLogged.id detailBook.user.id)}} 
+                           <!--
+                            Nota:
+                            l'utente loggato è il proprietario del libro,
+                            il pulsante  "Contatta il proprietario" non è visibile.                            
+                            -->
+                        {{else}} 
+                        <a href="/send-message/{{detailBook.user.id}}" class="btn btn-outline-primary">
+                            <i class="fa-solid fa-message me-2"></i> Contatta il proprietario
+                        </a>
+                        {{/if}} 
+
+                    {{else}}  
+                    <a href="/login" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-message me-2"></i> Contatta il proprietario
+                    </a>
+                    {{/if}}                       
                 </div>
             </div>
 

@@ -81,12 +81,12 @@
       "name": "map",
       "item": [
         {
-          "name": "get books for search",
+          "name": "search for books by category",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{dasepath}}/api/map/?category=Gialli/Thriller&lat=40.901952070657906&lon=14.335972101420015",
+              "raw": "{{dasepath}}/api/map/?category=Fantascienza&lat=40.90160521046844&lon=14.336548891010342",
               "host": [
                 "{{dasepath}}"
               ],
@@ -98,19 +98,49 @@
               "query": [
                 {
                   "key": "category",
-                  "value": "Gialli/Thriller"
+                  "value": "Fantascienza"
                 },
                 {
                   "key": "lat",
-                  "value": "40.901952070657906"
+                  "value": "40.90160521046844"
                 },
                 {
                   "key": "lon",
-                  "value": "14.335972101420015"
+                  "value": "14.336548891010342"
                 }
               ]
             },
-            "description": "Esmpio di libri nelle vicinanze a Casalnuovo di Napoli"
+            "description": "Esmpio di libri nelle vicinanze a Casalnuovo di Napoli, filtro per categoria libro."
+          },
+          "response": []
+        },
+        {
+          "name": "search for uncategorized books",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{dasepath}}/api/map/?lat=40.90160521046844&lon=14.336548891010342",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "map",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "40.90160521046844"
+                },
+                {
+                  "key": "lon",
+                  "value": "14.336548891010342"
+                }
+              ]
+            },
+            "description": "Esmpio di libri nelle vicinanze a Casalnuovo di Napoli, filtro senza indicare la categoria libro."
           },
           "response": []
         }

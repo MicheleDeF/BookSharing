@@ -17,7 +17,22 @@ function generateAlias(text) {
         .replace(/-+/g, '-');           
 }
 
+// Genera una descrizione con una lunghezza minima di caratteri personalizzata.
+function getLongProductDescription(minLength = 500) {
+  let desc = faker.commerce.productDescription();
+  while (desc.length < minLength) {
+    desc += ' ' + faker.commerce.productDescription();
+  }
+  return desc;
+}
+
 /** Camposano, Napoli, Campania, 80035, Italia 
+ * const userLat = 40.949312991789604;
+ * const userLng = 14.523031351428408;
+ * 
+ * Via Salice, Casalnuovo di Napoli, Napoli, Campania, 80013, Italia
+ * const userLat = 40.90154601444162;
+ * const userLng = 14.33668455234904;
  * 
  * latitudine: userLat + 0.0001, // Spostamento di circa 11 metri
  * longitudine: userLng + 0.0001
@@ -31,8 +46,8 @@ function generateAlias(text) {
  * latitudine: userLat + 0.0035, // Spostamento di circa 390 metri
  * longitudine: userLng - 0.0020
 */
-const userLat = 40.949312991789604;
-const userLng = 14.523031351428408;
+const userLat = 40.90154601444162;
+const userLng = 14.33668455234904;
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -51,14 +66,14 @@ module.exports = {
          title: bookTitle,
          author: faker.book.author(),
          publish_year: faker.date.past({ years: 100 }).getFullYear(),
-         category: 'Fantascienza',
+         category: 'Gialli/Thriller',
          address: `${street}, ${zipcode} ${city} (${province})`,
          radius: '500',
-         description: faker.commerce.productDescription(),
+         description: getLongProductDescription(500),
          cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
-         lat: userLat + 0.0001,
-         lon: userLng + 0.0001,
-         userId: 4,
+         lat: userLat + 0.0035,
+         lon: userLng - 0.0020,
+         userId: 5,
          slug: generateAlias(bookTitle),
          createdAt: new Date(),
          updatedAt: new Date()   

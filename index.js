@@ -32,6 +32,7 @@ app.use(session({
 }));
 app.use((req, res, next) => {
     res.locals.userLogged = req.session.userLogged || null;
+    console.log(res.locals.userLogged);
     next();
 });
 
@@ -64,7 +65,8 @@ var hbs = exphbs.create({
         month: 'long',
         year: 'numeric'
       });
-    }
+    },
+    eq: (a, b) => a == b
   }    
 });
 app.engine('handlebars', hbs.engine);
