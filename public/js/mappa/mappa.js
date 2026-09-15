@@ -1,14 +1,5 @@
 $(document).ready(function(){
 
-/* variabile locations
- var locations = [
-  ["LOCATION_1", 11.8166, 122.0942],   
-  ["LOCATION_2", 11.9804, 121.9189],
-  ["LOCATION_3", 10.7202, 122.5621],
-  ["LOCATION_4", 11.3889, 122.6277],
-  ["LOCATION_5", 10.5929, 122.6325]
-]; */
-
 var locations = [];
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -85,8 +76,8 @@ var apiUrl = null;
 
         for (var i = 0; i < locations.length; i++) {
            marker = new L.marker([locations[i][1], locations[i][2]])
-          .bindPopup(`<div class="card mb-3" style="max-width: 540px;"><div class="row g-0"><div class="col-md-4"><img src="${locations[i][4]}" class="img-fluid rounded-start"></div><div class="col-md-8"><div class="card-body"><h6 class="card-title fs-6"><a href="/book/${locations[i][9]}/${locations[i][8]}" class="link-offset-2 link-underline link-underline-opacity-0">${locations[i][7]}</a></h6><cite>Genere: ${locations[i][3]}</cite><br/><cite>Distanza ${locations[i][6]} metri</cite></div></div></div><div class="row g-0"><div class="col-md-12"><cite><br/><i class="fa-solid fa-circle-info"></i> Questo libro è di:</cite></div></div><div class="row g-0"><div class="col-md-4"><img src="${locations[i][10]}" class="img-fluid rounded-start"></div><div class="col-md-8"><div class="card-body"><h6 class="card-title">${locations[i][12]} ${locations[i][11]}</h6><span class="card-text"><cite>${truncate(locations[i][13])}</cite></span></div></div></div></div>`)
-          .addTo(map);
+           .bindPopup(`<div class="book-popup-container"><div class="book-main-info"><img src="${locations[i][4]}" class="book-cover"><div class="book-details"><div><h3 class="book-title"><a href="/book/${locations[i][9]}/${locations[i][8]}" class="link-offset-2 link-underline link-underline-opacity-0">${locations[i][7]}</a></h3><span class="book-genre">${locations[i][3]}</span></div><span class="book-distance"><i class="fa-solid fa-location-dot"></i>${locations[i][6]} metri da te</span></div></div><hr class="popup-divider"><div class="book-owner-info"><img src="${locations[i][10]}" class="owner-avatar"><div class="owner-details"><span class="owner-label">Proprietario</span><span class="owner-name">${locations[i][12]} ${locations[i][11]}</span></div></div></div>`)
+           .addTo(map);
        }
     }
 });

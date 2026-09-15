@@ -7,6 +7,18 @@ const getSearchBooks = async (req, res)=>{
 
     try {
 
+    /** const queryDistance : 
+     *  Questa query serve a calcolare la distanza geografica in metri tra due punti 
+     *  6371000: È il raggio medio della Terra espresso in metri (6.371 km). 
+     *  Moltiplicando il risultato finale per questo numero, si ottiene la distanza in metri.
+     * 
+     *  RADIANS(...), questa funzione converte i gradi in radianti.
+     * 
+     *  ACOS( COS(...) * COS(...) * COS(...) + SIN(...) * SIN(...) ), 
+     *  è la struttura geometrica che calcola l'angolo al centro della Terra tra i due punti.
+     * 
+     */
+
      const queryDistance = Sequelize.literal(
             `6371000 * ACOS( 
               COS(RADIANS(${lat})) * COS(RADIANS(Book.lat)) * 
