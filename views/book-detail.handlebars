@@ -10,7 +10,7 @@ Book Sharing - {{detailBook.title}}
     const lat = {{detailBook.lat}};
     const lon = {{detailBook.lon}};
     const radius = {{detailBook.radius}};
-    const map = L.map('map').setView([lat, lon], 14);
+    const map = L.map('mapBookDetail').setView([lat, lon], 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
@@ -48,7 +48,7 @@ Book Sharing - {{detailBook.title}}
                         <i class="fa-solid fa-location-dot text-primary me-2"></i> Posizione e Raggio
                     </h5>
                 </div>
-                <div id="map" style="height: 300px;width: 100%;z-index: 1;"></div>
+                <div id="mapBookDetail" style="height: 300px;width: 100%;z-index: 1;"></div>
                 <div class="card-footer bg-white border-top-0 p-3">
                     <div class="row text-center">
                         <div class="col-6 border-end">
