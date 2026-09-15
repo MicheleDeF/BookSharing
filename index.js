@@ -32,7 +32,6 @@ app.use(session({
 }));
 app.use((req, res, next) => {
     res.locals.userLogged = req.session.userLogged || null;
-    console.log(res.locals.userLogged);
     next();
 });
 
