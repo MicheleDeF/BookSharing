@@ -71,9 +71,9 @@ module.exports = {
          radius: '500',
          description: getLongProductDescription(500),
          cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
-         lat: userLat + 0.0035,
-         lon: userLng - 0.0020,
-         userId: 5,
+         lat: userLat + 0.0008,
+         lon: userLng + 0.0008,
+         userId: 6,
          slug: generateAlias(bookTitle),
          createdAt: new Date(),
          updatedAt: new Date()   

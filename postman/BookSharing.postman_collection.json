@@ -10,22 +10,41 @@
       "name": "users",
       "item": [
         {
-          "name": "user-books",
+          "name": "Get  Books for User",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{dasepath}}/api/user-books/1",
+              "raw": "{{dasepath}}/api/user-books/2",
               "host": [
                 "{{dasepath}}"
               ],
               "path": [
                 "api",
                 "user-books",
-                "1"
+                "2"
               ]
             },
             "description": "Questa richiesta restituisce i libri relativi ad uno specifico utente."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Messages for User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{dasepath}}/api/user-messages/1",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "user-messages",
+                "1"
+              ]
+            }
           },
           "response": []
         }
@@ -35,7 +54,7 @@
       "name": "books",
       "item": [
         {
-          "name": "all books",
+          "name": "Get All Books",
           "request": {
             "method": "GET",
             "header": [],
@@ -56,7 +75,7 @@
           "response": []
         },
         {
-          "name": "get book",
+          "name": "Get Specific Book",
           "request": {
             "method": "GET",
             "header": [],
@@ -81,7 +100,7 @@
       "name": "map",
       "item": [
         {
-          "name": "search for books by category",
+          "name": "Search for Books by Category",
           "request": {
             "method": "GET",
             "header": [],
@@ -115,7 +134,7 @@
           "response": []
         },
         {
-          "name": "search for uncategorized books",
+          "name": "Search for Uncategorized Books",
           "request": {
             "method": "GET",
             "header": [],
@@ -147,7 +166,7 @@
       ]
     },
     {
-      "name": "login",
+      "name": "Login User",
       "request": {
         "method": "POST",
         "header": [],
@@ -175,7 +194,7 @@
       "response": []
     },
     {
-      "name": "logout",
+      "name": "Logout User",
       "request": {
         "method": "POST",
         "header": [],

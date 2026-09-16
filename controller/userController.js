@@ -1,4 +1,5 @@
-const { User, Book } = require('../models'); 
+const { User, Book, Message } = require('../models'); 
+const { Op } = require('sequelize');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -19,10 +20,33 @@ const getUserBooks = async (req, res) => {
     }  
 
     const user = await User.findByPk(parsedUserId, {
-      include: [{
-        model: Book,
-        as: 'books'
-      }]
+      include: [
+        {
+          model: Book,
+          as: 'books'
+        },
+        {
+          model: Message,
+          as: 'SentMessages',
+          include: [
+            {
+              model: User,
+              as: 'Recipient'
+            }
+          ]
+        }, 
+        {
+          model: Message,
+          as: 'RecipientMessages',
+          include: [
+            {
+              model: User,
+              as: 'Sender'
+            }
+          ]
+        }
+
+           ]
     });
 
     if (!user) {
@@ -37,7 +61,9 @@ const getUserBooks = async (req, res) => {
         lastName: user.lastName, 
         firstName: user.firstName,
         description: user.description,
-        avatar: user.avatar
+        avatar: user.avatar,
+        recipientMessages: user.RecipientMessages,
+        sentMessages: user.SentMessages
       },
        books:{
          total: (user.books).length,
@@ -110,7 +136,7 @@ const userLogin = async(req, res) =>{
       return res.status(500).json({success: false, message: error });
   }
 
-}
+};
 
 const userLogout = async (req, res) => {
 
@@ -131,8 +157,55 @@ const userLogout = async (req, res) => {
 
 };
 
+const getUserMessages = async (req, res) =>{
+
+    const { iduser } = req.params;
+
+    try {
+
+      const parsedUserId = Number(iduser);
+      
+      if (!Number.isInteger(parsedUserId)) {
+        return res.status(400).json({ 
+           success: false,
+           message: "Errore: 'iduser' deve essere un numero intero valido!" 
+        });
+      } 
+
+      const messages = await Message.findAll({
+        where: {
+          [Op.or]: [
+            { senderId: iduser },
+            { recipientId: iduser }
+          ]
+        },
+        include: [
+          { model: User, as: 'Sender', attributes: ['id', 'lastName', 'firstName'] },
+          { model: User, as: 'Recipient', attributes: ['id', 'lastName', 'firstName'] }
+        ],
+        order: [['createdAt', 'ASC']]
+      });
+
+
+      return res.status(200).json({
+            success: true,
+            count: messages.length,
+            messages: messages
+          });
+      
+    } catch (error) {
+      return res.status(500).json({ 
+      success: false,
+      message: "Errore interno del server.",
+      error: error.message 
+    });
+    }
+
+};
+
 module.exports = {
   getUserBooks,
   userLogin,
-  userLogout
+  userLogout,
+  getUserMessages
 };

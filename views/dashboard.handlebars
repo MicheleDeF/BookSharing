@@ -9,7 +9,7 @@ Book Sharing - Area Personale
 <div class="container">
     <div class="row">
         <div class="col">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <ul class="nav nav-tabs" id="myDashboard" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="books-tab" data-bs-toggle="tab" data-bs-target="#books-tab-pane" type="button" role="tab" aria-controls="books-tab-pane" aria-selected="true">
                         I miei Libri (<strong><span id="totalBooks"></span></strong>)
@@ -25,7 +25,7 @@ Book Sharing - Area Personale
                 </li>
              </ul>
              <hr/>
-            <div class="tab-content" id="myTabContent">
+            <div class="tab-content" id="myDashboardContent">
                 <div class="tab-pane fade show active" id="books-tab-pane" role="tabpanel" aria-labelledby="books-tab" tabindex="0">                 
                  
                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="content-container">
@@ -55,9 +55,7 @@ Book Sharing - Area Personale
                                     </button>
                                 </li>
                             </ul>
-                            
-     
-                          
+
                           </div>
                         </div>
                     </div>
@@ -70,7 +68,44 @@ Book Sharing - Area Personale
                     Statistiche
                 </div>
                 <div class="tab-pane fade" id="messages-tab-pane" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">
-                   Messaggi
+                   
+                    <ul class="nav nav-tabs" id="myMessages" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="messages-send-tab" data-bs-toggle="tab" data-bs-target="#messages-send-tab-pane" type="button" role="tab" aria-controls="messages-send-tab-pane" aria-selected="true">
+                                Messaggi Inviati
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="received-messages-tab" data-bs-toggle="tab" data-bs-target="#received-messages-tab-pane" type="button" role="tab" aria-controls="received-messages-tab-pane" aria-selected="false">
+                                Messaggi Ricevuti
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="messages-send-tab-pane" role="tabpanel" aria-labelledby="messages-send-tab" tabindex="0">
+                            <div class="row">
+                                <div class="col-md-6">
+                                <hr/>   
+                                <p class="d-inline-flex gap-1">
+                                <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    Link with href
+                                </a>
+                                </p>
+                                <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                </div>
+                                </div>
+
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="tab-pane fade" id="received-messages-tab-pane" role="tabpanel" aria-labelledby="received-messages-tab" tabindex="0">
+                            received-messages...
+                        </div>
+                    </div>
                 </div>
     
             </div>

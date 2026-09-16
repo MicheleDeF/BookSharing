@@ -2,8 +2,15 @@ const { Book, User } = require('../models');
 const { Op, Sequelize } = require('sequelize');
 
 const getSearchBooks = async (req, res)=>{    
+    const currentUserId = res.locals.userLogged ? res.locals.userLogged.id : null;
     const { category, lat, lon } = req.query;
-    const radius = 500; // 500 metri
+    const radius = 500; // 500 metri  
+    
+    /** Dati per convalidare tipo di categoria, latitudine e longitudine */
+    const typeCategories = ["Romanzo", "Gialli/Thriller", "Fantascienza", "Fumetti", "Altro"];
+    const latRegex = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/;
+    const lonRegex = /^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
+    
 
     try {
 
@@ -27,10 +34,23 @@ const getSearchBooks = async (req, res)=>{
         );
 
      if(category){
+      
+      /** Canvalida Categoria, Latitudine e Longitudine */
+      if( !typeCategories.includes(category) || !latRegex.test(lat) || !lonRegex.test(lon)){
+         return res.status(404).json({
+            success: false,
+            message: "Pagina non trovata."
+          }); 
+       }
 
         const books = await Book.findAll({
             attributes: ['id', 'title', 'category', 'lat', 'lon', 'cover', 'description', 'slug', [queryDistance, 'distance']],
-            where: {category: category, [Op.and]: Sequelize.where(queryDistance, { [Op.lte]: radius })},
+            where: {
+                    category: category, 
+                    [Op.and]: Sequelize.where(queryDistance, { [Op.lte]: radius }),
+                    /** questa condizione esclude i contenuti dell'utente se ha effettuato il login */
+                    ...(currentUserId && { userId: { [Op.ne]: currentUserId } }),
+                  },                    
             include: [{ model: User, as: 'user', attributes: ['id', 'lastName', 'firstName', 'avatar', 'description'] }],
             order: [[Sequelize.literal('distance'), 'ASC']]
         });
@@ -43,9 +63,21 @@ const getSearchBooks = async (req, res)=>{
 
 
       }else{
+        /** Canvalid Latitudine e Longitudine */
+        if( !latRegex.test(lat) || !lonRegex.test(lon)){
+          return res.status(404).json({
+              success: false,
+              message: "Pagina non trovata."
+            }); 
+        }
+
          const books = await Book.findAll({
             attributes: ['id', 'title', 'category', 'lat', 'lon', 'cover', 'description', 'slug', [queryDistance, 'distance']],
-            where: { [Op.and]: Sequelize.where(queryDistance, { [Op.lte]: radius })},
+            where: { 
+                  [Op.and]: Sequelize.where(queryDistance, { [Op.lte]: radius }),
+                  /** questa condizione esclude i contenuti dell'utente se ha effettuato il login */
+                  ...(currentUserId && { userId: { [Op.ne]: currentUserId } }),                  
+                },
             include: [{ model: User, as: 'user', attributes: ['id', 'lastName', 'firstName', 'avatar', 'description'] }],
             order: [[Sequelize.literal('distance'), 'ASC']]
         });

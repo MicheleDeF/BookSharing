@@ -24,6 +24,9 @@ var apiUrl = null;
     "url": `${apiUrl}`,
     "method": "GET",
     "timeout": 0,
+    "statusCode": {
+      404: function() {window.location.href="/404";}
+    }
   };
 
   try {
