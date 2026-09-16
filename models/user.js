@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     avatar: DataTypes.STRING,
     password_hash: DataTypes.STRING,
     address: DataTypes.STRING,
-    radius: DataTypes.ENUM('500', '1.500', '5000'),
+    radius: DataTypes.ENUM('500'),
     lon: DataTypes.STRING,
     lat: DataTypes.STRING
   }, {
