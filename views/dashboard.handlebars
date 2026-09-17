@@ -102,13 +102,13 @@ Passalibro - Area Personale
                                             {{#each this.message }}
                 
                                             {{#if (eq this.senderId userLogged.logged.id)}}
-                                            <div class="shadow-sm bg-info-subtle border-end border-primary border-3 text-xxl-end p-3">
+                                            <div class="shadow-sm bg-primary-subtle border-end border-primary border-3 text-xxl-end p-3">
                                                 <div class="fw-bold text-primary small mb-1">{{this.firstName}} {{this.lastName}}</div>
                                                 <p class="badge text-bg-primary">{{ customizeData this.createdAt }}</p>
                                                 <p>{{this.content}}</p>
                                             </div>
                                             {{else}}
-                                            <div class="shadow-sm p-3">
+                                            <div class="shadow-sm p-3 bg-secondary-subtle border-end border-secondary border-3">
                                                 <div class="fw-bold text-primary small mb-1">{{this.firstName}} {{this.lastName}}</div>
                                                 <p class="badge text-bg-primary">{{ customizeData this.createdAt }}</p>
                                                 <p>{{this.content}}</p>
@@ -117,10 +117,20 @@ Passalibro - Area Personale
                                             <hr />
                 
                                             {{/each}}
+                                            <form id="sendMesssage" data-id="{{this.id}}">
+                                                <input type="hidden" name="recipient" value="{{this.id}}">
+                                                <div class="mb-3">
+                                                    <textarea name="textRecipient" class="form-control border border-primary" placeholder="Invia un messaggio a {{this.firstName}} {{this.lastName}}" rows="4" required></textarea>
+                                                </div>
+                                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                    <button type="submit" class="btn btn-primary me-md-2">
+                                                        <i class="fa-solid fa-message me-2"></i> Invia Messaggio
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                                </div>
-                
+                                </div>                
                                 {{/each}}
                             </div>
                         </div>

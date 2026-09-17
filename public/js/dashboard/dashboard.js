@@ -4,6 +4,23 @@ var itemsForPage = 10;
 var currentIndex = 10; 
 $('body').find('#totalBooks').text(userBooks.length);
 
+$('button[data-bs-toggle="tab"], a[data-bs-toggle="tab"]')
+.on('shown.bs.tab', function (e) {
+    var targetHash = $(e.target).attr('data-bs-target') || $(e.target).attr('href');
+    if (targetHash && targetHash.startsWith('#')) {
+      history.pushState(null, null, targetHash);
+    }
+  });
+
+  var currentHash = window.location.hash;
+  if (currentHash) {
+    var $activeTabTrigger = $('[data-bs-target="' + currentHash + '"], [href="' + currentHash + '"]');    
+    if ($activeTabTrigger.length) {
+      var tab = new bootstrap.Tab($activeTabTrigger[0]);
+      tab.show();
+    }
+  }
+
 function loadMoreItems() {
     
     if (currentIndex >= userBooks.length) {

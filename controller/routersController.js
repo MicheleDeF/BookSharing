@@ -70,7 +70,7 @@ const getDashboard = async (req, res) => {
       });
 
       const result = query ? query.get({ plain: true }) : null;
-      console.dir(result, { depth: null });
+      //console.dir(result, { depth: null });
       var receiverLastName = result.lastName;
       var receiverFirstName = result.firstName;
       const recipientMessages = result.RecipientMessages;
@@ -136,7 +136,7 @@ const getDashboard = async (req, res) => {
         users.message.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       });
       
-      //console.dir(uniqueUsers, { depth: null });
+      console.dir(uniqueUsers, { depth: null });
       res.render('dashboard', { userBooks: result.books, recipientMessages: uniqueUsers});
 
     }

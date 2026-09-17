@@ -36,7 +36,13 @@ var elements = form.elements;
                  },
                  "error": function(jqXHR, textStatus, errorThrown){
                     $('#divLoading').removeClass('show');
-                    $form.find('div.alert').removeClass('d-lg-none');
+                     Swal.fire({
+                           title: "Oops...",
+                           text: "Credenziali non valide!",
+                           icon: "error",
+                           cancelButtonColor: "#3085d6",
+                           cancelButtonText: "Chiudi",
+                     })
                  },
                  "complete": function(comp){
                     $('#divLoading').removeClass('show');
