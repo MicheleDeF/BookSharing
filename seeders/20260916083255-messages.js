@@ -7,12 +7,12 @@ const faker = new Faker({ locale: [de_AT, de, en, base] });
 module.exports = {
   async up (queryInterface, Sequelize) {
    
-     for (let i = 0; i < 3; i++) {
+     for (let i = 0; i < 1; i++) {
 
         await queryInterface.bulkInsert('Messages', [{
           content: faker.commerce.productDescription(),
-          senderId: faker.number.int({ min: 1, max: 2 }),
-          recipientId: faker.number.int({ min: 1, max: 2 }),
+          senderId: faker.number.int({ min: 2, max: 2 }),
+          recipientId: faker.number.int({ min: 1, max: 1 }),
           isRead: false,
           createdAt: new Date(),
           updatedAt: new Date()  

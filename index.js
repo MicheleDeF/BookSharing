@@ -62,7 +62,9 @@ var hbs = exphbs.create({
       return data.toLocaleDateString('it-IT', {
         day: 'numeric',
         month: 'long',
-        year: 'numeric'
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
       });
     },
     eq: (a, b) => a == b
