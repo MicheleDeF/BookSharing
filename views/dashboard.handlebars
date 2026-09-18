@@ -2,10 +2,10 @@
 Passalibro - Area Personale
 {{/section}}
 {{#section 'script'}}
-<script>const userBooks = {{{json userBooks}}};</script>
-<script src="/js/dashboard/dashboard.js"></script> 
+<script>const userBooks = {{{ json userBooks }}};</script>
+<script src="/js/dashboard/dashboard.js"></script>
 {{/section}}
-<br/>
+<br />
 <div class="container">
     <div class="row">
         <div class="col">
@@ -25,122 +25,128 @@ Passalibro - Area Personale
                         Messaggi
                     </button>
                 </li>
-             </ul>
-             <hr/>
+            </ul>
+            <hr />
             <div class="tab-content" id="myDashboardContent">
-                <div class="tab-pane fade show active" id="books-tab-pane" role="tabpanel" aria-labelledby="books-tab" tabindex="0">                 
-                 
-                   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="content-container">
-                    {{#each (limit userBooks 10) }}
-                      <div class="col">
-                        <div class="card" style="width: 20rem;">
-                        <img src="{{this.cover}}" class="card-img-top">
-                        <div class="card-body">
-                            <h6 class="card-title">{{this.title}}</h5>
-                            <p><em>Autore: {{this.author}}</em></p>
-                            <p class="card-text">{{truncate this.description 50}}</p>
+                <div class="tab-pane fade show active" id="books-tab-pane" role="tabpanel" aria-labelledby="books-tab" tabindex="0">
 
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                  <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-primary">
-                                     Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
-                                   </a> 
-                                </li>
-                                <li class="list-inline-item">
-                                    <button type="button" class="btn btn-secondary">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                </li>
-                                <li class="list-inline-item">
-                                    <button type="button" id="deleteBook" class="btn btn-danger">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </li>
-                            </ul>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="content-container">
+                        {{#each (limit userBooks 10) }}
+                        <div class="col">
+                            <div class="card" style="width: 20rem;">
+                                <img src="{{this.cover}}" class="card-img-top">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{this.title}}</h5>
+                                        <p><em>Autore: {{this.author}}</em></p>
+                                        <p class="card-text">{{truncate this.description 50}}</p>
 
-                          </div>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-primary">
+                                                    Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <button type="button" class="btn btn-secondary">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </button>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <button type="button" id="deleteBook" class="btn btn-danger">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </li>
+                                        </ul>
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    {{else}}
+                        {{else}}
                         <div class="col">Nessun Libro Recente.</div>
-                    {{/each}}
-                   </div>             
+                        {{/each}}
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="statistics-tab-pane" role="tabpanel" aria-labelledby="statistics-tab" tabindex="0">
                     Statistiche
                 </div>
                 <div class="tab-pane fade" id="messages-tab-pane" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">
 
-                <div class="container-fluid">
-                    <div class="row h-100">
-                
-                        <div class="col-md-4 col-lg-3 sidebar bg-white p-0">
-                            <div class="list-group list-group-flush" role="tablist">
-                                {{#each recipientMessages }}
-                                <a href="#Chat-{{this.firstName}}-{{this.lastName}}" class="list-group-item list-group-item-action p-3 border border-primary {{#if (eq @index 0)}} active {{else}} {{/if}}"  data-bs-toggle="list" role="tab">
-                                    <h6 class="mb-1 fw-bold">
-                                        {{this.firstName}} {{this.lastName}}
-                                    </h6>
-                                </a>
-                                {{else}}
-                                <div class="col">Nessun Messaggio Ricevuto.</div>
-                                {{/each}}
+                    <div class="container-fluid">
+                        <div class="row h-100">
+
+                            <div class="col-md-4 col-lg-3 sidebar bg-white p-0">
+                                <div class="list-group list-group-flush" role="tablist">
+                                    {{#each recipientMessages }}
+                                    <a href="#Chat-{{this.firstName}}-{{this.lastName}}" class="list-group-item list-group-item-action p-3 border border-primary {{#if (eq @index 0)}} active {{else}} {{/if}}" data-bs-toggle="list" role="tab">
+                                        <h6 class="mb-1 fw-bold">
+                                            {{this.firstName}} {{this.lastName}}
+                                        </h6>
+                                    </a>
+                                    {{else}}
+                                    <div class="col">Nessun Messaggio Ricevuto.</div>
+                                    {{/each}}
+                                </div>
                             </div>
-                        </div>
-                
-                        <div class="col-md-8 col-lg-9 p-0 bg-light">
-                            <div class="tab-content h-100" id="nav-tabContent">
-                                {{#each recipientMessages }}
-                
-                                <div class="tab-pane {{#if (eq @index 0)}} fade show active {{else}} {{/if}} h-100" id="Chat-{{this.firstName}}-{{this.lastName}}" role="tabpanel">
-                                    <div class="d-flex flex-column h-100">
-                                        <div class="p-3 bg-white border-bottom">
-                                            <h6 class="m-0 fw-bold">{{this.firstName}} {{this.lastName}}</h6>
-                                        </div>
-                                        <div class="p-4 d-flex flex-column">
-                
-                                            {{#each this.message }}
-                
-                                            {{#if (eq this.senderId userLogged.logged.id)}}
-                                            <div class="shadow-sm bg-primary-subtle border-end border-primary border-3 text-xxl-end p-3">
-                                                <div class="fw-bold text-primary small mb-1">{{this.firstName}} {{this.lastName}}</div>
-                                                <p class="badge text-bg-primary">{{ customizeData this.createdAt }}</p>
-                                                <p>{{this.content}}</p>
+
+                            <div class="col-md-8 col-lg-9 p-0 bg-light">
+                                <div class="tab-content h-100" id="nav-tabContent">
+                                    {{#each recipientMessages }}
+
+                                    <div class="tab-pane {{#if (eq @index 0)}} fade show active {{else}} {{/if}} h-100" id="Chat-{{this.firstName}}-{{this.lastName}}" role="tabpanel">
+                                        <div class="d-flex flex-column h-100">
+                                            <div class="p-3 bg-white border-bottom">
+                                                <h6 class="m-0 fw-bold">{{this.firstName}} {{this.lastName}}</h6>
                                             </div>
-                                            {{else}}
-                                            <div class="shadow-sm p-3 bg-secondary-subtle border-end border-secondary border-3">
-                                                <div class="fw-bold text-primary small mb-1">{{this.firstName}} {{this.lastName}}</div>
-                                                <p class="badge text-bg-primary">{{ customizeData this.createdAt }}</p>
-                                                <p>{{this.content}}</p>
+                                            <div class="p-4 d-flex flex-column">
+
+                                                {{#each this.message }}
+
+                                                {{#if (eq this.senderId userLogged.logged.id)}}
+                                                <div
+                                                    class="shadow-sm bg-primary-subtle border-end border-primary border-3 text-xxl-end p-3">
+                                                    <div class="fw-bold text-primary small mb-1">{{this.firstName}}
+                                                        {{this.lastName}}</div>
+                                                    <p class="badge text-bg-primary">{{ customizeData this.createdAt }}
+                                                    </p>
+                                                    <p>{{this.content}}</p>
+                                                </div>
+                                                {{else}}
+                                                <div
+                                                    class="shadow-sm p-3 bg-secondary-subtle border-end border-secondary border-3">
+                                                    <div class="fw-bold text-primary small mb-1">{{this.firstName}}
+                                                        {{this.lastName}}</div>
+                                                    <p class="badge text-bg-primary">{{ customizeData this.createdAt }}
+                                                    </p>
+                                                    <p>{{this.content}}</p>
+                                                </div>
+                                                {{/if}}
+                                                <hr />
+
+                                                {{/each}}
+                                                <form id="sendMesssage" data-id="{{this.id}}">
+                                                    <input type="hidden" name="recipient" value="{{this.id}}">
+                                                    <div class="mb-3">
+                                                        <textarea name="textRecipient" class="form-control border border-primary" placeholder="Invia un messaggio a {{this.firstName}} {{this.lastName}}" rows="4" required></textarea>
+                                                    </div>
+                                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                        <button type="submit" class="btn btn-primary me-md-2">
+                                                            <i class="fa-solid fa-message me-2"></i> Invia Messaggio
+                                                        </button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            {{/if}}
-                                            <hr />
-                
-                                            {{/each}}
-                                            <form id="sendMesssage" data-id="{{this.id}}">
-                                                <input type="hidden" name="recipient" value="{{this.id}}">
-                                                <div class="mb-3">
-                                                    <textarea name="textRecipient" class="form-control border border-primary" placeholder="Invia un messaggio a {{this.firstName}} {{this.lastName}}" rows="4" required></textarea>
-                                                </div>
-                                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                                    <button type="submit" class="btn btn-primary me-md-2">
-                                                        <i class="fa-solid fa-message me-2"></i> Invia Messaggio
-                                                    </button>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
-                                </div>                
-                                {{/each}}
+                                    {{/each}}
+                                </div>
                             </div>
+
+
                         </div>
-                
-                
                     </div>
+
                 </div>
-  
-                </div>
-    
+
             </div>
         </div>
     </div>

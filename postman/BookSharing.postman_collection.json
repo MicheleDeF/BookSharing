@@ -15,14 +15,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{dasepath}}/api/user-books/2",
+              "raw": "{{dasepath}}/api/user-books/1",
               "host": [
                 "{{dasepath}}"
               ],
               "path": [
                 "api",
                 "user-books",
-                "2"
+                "1"
               ]
             },
             "description": "Questa richiesta restituisce i libri relativi ad uno specifico utente."
@@ -172,7 +172,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{ \r\n    \"email\": \"Vulmaro37@yahoo.com\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
+          "raw": "{ \r\n    \"email\": \"Abdone_Marzocchi@email.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
           "options": {
             "raw": {
               "language": "json"

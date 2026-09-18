@@ -30,6 +30,16 @@ Passalibro - {{detailBook.title}}
     map.invalidateSize();
     map.fitBounds(circle.getBounds(), { padding: [20, 20] });
         }, 200);
+
+    function notLogged(){
+        Swal.fire({
+            icon: "info",
+            title: "Oops...",
+            text: "Per contattare il proprietario del libro devi effettuare il login!",
+            confirmButtonText: "Chiudi",
+            footer: `<a href="/login" class="btn text-primary">Vai alla pagina del login <i class="fa-solid fa-arrow-right-long"></i></a>`
+            });
+    }
 </script>
 {{/section}}
 <br/>
@@ -132,11 +142,12 @@ Passalibro - {{detailBook.title}}
                            <!--
                             Nota:
                             l'utente loggato è il proprietario del libro,
-                            il pulsante  "Contatta il proprietario" non è visibile.                            
+                            il form "Contatta il proprietario" non è visibile.                            
                             -->
                         {{else}} 
                         <form id="sendMesssage" data-id="{{detailBook.user.id}}">
                             <input type="hidden" name="recipient" value="{{detailBook.user.id}}">
+                            <input type="hidden" name="bookId" value="{{detailBook.id}}">
                             <div class="mb-3">
                                 <textarea name="textRecipient" class="form-control border border-primary" placeholder="....contatta {{detailBook.user.firstName}} {{detailBook.user.lastName}}" rows="4" required></textarea>
                             </div>
@@ -149,9 +160,16 @@ Passalibro - {{detailBook.title}}
                         {{/if}} 
 
                     {{else}}  
-                    <a href="/login" class="btn btn-outline-primary">
-                        <i class="fa-solid fa-message me-2"></i> Contatta il proprietario
-                    </a>
+                    <form onsubmit="notLogged(); return false;">
+                        <div class="mb-3">
+                            <textarea name="textRecipient" class="form-control border border-primary" placeholder="....contatta {{detailBook.user.firstName}} {{detailBook.user.lastName}}" rows="4"></textarea>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary me-md-2">
+                                <i class="fa-solid fa-message me-2"></i> Invia Messaggio
+                            </button>
+                        </div>
+                    </form>
                     {{/if}}                       
                 </p>
             </div>

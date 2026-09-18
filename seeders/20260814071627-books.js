@@ -46,14 +46,17 @@ function getLongProductDescription(minLength = 500) {
  * latitudine: userLat + 0.0035, // Spostamento di circa 390 metri
  * longitudine: userLng - 0.0020
 */
-const userLat = 40.90154601444162;
-const userLng = 14.33668455234904;
+const userLat = 40.90175612223269;
+const userLng = 14.336299772648765;
+
+const typeCategories = ["Romanzo", "Gialli/Thriller", "Fantascienza", "Fumetti", "Altro"];
+
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-     for (let i = 0; i < 1; i++) {
+     for (let i = 0; i < 5; i++) {
 
       const street = faker.location.streetAddress();
       const city = faker.location.city();
@@ -66,14 +69,14 @@ module.exports = {
          title: bookTitle,
          author: faker.book.author(),
          publish_year: faker.date.past({ years: 100 }).getFullYear(),
-         category: 'Gialli/Thriller',
+         category: faker.helpers.arrayElement(typeCategories),
          address: `${street}, ${zipcode} ${city} (${province})`,
          radius: '500',
          description: getLongProductDescription(500),
          cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
-         lat: userLat + 0.0008,
-         lon: userLng + 0.0008,
-         userId: 6,
+         lon: userLng + 0.0035,
+         lat: userLat - 0.0020,
+         userId: 3,
          slug: generateAlias(bookTitle),
          createdAt: new Date(),
          updatedAt: new Date()   

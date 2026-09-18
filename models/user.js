@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'RecipientMessages', 
         foreignKey: 'recipientId' 
       });
+      User.hasMany(models.Statistic, { 
+        as: 'statistic', 
+        foreignKey: 'userId' 
+      });
     }
   }
   User.init({

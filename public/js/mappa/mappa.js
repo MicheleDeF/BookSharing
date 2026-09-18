@@ -76,12 +76,15 @@ var apiUrl = null;
       }).addTo(map);
 
       if(response.books.length > 0){
-
+        const markersCluster = L.markerClusterGroup();
         for (var i = 0; i < locations.length; i++) {
-           marker = new L.marker([locations[i][1], locations[i][2]])
+           var marker = new L.marker([locations[i][1], locations[i][2]])
            .bindPopup(`<div class="book-popup-container"><div class="book-main-info"><img src="${locations[i][4]}" class="book-cover"><div class="book-details"><div><h3 class="book-title"><a href="/book/${locations[i][9]}/${locations[i][8]}" class="link-offset-2 link-underline link-underline-opacity-0">${locations[i][7]}</a></h3><span class="book-genre">${locations[i][3]}</span></div><span class="book-distance"><i class="fa-solid fa-location-dot"></i>${locations[i][6]} metri da te</span></div></div><hr class="popup-divider"><div class="book-owner-info"><img src="${locations[i][10]}" class="owner-avatar"><div class="owner-details"><span class="owner-label">Proprietario</span><span class="owner-name">${locations[i][12]} ${locations[i][11]}</span></div></div></div>`)
            .addTo(map);
+           markersCluster.addLayer(marker);
        }
+
+       map.addLayer(markersCluster);
     }
 });
 

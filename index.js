@@ -14,6 +14,7 @@ app.use(express.static(path.join(__dirname, '/node_modules/jquery/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/cropperjs/dist')));
 app.use(express.static(path.join(__dirname, '/node_modules/jquery-cropper/dist')));
 app.use('/sweetalert2',express.static(path.join(__dirname, '/node_modules/sweetalert2/dist')));
+app.use('/leaflet/markercluster',express.static(path.join(__dirname, '/node_modules/leaflet.markercluster/dist')));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({

@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         as: 'user'      
       });
+      Book.hasOne(models.Statistic, {
+        as: 'statistic',
+        foreignKey: 'bookId',     
+      });
     }
   }
   Book.init({

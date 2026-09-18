@@ -5,11 +5,35 @@ const bcrypt = require('bcrypt');
 
 const faker = new Faker({ locale: [it, de_AT, de, en, base] });
 
+/** Camposano, Napoli, Campania, 80035, Italia 
+ * const userLat = 40.949312991789604;
+ * const userLng = 14.523031351428408;
+ * 
+ * Via Salice, Casalnuovo di Napoli, Napoli, Campania, 80013, Italia
+ * const userLat = 40.90154601444162;
+ * const userLng = 14.33668455234904;
+ * 
+ * latitudine: userLat + 0.0001, // Spostamento di circa 11 metri
+ * longitudine: userLng + 0.0001
+ * 
+ * latitudine: userLat - 0.0015, // Spostamento di circa 170 metri
+ * longitudine: userLng + 0.0015
+ * 
+ * latitudine: userLat + 0.00045, // Spostamento di circa 50 metri
+ * longitudine: userLng + 0.00045
+ * 
+ * latitudine: userLat + 0.0035, // Spostamento di circa 390 metri
+ * longitudine: userLng - 0.0020
+*/
+/** Via Nazionale delle Puglie, Casalnuovo di Napoli, Napoli, Campania, 80013, Italia */
+const userLat = 40.90175612223269;
+const userLng = 14.336299772648765;
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 1; i++) {
 
       const password = "a1s2d3F4";
       const salt = bcrypt.genSaltSync(10);
@@ -29,8 +53,8 @@ module.exports = {
         password_hash: passwordHash,
         address: `${street}, ${zipcode} ${city} (${province})`,
         radius: '500',
-        lon: faker.location.longitude({max: 15, min: 14 }),
-        lat: faker.location.latitude({ max: 41, min: 40 }),
+        lon: userLng + 0.0035,
+        lat: userLat - 0.0020,
         createdAt: new Date(),
         updatedAt: new Date()
      }], {});
