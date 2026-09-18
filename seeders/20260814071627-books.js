@@ -46,8 +46,9 @@ function getLongProductDescription(minLength = 500) {
  * latitudine: userLat + 0.0035, // Spostamento di circa 390 metri
  * longitudine: userLng - 0.0020
 */
-const userLat = 40.90175612223269;
-const userLng = 14.336299772648765;
+/** Camposano, Napoli, Campania, 80035, Italia */
+const userLat = 40.949282740897054;
+const userLng = 14.523030645794485;
 
 const typeCategories = ["Romanzo", "Gialli/Thriller", "Fantascienza", "Fumetti", "Altro"];
 
@@ -74,9 +75,9 @@ module.exports = {
          radius: '500',
          description: getLongProductDescription(500),
          cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
-         lon: userLng + 0.0035,
-         lat: userLat - 0.0020,
-         userId: 3,
+         lon: userLng - 0.0020,
+         lat: userLat + 0.0035,
+         userId: 5,
          slug: generateAlias(bookTitle),
          createdAt: new Date(),
          updatedAt: new Date()   

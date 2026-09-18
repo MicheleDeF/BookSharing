@@ -26,8 +26,13 @@ const faker = new Faker({ locale: [it, de_AT, de, en, base] });
  * longitudine: userLng - 0.0020
 */
 /** Via Nazionale delle Puglie, Casalnuovo di Napoli, Napoli, Campania, 80013, Italia */
-const userLat = 40.90175612223269;
-const userLng = 14.336299772648765;
+// const userLat = 40.90175612223269;
+// const userLng = 14.336299772648765;
+
+/** Camposano, Napoli, Campania, 80035, Italia */
+const userLat = 40.949282740897054;
+const userLng = 14.523030645794485;
+
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -53,8 +58,8 @@ module.exports = {
         password_hash: passwordHash,
         address: `${street}, ${zipcode} ${city} (${province})`,
         radius: '500',
-        lon: userLng + 0.0035,
-        lat: userLat - 0.0020,
+        lon: userLng - 0.0020,
+        lat: userLat + 0.0035,
         createdAt: new Date(),
         updatedAt: new Date()
      }], {});

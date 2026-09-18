@@ -67,6 +67,9 @@ const getDashboard = async (req, res) => {
           }
 
         ],
+        order: [
+          [{ model: Book, as: 'books' }, 'id', 'DESC']
+        ]
       });
 
       const result = query ? query.get({ plain: true }) : null;

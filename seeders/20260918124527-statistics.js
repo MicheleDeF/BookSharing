@@ -13,8 +13,8 @@ module.exports = {
       await queryInterface.bulkInsert('Statistics', [{
         views: faker.number.int({ min: 1, max: 200 }),
         contacts: faker.number.int({ min: 1, max: 200 }),
-        bookId: 30,
-        userId: 2,
+        bookId: 40,
+        userId: 4,
         createdAt: new Date(),
         updatedAt: new Date()  
       }], {});
