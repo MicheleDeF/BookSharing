@@ -4,7 +4,7 @@ var itemsForPage = 10;
 var currentIndex = 10; 
 $('body').find('#totalBooks').text(userBooks.length);
 
-$('button[data-bs-toggle="tab"], a[data-bs-toggle="tab"]')
+$('ul#myDashboard > li > button[data-bs-toggle="tab"]')
 .on('shown.bs.tab', function (e) {
     var targetHash = $(e.target).attr('data-bs-target') || $(e.target).attr('href');
     if (targetHash && targetHash.startsWith('#')) {
