@@ -1,4 +1,4 @@
-const { Book, User, Message } = require('../models');
+const { Book, User, Message, Statistic } = require('../models');
 
 const getHome = async (req, res) => {
 
@@ -42,7 +42,13 @@ const getDashboard = async (req, res) => {
         include: [
           {
             model: Book,
-            as: 'books'
+            as: 'books',
+            include: [
+              {
+                model: Statistic,
+                as: 'statistic' 
+              }
+            ]
           },
           {
             model: Message,
@@ -63,7 +69,6 @@ const getDashboard = async (req, res) => {
                 as: 'Sender'
               }
             ],
-
           }
 
         ],
@@ -73,7 +78,7 @@ const getDashboard = async (req, res) => {
       });
 
       const result = query ? query.get({ plain: true }) : null;
-      //console.dir(result, { depth: null });
+
       var receiverLastName = result.lastName;
       var receiverFirstName = result.firstName;
       const recipientMessages = result.RecipientMessages;
@@ -82,7 +87,7 @@ const getDashboard = async (req, res) => {
 
       for (let index = 0; index < recipientMessages.length; index++) {
         const element = recipientMessages[index];
-        //console.log(element);
+
         senderid.push({
                         id: element.Sender.id,                         
                         firstName: element.Sender.firstName,
@@ -91,7 +96,6 @@ const getDashboard = async (req, res) => {
                       });
       }
        const uniqueUsers = [...new Map(senderid.map(item => [item.id, item])).values()];
-       //console.log(uniqueUsers); 
 
        for (let i = 0; i < uniqueUsers.length; i++) {
         const element1 = uniqueUsers[i];
@@ -139,13 +143,12 @@ const getDashboard = async (req, res) => {
         users.message.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       });
       
-      console.dir(uniqueUsers, { depth: null });
       res.render('dashboard', { userBooks: result.books, recipientMessages: uniqueUsers});
 
     }
 
   } catch (error) {
-     //console.log(error);
+     console.log(error);
      res.render('404');
   }
 

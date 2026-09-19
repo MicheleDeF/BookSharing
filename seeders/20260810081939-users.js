@@ -58,8 +58,8 @@ module.exports = {
         password_hash: passwordHash,
         address: `${street}, ${zipcode} ${city} (${province})`,
         radius: '500',
-        lon: userLng - 0.0020,
-        lat: userLat + 0.0035,
+        lon: userLng + 0.0015,
+        lat: userLat - 0.0015,
         createdAt: new Date(),
         updatedAt: new Date()
      }], {});

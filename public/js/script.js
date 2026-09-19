@@ -16,7 +16,7 @@ if(accept_cookies == -1){
 setTimeout(()=>{
 Swal.fire({
   title: 'Cookies & Privacy',
-  html: `Questo sito web utilizza i cookie per garantirti la migliore esperienza sul nostro sito.<br/><br/><a href="/cookie-policy">Per Saperne di più</a>`,
+  html: `Questo sito web utilizza i cookie per garantirti la migliore esperienza sul nostro sito.<br/><br/><a href="/cookie-policy">Per saperne di più</a>`,
   icon: "info",
   confirmButtonText: 'Conferma' 
 }).then((result) => {  

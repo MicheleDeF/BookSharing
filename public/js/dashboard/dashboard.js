@@ -88,5 +88,120 @@ function loadMoreItems() {
         });
     });
   
+    /** Inizio codice per generare grafici con chart.js (https://www.chartjs.org/docs/latest/getting-started/) */
+    /** ordina "userBooks" per maggior numero di visualizzazioni e contatti*/
+    const userBooksViews = userBooks.toSorted((a, b) => b.statistic.views - a.statistic.views);
+    const userBooksContacts = userBooks.toSorted((a, b) => b.statistic.contacts - a.statistic.contacts);    
+    const bookView = [];
+    const bookContact = [];
+
+    for (let index = 0; index < 4; index++) {
+        const element = userBooksViews[index];
+        bookView.push({title: element.title, views: element.statistic.views});        
+    }
+
+    for (let index = 0; index < 4; index++) {
+        const element = userBooksContacts[index];
+        bookContact.push({title: element.title, contacts: element.statistic.contacts}); 
+    }
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: '#e2e8f0'
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                }
+            }
+        }
+    };
+
+    /** Grafico Visualizzazioni */
+    const ctxViews = document.getElementById('viewsChart').getContext('2d');
+    new Chart(ctxViews, {
+        type: 'bar',
+        data: {
+            labels: [bookView[0].title, bookView[1].title, bookView[2].title, bookView[3].title],
+            datasets: [{
+                label: 'Visualizzazioni',
+                data: [bookView[0].views, bookView[1].views, bookView[2].views, bookView[3].views],
+                backgroundColor: 'rgba(13, 110, 253, 0.85)',
+                borderColor: 'rgb(13, 110, 253)',
+                borderWidth: 1,
+                borderRadius: 6,
+                barThickness: 40
+            }]
+        },
+        options: chartOptions
+    });
+    
+    /** Grafico Contatti */
+    const ctxContacts = document.getElementById('contactsChart').getContext('2d');
+        new Chart(ctxContacts, {
+        type: 'line',
+        data: {
+            labels: [bookContact[0].title, bookContact[1].title, bookContact[2].title, bookContact[3].title],
+            datasets: [{
+                label: 'Contatti Ricevuti',
+                data: [bookContact[0].contacts, bookContact[1].contacts, bookContact[2].contacts, bookContact[3].contacts],
+                backgroundColor: 'rgba(25, 135, 84, 0.15)',
+                borderColor: 'rgb(25, 135, 84)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: 'rgb(25, 135, 84)',
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        options: chartOptions
+    });
+    /** Fine codice per generare grafici con chart.js (https://www.chartjs.org/) */
+
+    /** Popola tabella "Dettaglio Libri Top 4" */
+    var contentTable = "";
+    for (let index = 0; index < 4; index++) {
+
+        let tr = `<tr>
+                   <td>
+                     <span class="badge ${index == 0 ? "bg-success" : "bg-info"} rounded-circle p-2">
+                      #${index+1}
+                       </span>
+                        </td>
+                         <td>
+                          <strong>
+                           <a href="/book/${userBooksViews[index].id}/${userBooksViews[index].slug}">
+                            ${userBooksViews[index].title}
+                             </a>
+                              </strong>
+                               </td>
+                                <td>
+                                 ${userBooksViews[index].author}
+                                  </td>
+                                   <td class="text-end">
+                                    ${userBooksViews[index].statistic.views}
+                                     </td>
+                                      <td class="text-end">
+                                       ${userBooksViews[index].statistic.contacts}
+                                        </td>
+                                         </tr>`;
+        
+        contentTable+=tr;
+        
+    }
+
+    $('table#top_for_book_detail').find('tbody').html(contentTable);
 
 });

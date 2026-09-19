@@ -57,7 +57,7 @@ const typeCategories = ["Romanzo", "Gialli/Thriller", "Fantascienza", "Fumetti",
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-     for (let i = 0; i < 5; i++) {
+     for (let i = 0; i < 2; i++) {
 
       const street = faker.location.streetAddress();
       const city = faker.location.city();
@@ -75,9 +75,9 @@ module.exports = {
          radius: '500',
          description: getLongProductDescription(500),
          cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
-         lon: userLng - 0.0020,
-         lat: userLat + 0.0035,
-         userId: 5,
+         lon: userLng + 0.0015,
+         lat: userLat - 0.0015,
+         userId: 6,
          slug: generateAlias(bookTitle),
          createdAt: new Date(),
          updatedAt: new Date()   

@@ -11,8 +11,8 @@ module.exports = {
 
         await queryInterface.bulkInsert('Messages', [{
           content: faker.commerce.productDescription(),
-          senderId: faker.number.int({ min: 4, max: 4 }),
-          recipientId: faker.number.int({ min: 5, max: 5 }),
+          senderId: faker.number.int({ min: 6, max: 6 }),
+          recipientId: faker.number.int({ min: 4, max: 4 }),
           isRead: false,
           createdAt: new Date(),
           updatedAt: new Date()  
