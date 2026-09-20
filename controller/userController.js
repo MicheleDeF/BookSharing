@@ -238,10 +238,16 @@ try {
 }
 }
 
+const userSendMesssageOnDetailBook = async (req, res)=>{
+
+
+}
+
 module.exports = {
   getUserBooks,
   userLogin,
   userLogout,
   getUserMessages,
-  userSendMessage
+  userSendMessage,
+  userSendMesssageOnDetailBook
 };

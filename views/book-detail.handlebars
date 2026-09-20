@@ -145,7 +145,7 @@ Passalibro - {{detailBook.title}}
                             il form "Contatta il proprietario" non è visibile.                            
                             -->
                         {{else}} 
-                        <form id="sendMesssage" data-id="{{detailBook.user.id}}">
+                        <form id="sendMesssageOnDetailBook">
                             <input type="hidden" name="recipient" value="{{detailBook.user.id}}">
                             <input type="hidden" name="bookId" value="{{detailBook.id}}">
                             <div class="mb-3">

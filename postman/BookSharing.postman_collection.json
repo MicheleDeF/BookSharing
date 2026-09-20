@@ -15,14 +15,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{dasepath}}/api/user-books/1",
+              "raw": "{{dasepath}}/api/user-books/4",
               "host": [
                 "{{dasepath}}"
               ],
               "path": [
                 "api",
                 "user-books",
-                "1"
+                "4"
               ]
             },
             "description": "Questa richiesta restituisce i libri relativi ad uno specifico utente."
@@ -45,6 +45,34 @@
                 "1"
               ]
             }
+          },
+          "response": []
+        },
+        {
+          "name": "Send Message",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \r\n    \"recipient\": 5, \r\n    \"text\" : \"Cras porta, orci sit amet malesuada volutpat, elit erat porttitor nulla, nec elementum enim lectus dictum ante. Phasellus rhoncus libero et elementum pretium.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{dasepath}}/api/send-message",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "send-message"
+              ]
+            },
+            "description": "Inviare un messaggio ad un utente specifico."
           },
           "response": []
         }
@@ -172,7 +200,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{ \r\n    \"email\": \"Abdone_Marzocchi@email.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
+          "raw": "{ \r\n    \"email\": \"Igino.Marzocchi67@yahoo.com\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
