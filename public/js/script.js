@@ -88,7 +88,7 @@ $('body')
 .on('click', '#logout', function (e) 
 {
     e.preventDefault();
-    var currentpage = window.location.href;
+    var currentpage = "/";
     var settings = {
             "url": "/api/logout",
             "beforeSend": function(xhr){

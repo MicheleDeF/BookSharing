@@ -63,7 +63,7 @@ Passalibro - Area Personale
                             </div>
                         </div>
                         {{else}}
-                        <div class="col">Nessun Libro Recente.</div>
+                        <div class="col">Non hai inserito nessun libro! <a href="/insert-book">Inserisci un nuovo libro.</a></div>
                         {{/each}}
                     </div>
                 </div>
@@ -75,61 +75,6 @@ Passalibro - Area Personale
                                     <h1 class="h2">
                                         <i class="fa-solid fa-chart-line text-primary"></i> Performance Top 4 Libri
                                     </h1>
-                                </div>
-                                <div class="row g-4 mb-4">
-                                    <div class="col-12 col-xl-6">
-                                        <div class="card p-4">
-                                            <div class="d-flex align-items-center mb-3">
-                                                <div class="p-2 bg-primary-subtle text-primary rounded me-3">
-                                                    <i class="fa-solid fa-eye"></i>
-                                                </div>
-                                                <div>
-                                                    <h5 class="card-title mb-0">Visualizzazioni Totali</h5>
-                                                    <small class="text-muted">I 4 libri più visualizzati</small>
-                                                </div>
-                                            </div>
-                                            <div style="position: relative;height: 300px;width: 100%;">
-                                                <canvas id="viewsChart"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <div class="col-12 col-xl-6">
-                                    <div class="card p-4">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <div class="p-2 bg-success-subtle text-success rounded me-3">
-                                                <i class="fa-solid fa-envelope"></i>
-                                            </div>
-                                            <div>
-                                                <h5 class="card-title mb-0">Contatti Ricevuti</h5>
-                                                <small class="text-muted">I 4 libri più richiesti</small>
-                                            </div>
-                                        </div>
-                                        <div style="position: relative;height: 300px;width: 100%;">
-                                            <canvas id="contactsChart"></canvas>
-                                        </div>
-                                    </div>
-                                 </div>
-                                </div>
-                                <div class="card p-4 mb-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h5 class="card-title mb-0">
-                                            <i class="fa-solid fa-list-check me-2 text-warning"></i> Dettaglio Top 4 Libri
-                                        </h5>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-hover align-middle" id="top_for_book_detail">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th>Posizione</th>
-                                                    <th>Titolo Libro</th>
-                                                    <th>Autore</th>
-                                                    <th class="text-end">Visualizzazioni</th>
-                                                    <th class="text-end">Contatti</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
                                 </div>
                             </main>
                         </div>

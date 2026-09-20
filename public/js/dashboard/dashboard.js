@@ -2,6 +2,7 @@ $(document).ready(function(){
 
 var itemsForPage = 10;
 var currentIndex = 10; 
+
 $('body').find('#totalBooks').text(userBooks.length);
 
 $('ul#myDashboard > li > button[data-bs-toggle="tab"]')
@@ -89,11 +90,17 @@ function loadMoreItems() {
     });
   
     /** Inizio codice per generare grafici con chart.js (https://www.chartjs.org/docs/latest/getting-started/) */
+    
+    try {
     /** ordina "userBooks" per maggior numero di visualizzazioni e contatti*/
-    const userBooksViews = userBooks.toSorted((a, b) => b.statistic.views - a.statistic.views);
-    const userBooksContacts = userBooks.toSorted((a, b) => b.statistic.contacts - a.statistic.contacts);    
+    const userBooksViews = userBooks.toSorted((a, b) => b.statistic.views - a.statistic.views);   
+    const userBooksContacts = userBooks.toSorted((a, b) => b.statistic.contacts - a.statistic.contacts);  
     const bookView = [];
     const bookContact = [];
+
+    $('#statistics-tab-pane > .container-fluid > .row > main')
+    .append(`<div class="g-4 mb-4 row"><div class="col-12 col-xl-6"><div class="card p-4"><div class="align-items-center d-flex mb-3"><div class="me-3 p-2 rounded bg-primary-subtle text-primary"><i class="fa-solid fa-eye"></i></div><div><h5 class="card-title mb-0">Visualizzazioni Top 4</h5><small class=text-muted>I 4 libri più visualizzati</small></div></div><div style=position:relative;height:300px;width:100%><canvas id=viewsChart></canvas></div></div></div><div class="col-12 col-xl-6"><div class="card p-4"><div class="align-items-center d-flex mb-3"><div class="me-3 p-2 rounded bg-success-subtle text-success"><i class="fa-solid fa-envelope"></i></div><div><h5 class="card-title mb-0">Richiste Top 4</h5><small class=text-muted>I 4 libri più richiesti</small></div></div><div style=position:relative;height:300px;width:100%><canvas id=contactsChart></canvas></div></div></div></div><div class="card mb-4 p-4"><nav><div class="nav nav-tabs"id=nav-tab role=tablist><button aria-controls=nav-views aria-selected=true class="active nav-link"data-bs-target=#nav-views data-bs-toggle=tab id=nav-views-tab role=tab type=button><h5 class="card-title mb-0"><i class="fa-list-check fa-solid me-2 text-primary"></i> Dettaglio Top 4 Libri più Visualizzti</h5></button> <button aria-controls=nav-requests aria-selected=false class=nav-link data-bs-target=#nav-requests data-bs-toggle=tab id=nav-requests-tab role=tab type=button><h5 class="card-title mb-0"><i class="fa-list-check fa-solid me-2 text-info"></i> Dettaglio Top 4 Libri più Richiesti</h5></button></div></nav><div class=tab-content id=nav-tabContent><div class="active fade show tab-pane"id=nav-views role=tabpanel aria-labelledby=nav-views-tab tabindex=0><div class=table-responsive><table class="table table-bordered border-primary"id=top_for_book_detail_views><thead><tr><th>Posizione<th>Titolo Libro<th>Autore<th>Genere<th>Anno di Pubblicazione<th class=text-end>Visualizzazioni<tbody></table></div></div><div class="fade tab-pane"id=nav-requests role=tabpanel aria-labelledby=nav-requests-tab tabindex=0><div class=table-responsive><table class="table table-bordered border-info"id=top_for_book_detail_requests><thead><tr><th>Posizione<th>Titolo Libro<th>Autore<th>Genere<th>Anno di Pubblicazione<th class=text-end>Contatti<tbody></table></div></div></div></div>`);
+
 
     for (let index = 0; index < 4; index++) {
         const element = userBooksViews[index];
@@ -146,7 +153,6 @@ function loadMoreItems() {
         },
         options: chartOptions
     });
-    
     /** Grafico Contatti */
     const ctxContacts = document.getElementById('contactsChart').getContext('2d');
         new Chart(ctxContacts, {
@@ -168,10 +174,11 @@ function loadMoreItems() {
         },
         options: chartOptions
     });
-    /** Fine codice per generare grafici con chart.js (https://www.chartjs.org/) */
+    /** Fine codice per generare grafici con chart.js (https://www.chartjs.org/docs/latest/getting-started/) */
 
-    /** Popola tabella "Dettaglio Libri Top 4" */
-    var contentTable = "";
+    /** Popola tabella "Dettaglio Libri Top 4 Visualizzazioni" >>> */
+    var contentTableViews = "";
+    
     for (let index = 0; index < 4; index++) {
 
         let tr = `<tr>
@@ -190,18 +197,113 @@ function loadMoreItems() {
                                 <td>
                                  ${userBooksViews[index].author}
                                   </td>
-                                   <td class="text-end">
-                                    ${userBooksViews[index].statistic.views}
+                                   <td>
+                                    ${userBooksViews[index].category}
                                      </td>
-                                      <td class="text-end">
-                                       ${userBooksViews[index].statistic.contacts}
+                                      <td>
+                                       ${userBooksViews[index].publish_year}
                                         </td>
-                                         </tr>`;
+                                         <td class="text-end">
+                                          ${userBooksViews[index].statistic.views}
+                                           </td>
+                                            </tr>`;
         
-        contentTable+=tr;
+        contentTableViews+=tr;
         
     }
 
-    $('table#top_for_book_detail').find('tbody').html(contentTable);
+    $('table#top_for_book_detail_views').find('tbody').html(contentTableViews);
+    /** <<< Popola tabella "Dettaglio Libri Top 4 Visualizzazioni" */
+
+    /** Popola tabella "Dettaglio Libri Top 4 Contatti" >>> */
+    var contentTableContacts = "";
+
+    for (let index = 0; index < 4; index++) {
+                let tr = `<tr>
+                           <td>
+                            <span class="badge ${index == 0 ? "bg-success" : "bg-info"} rounded-circle p-2">
+                             #${index+1}
+                              </span>
+                               </td>
+                                <td>
+                                 <strong>
+                                  <a href="/book/${userBooksContacts[index].id}/${userBooksContacts[index].slug}">
+                                   ${userBooksContacts[index].title}
+                                    </a>
+                                     </strong>
+                                      </td>
+                                       <td>
+                                        ${userBooksContacts[index].author}
+                                         </td>
+                                          <td>
+                                           ${userBooksContacts[index].category}
+                                            </td>
+                                             <td>
+                                              ${userBooksContacts[index].publish_year}
+                                               </td>
+                                                <td class="text-end">
+                                                 ${userBooksContacts[index].statistic.contacts}
+                                                  </td>
+                                                   </tr>`;
+     contentTableContacts+=tr;   
+    }
+
+    $('table#top_for_book_detail_requests').find('tbody').html(contentTableContacts);
+    /** <<< Popola tabella "Dettaglio Libri Top 4 Contatti"  */
+        
+    } catch (error) {
+        $('#statistics-tab-pane > .container-fluid > .row > main')
+        .append(`<div class="col-md-12">Nessun Dato da Mostrare.</div>`);
+    }
+
+    $('body')
+    .on('submit', '#sendMesssage', function (e) {
+        e.preventDefault();
+        let recipient = $(this).find('[name="recipient"]').val();
+        let text = $(this).find('[name="textRecipient"]').val();
+        console.log(recipient, text);
+        var settings = {
+                "url": "/api/send-message",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "beforeSend": function (xhr) {
+                  $('#divLoading').addClass('show');
+                },
+                "success": function(result,status,xhr){
+                    Swal.fire({
+                    icon: "success",
+                    title: result.message,
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    cancelButtonText: "Chiudi",
+                    }).then((r) => {
+                    if (r.isDismissed) window.location.reload();
+                    });
+                },
+                "complete": function(xhr,status){
+                  $('#divLoading').removeClass('show'); 
+                },
+                "error": function(xhr,status,error){
+                    $('#divLoading').removeClass('show');
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Si è verificato un errore!",
+                        showCancelButton: true,
+                        showConfirmButton: false,
+                        cancelButtonText: "Chiudi",                    
+                        });
+                },
+                "data": JSON.stringify({
+                    "recipient": recipient,
+                    "text": text
+                }),
+            };
+
+           $.ajax(settings);        
+    });
 
 });

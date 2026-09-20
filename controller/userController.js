@@ -1,4 +1,4 @@
-const { User, Book, Message } = require('../models'); 
+const { User, Book, Message, sequelize} = require('../models'); 
 const { Op } = require('sequelize');
 
 const bcrypt = require('bcrypt');
@@ -203,9 +203,45 @@ const getUserMessages = async (req, res) =>{
 
 };
 
+const userSendMessage = async (req, res)=>{
+
+const t = await sequelize.transaction();
+
+try {
+
+  const token = req.cookies.token;
+  const decoded = jwt.verify(token, JWT_SECRET);
+  const senderId = decoded.id;
+  const { recipient, text } = req.body;
+
+  const message = await Message.create({
+                                        content: text,
+                                        senderId: senderId,
+                                        recipientId: recipient
+                                        }, { transaction: t }); 
+  
+  await t.commit();
+ 
+  return res.status(201).json({
+      success: true,
+      message: "Messaggio inviato con successo!",
+      data: message
+    });
+  
+} catch (error) {
+  await t.rollback();
+  console.error("Errore:", error);
+  return res.status(500).json({
+      success: false,
+      message: "Impossibile completare l'operazione."
+    });
+}
+}
+
 module.exports = {
   getUserBooks,
   userLogin,
   userLogout,
-  getUserMessages
+  getUserMessages,
+  userSendMessage
 };

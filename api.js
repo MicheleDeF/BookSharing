@@ -11,4 +11,5 @@ router.get('/books/:page/:limit', bookController.getAllBooks);
 router.get('/book/:id/:slug', bookController.getBook);
 router.get('/map', mapController.getSearchBooks);
 router.get('/user-messages/:iduser', userController.getUserMessages);
+router.post('/send-message', userController.userSendMessage);
 module.exports = router;
