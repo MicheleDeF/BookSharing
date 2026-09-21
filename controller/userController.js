@@ -1,7 +1,5 @@
 const { User, Book, Message, Statistic, sequelize} = require('../models'); 
 const { Op } = require('sequelize');
-const { faker } = require('@faker-js/faker');
-
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -323,50 +321,102 @@ const userUpdateUnreadMessages = async (req, res)=>{
 };
 
 const userRegistration = async (req, res) =>{
+  
+  const t = await sequelize.transaction();
+  const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+  const salt = bcrypt.genSaltSync(10);
+  const styles = ["blobs", "glyphs", "identicon"];
+  const index = Math.floor(Math.random() * styles.length);
 
+  
   try {
+      /** Utilizzo di api.dicebear (https://www.dicebear.com/how-to-use/http-api/) 
+       *  per generare un avatar.
+       */
+      const avatar = `https://api.dicebear.com/10.x/${styles[index]}/svg?size=200`
 
-  const avatar = faker.image.avatar();
+      const {
+            first_name, 
+            last_name, 
+            description,
+            email, 
+            password, 
+            password_confirm, 
+            address, 
+            latitude, 
+            longitude, 
+            agree_terms 
+            } = req.body;
 
-  const {
-         first_name, 
-         last_name, 
-         email, 
-         password, 
-         password_confirm, 
-         address, 
-         latitude, 
-         longitude, 
-         agree_terms 
-        } = req.body;
-
-
+    const user = await User.findOne({ where: { email } });
     
+    if (user) {
+      return res.status(409).json({
+                                   success: false, 
+                                   message: "Indirizzo Email già in uso da un altro utente!" 
+                                  });
+     }
 
+
+    if(agree_terms !=='on'){
+        return res.status(422).json({
+                                    success: false, 
+                                    message: "E' necessario accettare i termini di servizio!" 
+                                  });     
+    }
+
+    if(password !== password_confirm){
+       return res.status(422).json({
+                                    success: false, 
+                                    message: "Il valore 'password' e il valore 'conferma password' devono essere uguali!" 
+                                  });
+    }
     
+    if (!passwordRegex.test(password)) {
 
-    const salt = bcrypt.genSaltSync(10);
-    const passwordHash = bcrypt.hashSync(password, salt);
+       return res.status(422).json({
+                                    success: false, 
+                                    message: "Password non valida. Deve contenere almeno 8 caratteri, una maiuscola, una minuscola e un numero." 
+                                   });
+    
+  }
     
   
-   
-   return res.status(200).json({ 
-      avatar: avatar,
-      
-      
+  const passwordHash = bcrypt.hashSync(password, salt);
+  
+  const newUser = await User.create({
+    firstName: first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+    lastName: last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+    description: description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+    email: email,
+    avatar: avatar,
+    password_hash: passwordHash,
+    address: address,
+    lon: longitude,
+    lat: latitude  
+
+  }, { transaction: t });
+  
+   await t.commit();
+  
+   return res.status(201).json({ 
+      success: true,
+      message: "Account creato con successo!",
+      data: newUser,      
     }); 
 
 
     
   } catch (error) {
+    await t.rollback();
     console.log(error);
+        return res.status(500).json({
+      success: false,
+      message: "Impossibile completare l'operazione."
+    });
   }
 
-
-
-
-
-}
+};
 
 
 module.exports = {

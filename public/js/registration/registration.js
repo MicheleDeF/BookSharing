@@ -54,14 +54,15 @@ var elements = form.elements;
    
           for (var i = 0, element; element = elements[i++];) {               
                  
-                if(element.name == 'first_name' || 
-                   element.name == 'last_name'  ||
-                   element.name == 'email'      ||
-                   element.name == 'password'   ||
+                if(element.name == 'first_name'  || 
+                   element.name == 'last_name'   ||
+                   element.name == 'description' ||
+                   element.name == 'email'       ||
+                   element.name == 'password'    ||
                    element.name == 'password_confirm' ||
-                   element.name == 'address'    ||
-                   element.name == 'latitude'   ||
-                   element.name == 'longitude'  ||
+                   element.name == 'address'     ||
+                   element.name == 'latitude'    ||
+                   element.name == 'longitude'   ||
                    element.name == 'agree_terms'){
 
                      data[element.name] = element.value;            
@@ -77,12 +78,38 @@ var elements = form.elements;
             "headers": {
                 "Content-Type": "application/json"
             },
+            "beforeSend": function (xhr) {
+                $('#divLoading').addClass('show');
+            },
+            "success": function(result,status,xhr){
+               console.log(result);
+               Swal.fire({
+                    title: result.message,
+                    text: "Ti è stata inviata un'email per attivare l'account.",
+                    icon: "success",
+                    confirmButtonText: "Chiudi"
+                    }).then((r) => {
+                        if (r.isConfirmed) location.href = "/";                    
+                    });
+            },
+            "complete": function(xhr,status){
+                $('#divLoading').removeClass('show'); 
+            },
+            "error": function(xhr,status,error){
+                $('#divLoading').removeClass('show');
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Si è verificato un errore!",
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    cancelButtonText: "Chiudi",                    
+                    });
+            },
             "data": JSON.stringify(data),
             };
 
-            $.ajax(settings).done(function (response) {
-              console.log(response);
-            });
+            $.ajax(settings);
           
         }
 });
