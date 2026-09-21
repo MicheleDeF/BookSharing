@@ -1,4 +1,4 @@
-const { User, Book, Message, sequelize} = require('../models'); 
+const { User, Book, Message, Statistic, sequelize} = require('../models'); 
 const { Op } = require('sequelize');
 
 const bcrypt = require('bcrypt');
@@ -236,12 +236,91 @@ try {
       message: "Impossibile completare l'operazione."
     });
 }
+};
+
+const userSendMesssageOnDetailBook = async (req, res) => {
+  const t = await sequelize.transaction();
+  try {
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const senderId = decoded.id;    
+    const { recipient, text, bookId } = req.body;
+    const userId = recipient;
+
+    const message = await Message.create({
+      content: text,
+      senderId: senderId,
+      recipientId: recipient
+    }, { transaction: t });  
+
+    const [statistic, created] = await Statistic.findOrCreate({
+      where: { bookId, userId },
+      defaults: { views: 1, contacts: 0 },
+      transaction: t
+    });
+
+
+    if (!created) {
+      await statistic.increment('contacts', { by: 1, transaction: t });
+    }
+
+    await t.commit();
+
+    return res.status(201).json({
+      success: true,
+      message: "Messaggio inviato con successo!",
+      data: message
+    });
+    
+  } catch (error) {
+    await t.rollback();
+    console.error("Errore:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Impossibile completare l'operazione."
+    });
+  }
+};
+
+const userUpdateUnreadMessages = async (req, res)=>{
+
+  const t = await sequelize.transaction();
+
+  try {
+
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const userId = decoded.id; 
+
+    const [updatedUnReadMessages] = await Message.update(
+      { isRead: 1 },
+      { 
+        where: { 
+          recipientId: userId,
+          isRead: 0 
+        } 
+      }
+    );
+
+     await t.commit();
+
+     return res.status(200).json({ 
+      message: `Tutti i messaggi sono stati segnati come letti`,
+      updatedMessages: updatedUnReadMessages 
+    });   
+    
+  } catch (error) {
+    await t.rollback();
+    console.error("Errore:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Impossibile completare l'operazione."
+    });
+  }
+
+
 }
 
-const userSendMesssageOnDetailBook = async (req, res)=>{
-
-
-}
 
 module.exports = {
   getUserBooks,
@@ -249,5 +328,6 @@ module.exports = {
   userLogout,
   getUserMessages,
   userSendMessage,
-  userSendMesssageOnDetailBook
+  userSendMesssageOnDetailBook,
+  userUpdateUnreadMessages
 };

@@ -1,5 +1,15 @@
 const { Book, Statistic } = require('../models');
 
+/** Questo middleware viene utilizzato sulla rotta del dettaglio libro,
+ *  la sua funzione è aggiornare il numero di visite per uno specifico libro. 
+ *  Per evitare che il contatore delle visite venga aggiornato ripetutamente 
+ *  facendo il reload della pagina è stata aggiunta una funzionalità basata 
+ *  sulle sessioni che evita l'aggiornamento del numero delle visite aggiornado
+ *  ripetutamente la pagina del dettaglio libro.
+ *  Inoltre evita di aggiornare il contatore delle visite se l'utente è
+ *  loggato e sta visualizzando un suo libro.
+ */
+
 const trackBookViews = async (req, res, next) => {
 
   const { id } = req.params; 

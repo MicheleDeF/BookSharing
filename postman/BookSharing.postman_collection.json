@@ -75,6 +75,53 @@
             "description": "Inviare un messaggio ad un utente specifico."
           },
           "response": []
+        },
+        {
+          "name": "Send Message from Book Detail Page",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \r\n    \"recipient\": 6, \r\n    \"text\" : \"Cras porta\",\r\n    \"bookId\": 46\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{dasepath}}/api/send-message-book-detail-page",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "send-message-book-detail-page"
+              ]
+            },
+            "description": "Invio messaggio utente dalla pagina dettaglio libro."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Unread Messages to Read",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{dasepath}}/api/update-unread-messages",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "update-unread-messages"
+              ]
+            },
+            "description": "Esegue l'update dei messaggi non letti a messaggi letti."
+          },
+          "response": []
         }
       ]
     },

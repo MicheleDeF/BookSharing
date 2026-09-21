@@ -22,8 +22,16 @@ Passalibro - Area Personale
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages-tab-pane" type="button" role="tab" aria-controls="messages-tab-pane" aria-selected="false">
+                    <button data-isread="{{isRead}}" class="nav-link {{#if (eq isRead 0)}}  {{else}} position-relative {{/if}}" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages-tab-pane" type="button" role="tab" aria-controls="messages-tab-pane" aria-selected="false">
                         Messaggi
+                         {{#if (eq isRead 0)}}
+
+                         {{else}}
+                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ isRead }}
+                            <span class="visually-hidden">unread messages</span>
+                         {{/if}}
+
                     </button>
                 </li>
             </ul>

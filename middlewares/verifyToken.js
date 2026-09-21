@@ -2,6 +2,11 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
+/** Questo middleware viene utilizzato sulle pagine che richiedono
+ *  l'autenticazione dell'utente, nel caso l'utente non sia autenticato 
+ *  il middleware effettua il redirect sulla pagina del login "/login".
+ */
+
 const verifyToken = (req, res, next) => {
 
     const token = req.cookies.token;

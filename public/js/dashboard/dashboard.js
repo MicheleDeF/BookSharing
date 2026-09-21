@@ -252,6 +252,7 @@ function loadMoreItems() {
     /** <<< Popola tabella "Dettaglio Libri Top 4 Contatti"  */
         
     } catch (error) {
+        console.log(error);
         $('#statistics-tab-pane > .container-fluid > .row > main')
         .append(`<div class="col-md-12">Nessun Dato da Mostrare.</div>`);
     }
@@ -261,7 +262,7 @@ function loadMoreItems() {
         e.preventDefault();
         let recipient = $(this).find('[name="recipient"]').val();
         let text = $(this).find('[name="textRecipient"]').val();
-        console.log(recipient, text);
+
         var settings = {
                 "url": "/api/send-message",
                 "method": "POST",
@@ -304,6 +305,27 @@ function loadMoreItems() {
             };
 
            $.ajax(settings);        
+    });
+
+    $('body')
+    .on('click', '#messages-tab', function(){    
+        var $buttonMessagesTag = $(this);
+        let isRead = $buttonMessagesTag.data('isread');
+        
+        if(isRead != 0){
+
+            var settings = {
+                "url": "/api/update-unread-messages",
+                "method": "POST",
+                "timeout": 0,
+                "success": function(result,status,xhr){
+                  $buttonMessagesTag.removeClass('position-relative');
+                  $buttonMessagesTag.find('span').remove();
+                },
+                "error": function(xhr,status,error){}
+                };
+                $.ajax(settings);
+        }
     });
 
 });

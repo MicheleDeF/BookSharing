@@ -12,4 +12,6 @@ router.get('/book/:id/:slug', bookController.getBook);
 router.get('/map', mapController.getSearchBooks);
 router.get('/user-messages/:iduser', userController.getUserMessages);
 router.post('/send-message', userController.userSendMessage);
+router.post('/send-message-book-detail-page', userController.userSendMesssageOnDetailBook);
+router.post('/update-unread-messages', userController.userUpdateUnreadMessages);
 module.exports = router;

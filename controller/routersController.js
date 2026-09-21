@@ -143,7 +143,12 @@ const getDashboard = async (req, res) => {
         users.message.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       });
       
-      res.render('dashboard', { userBooks: result.books, recipientMessages: uniqueUsers});
+      const isRead = recipientMessages.filter(element => !element.isRead).length;
+      res.render('dashboard', { 
+                               userBooks: result.books, 
+                               recipientMessages: uniqueUsers, 
+                               isRead: isRead
+                              });
 
     }
 
