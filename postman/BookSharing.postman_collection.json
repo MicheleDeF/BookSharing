@@ -122,6 +122,34 @@
             "description": "Esegue l'update dei messaggi non letti a messaggi letti."
           },
           "response": []
+        },
+        {
+          "name": "User Registration",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Michele\",\r\n  \"last_name\": \"De Falco\",\r\n  \"email\": \"defalco_michele@libero.it\",\r\n  \"password\": \"a1s2d3F4\",\r\n  \"password_confirm\": \"a1s2d3F4\",\r\n  \"address\": \"Via Nazionale delle Puglie, Casalnuovo di Napoli, Napoli, Campania, 80013, Italia\",\r\n  \"latitude\": \"40.90158329028968\",\r\n  \"longitude\": \"14.336620067234312\",\r\n  \"agree_terms\": \"on\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{dasepath}}/api/user-registration",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "user-registration"
+              ]
+            },
+            "description": "Registrazione Utente"
+          },
+          "response": []
         }
       ]
     },

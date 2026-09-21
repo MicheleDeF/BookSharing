@@ -10,14 +10,19 @@ module.exports = {
      * Add seed commands here.
      * Example:
      */
-      await queryInterface.bulkInsert('Statistics', [{
+    for (let index = 46; index < 48; index++) {
+      
+       await queryInterface.bulkInsert('Statistics', [{
         views: faker.number.int({ min: 1, max: 200 }),
         contacts: faker.number.int({ min: 1, max: 200 }),
-        bookId: 40,
-        userId: 4,
+        bookId: index,
+        userId: 6,
         createdAt: new Date(),
         updatedAt: new Date()  
       }], {});
+      
+    }
+
     
   },
 

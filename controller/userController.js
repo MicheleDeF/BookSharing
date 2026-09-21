@@ -1,5 +1,6 @@
 const { User, Book, Message, Statistic, sequelize} = require('../models'); 
 const { Op } = require('sequelize');
+const { faker } = require('@faker-js/faker');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -319,6 +320,52 @@ const userUpdateUnreadMessages = async (req, res)=>{
   }
 
 
+};
+
+const userRegistration = async (req, res) =>{
+
+  try {
+
+  const avatar = faker.image.avatar();
+
+  const {
+         first_name, 
+         last_name, 
+         email, 
+         password, 
+         password_confirm, 
+         address, 
+         latitude, 
+         longitude, 
+         agree_terms 
+        } = req.body;
+
+
+    
+
+    
+
+    const salt = bcrypt.genSaltSync(10);
+    const passwordHash = bcrypt.hashSync(password, salt);
+    
+  
+   
+   return res.status(200).json({ 
+      avatar: avatar,
+      
+      
+    }); 
+
+
+    
+  } catch (error) {
+    console.log(error);
+  }
+
+
+
+
+
 }
 
 
@@ -329,5 +376,6 @@ module.exports = {
   getUserMessages,
   userSendMessage,
   userSendMesssageOnDetailBook,
-  userUpdateUnreadMessages
+  userUpdateUnreadMessages,
+  userRegistration
 };
