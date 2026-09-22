@@ -102,12 +102,42 @@ var elements = form.elements;
          }
 
 
-        for (var d of data.entries()) {
-              console.log(d); 
-              // Do whatever with d
-          }
+         var settings = {
+            "url": "/api/create-new-book",
+            "method": "POST",
+            "processData": false,
+            "contentType": false,
+            "beforeSend": function (xhr) {
+                $('#divLoading').addClass('show');
+            },
+            "success": function(result,status,xhr){
+               console.log(result);
+               Swal.fire({
+                    title: result.message,                    
+                    icon: "success",
+                    confirmButtonText: "Chiudi"
+                    }).then((r) => {
+                        if (r.isConfirmed) location.href = "/dashboard";                    
+                    });
+            },
+            "complete": function(xhr,status){
+                $('#divLoading').removeClass('show'); 
+            },
+            "error": function(xhr,status,error){
+                $('#divLoading').removeClass('show');
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: xhr.responseJSON.message,
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    cancelButtonText: "Chiudi",                    
+                    });
+            },
+            "data": data
+       };
 
-
+        $.ajax(settings);
     }
 
 

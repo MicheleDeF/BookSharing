@@ -196,6 +196,77 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Create New Book",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Divina Commedia",
+                  "type": "text"
+                },
+                {
+                  "key": "author",
+                  "value": "Dante Alighieri",
+                  "type": "text"
+                },
+                {
+                  "key": "publish_year",
+                  "value": "1472",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "Romanzo",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Vivamus ac dolor blandit, pellentesque elit posuer…ibus eu, molestie in ligula. Duis ut nulla augue.",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "Via Nazionale delle Puglie, Casalnuovo di Napoli, Napoli, Campania, 80013, Italia",
+                  "type": "text"
+                },
+                {
+                  "key": "copertina_libro",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/micde/Downloads/uhexos-book-cover-1024644_1280.jpg"
+                  ]
+                },
+                {
+                  "key": "latitude",
+                  "value": "40.90200100364161",
+                  "type": "text"
+                },
+                {
+                  "key": "longitude",
+                  "value": "14.335876333583279",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{dasepath}}/api/create-new-book",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "create-new-book"
+              ]
+            },
+            "description": "Crea un nuovo libro coni dati inseriti dall'utente."
+          },
+          "response": []
         }
       ]
     },
@@ -275,7 +346,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{ \r\n    \"email\": \"Igino.Marzocchi67@yahoo.com\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
+          "raw": "{ \r\n    \"email\": \"defalco_michele@libero.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
           "options": {
             "raw": {
               "language": "json"

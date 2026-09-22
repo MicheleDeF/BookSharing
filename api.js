@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const upload = require('./config/multer'); 
 const userController = require('./controller/userController');
 const bookController = require('./controller/bookController');
 const mapController = require('./controller/mapController');
@@ -15,4 +16,5 @@ router.post('/send-message', userController.userSendMessage);
 router.post('/send-message-book-detail-page', userController.userSendMesssageOnDetailBook);
 router.post('/update-unread-messages', userController.userUpdateUnreadMessages);
 router.post('/user-registration', userController.userRegistration);
+router.post('/create-new-book', upload.single('copertina_libro'), bookController.createNewBook);
 module.exports = router;

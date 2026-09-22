@@ -1,4 +1,23 @@
-const { Book, User } = require('../models'); 
+const { User, Book, Message, Statistic, sequelize  } = require('../models'); 
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path'); 
+
+function generateAlias(text) {
+    if (!text) return '';
+
+    return text
+        .toString()
+        .toLowerCase()                  
+        .trim()                         
+        .normalize('NFD')               
+        .replace(/[\u0300-\u036f]/g, '') 
+        .replace(/[^a-z0-9 -]/g, '')    
+        .replace(/\s+/g, '-')           
+        .replace(/-+/g, '-');           
+};
 
 const getAllBooks = async (req, res) => { 
 
@@ -95,8 +114,68 @@ const getBook = async (req, res) => {
 
 };
 
+const createNewBook = async (req, res) => {
+
+    const t = await sequelize.transaction();
+
+      try {
+                 
+         const token = req.cookies.token;
+         const decoded = jwt.verify(token, JWT_SECRET);
+         const userId = decoded.id;    
+         
+          if (!req.file) {
+             return res.status(400).json({ success: false,  message: 'Nessuna Immagine di Copertina!' });
+           }
+        
+         const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;         
+         const {title, author, publish_year, category, description, address, latitude, longitude} = req.body;
+
+         const newBook = await Book.create({
+            title: title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+            author: author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+            publish_year: publish_year, 
+            category: category, 
+            address: address, 
+            description: description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+            cover: imageUrl,
+            lat: latitude, 
+            lon: longitude,
+            userId: userId,
+            slug: generateAlias(title),
+         },{ transaction: t });
+         
+         const bookId = newBook.id;
+         const views = 0;
+         const contacts = 0;
+
+        const newStatistic = await Statistic.create({
+            views: views,
+            contacts: contacts,
+            bookId: bookId,
+            userId: userId,
+        },{ transaction: t });
+         
+         await t.commit();
+          
+         res.status(201).json({
+              success: true,
+              message: 'Nuovo libro salvato con successo!',
+              book: newBook,
+              statistic: newStatistic,     
+            });      
+
+        
+      } catch (error) {
+         await t.rollback();
+         console.error(error);
+         return res.status(500).json({ success: false, message: 'Errore interno durante il salvataggio!'});
+      }
+};
+
 
 module.exports = {
   getAllBooks,
-  getBook
+  getBook,
+  createNewBook
 };

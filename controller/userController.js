@@ -410,7 +410,7 @@ const userRegistration = async (req, res) =>{
   } catch (error) {
     await t.rollback();
     console.log(error);
-        return res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Impossibile completare l'operazione."
     });
