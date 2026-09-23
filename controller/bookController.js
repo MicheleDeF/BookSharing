@@ -62,9 +62,6 @@ const getAllBooks = async (req, res) => {
       error: error.message
     });
   }
-
-
-
 };
 
 const getBook = async (req, res) => {
@@ -122,14 +119,18 @@ const createNewBook = async (req, res) => {
                  
          const token = req.cookies.token;
          const decoded = jwt.verify(token, JWT_SECRET);
-         const userId = decoded.id;    
-         
+         const userId = decoded.id, id = decoded.id;
+         const user = await User.findOne({ where: { id } });
+         const latitude = user.lat; 
+         const longitude = user.lon;
+         const address = user.address;
+      
           if (!req.file) {
              return res.status(400).json({ success: false,  message: 'Nessuna Immagine di Copertina!' });
            }
         
          const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;         
-         const {title, author, publish_year, category, description, address, latitude, longitude} = req.body;
+         const {title, author, publish_year, category, description} = req.body;
 
          const newBook = await Book.create({
             title: title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
@@ -173,9 +174,49 @@ const createNewBook = async (req, res) => {
       }
 };
 
+const deleteBook = async (req, res) => {
+
+  const t = await sequelize.transaction();
+
+ try {
+
+  const token = req.cookies.token;
+  const decoded = jwt.verify(token, JWT_SECRET);
+  const id = req.params.id;
+  const book = await Book.findOne({ where: { id } });
+      
+    if (!book) {
+          return res.status(404).json({
+              success: false,
+              message: 'Libro non trovato!'
+          });
+      }
+     
+      const deletedBook = await Book.destroy({
+        where: { id: id }
+      }, { transaction: t });
+
+  
+    await t.commit();
+
+    res.status(201).json({
+      success: true,
+      message: 'Libro eliminato con successo!',
+      deletedBook: deletedBook,
+    }); 
+
+  
+ } catch (error) {
+    await t.rollback();
+    console.error(error);
+    return res.status(500).json({ success: false, message: 'Errore interno durante la procedura di eliminazione!'});
+ }
+
+}
 
 module.exports = {
   getAllBooks,
   getBook,
-  createNewBook
+  createNewBook,
+  deleteBook
 };

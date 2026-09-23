@@ -1,21 +1,5 @@
 $(document).ready(function(){
 
- 
-setInterval(()=>{
-    if( localStorage.getItem('display_name_address') !== null && 
-    localStorage.getItem('latitude') !== null && 
-    localStorage.getItem('longitude') !== null){
-    let latitude = localStorage.getItem('latitude');
-    let longitude = localStorage.getItem('longitude');
-    let display_name_address = localStorage.getItem('display_name_address');
-    $(`form#insert-book`).find('input#latitude').val(latitude);
-    $(`form#insert-book`).find('input#longitude').val(longitude);
-    $(`form#insert-book`).find('input#address').val(display_name_address);
-}
-}, 2000);    
-
-
-
 let cropper;
 const $coverUpload = $('#cover-upload');
 const $cropperModal = new bootstrap.Modal(document.getElementById('cropperModal'));
@@ -85,10 +69,7 @@ var elements = form.elements;
                     element.name == 'author'       || 
                     element.name == 'publish_year' || 
                     element.name == 'category'     || 
-                    element.name == 'address'      ||
-                    element.name == 'description'  ||
-                    element.name == 'latitude'     ||
-                    element.name == 'longitude'
+                    element.name == 'description'  
                 ){
 
                     data.append(element.name, element.value);

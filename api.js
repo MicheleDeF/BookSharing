@@ -17,4 +17,5 @@ router.post('/send-message-book-detail-page', userController.userSendMesssageOnD
 router.post('/update-unread-messages', userController.userUpdateUnreadMessages);
 router.post('/user-registration', userController.userRegistration);
 router.post('/create-new-book', upload.single('copertina_libro'), bookController.createNewBook);
+router.delete('/book/:id', bookController.deleteBook);
 module.exports = router;

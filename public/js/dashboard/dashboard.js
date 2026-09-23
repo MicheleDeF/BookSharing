@@ -69,8 +69,10 @@ function loadMoreItems() {
 
     $('body').on('click', 'button#deleteBook', function (e) {
         e.preventDefault();
+        var idBook = $(this).data('id');
+        var title = $(this).data('title');
         Swal.fire({
-            title: "Sei sicuro di voler cancellare questo libro?",
+            title: `Sei sicuro di voler cancellare <br/><strong>${title}</strong>?`,
             text: "Una volta cancellato non sarà più possibile recuperarlo.",
             icon: "warning",
             showCancelButton: true,
@@ -80,11 +82,43 @@ function loadMoreItems() {
             confirmButtonText: "Si, Cancella"
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Cancellato",
-                    text: "Il tuo libro è stato cancellato",
-                    icon: "success"
-                });
+                 var settings = {
+                    "url": `/api/book/${idBook}`,
+                    "method": "DELETE",
+                    "timeout": 0,
+                    "processData": false,
+                    "contentType": false,
+                    "beforeSend": function (xhr) {
+                       $('#divLoading').addClass('show');
+                     },
+                     "success": function(result,status,xhr){
+                        Swal.fire({
+                            title: `${result.message}`,
+                            icon: "success",
+                            confirmButtonText: "Chiudi"
+                        }).then((r) => {
+                             if (r.isConfirmed) location.href = "/dashboard";                    
+                        });
+                     },
+                     "complete": function(xhr,status){
+                       $('#divLoading').removeClass('show'); 
+                    },
+                    "error": function(xhr,status,error){
+                       $('#divLoading').removeClass('show');
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: xhr.responseJSON.message,
+                            showCancelButton: true,
+                            showConfirmButton: false,
+                            cancelButtonText: "Chiudi",
+                        });
+                    }
+
+                };
+
+                $.ajax(settings); 
+                
             }
         });
     });
@@ -95,8 +129,6 @@ function loadMoreItems() {
     /** ordina "userBooks" per maggior numero di visualizzazioni e contatti*/
     const userBooksViews = userBooks.toSorted((a, b) => b.statistic.views - a.statistic.views);   
     const userBooksContacts = userBooks.toSorted((a, b) => b.statistic.contacts - a.statistic.contacts);  
-    console.log(userBooksViews.length);
-    console.log(userBooksContacts.length);
     
         if(userBooksViews.length >= 4 && userBooksContacts.length >=4){
 

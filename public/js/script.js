@@ -44,6 +44,8 @@ navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
         var longitude = position.coords.longitude;
         localStorage.setItem('latitude', latitude);
         localStorage.setItem('longitude', longitude);
+        document.cookie = `latitude=${latitude}`;
+        document.cookie = `longitude=${longitude}`;
         var url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
          if (localStorage.getItem('display_name_address') === null) {
             $.get(url, function (data) {localStorage.setItem('display_name_address', data.display_name);});

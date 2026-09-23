@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       });
       Book.hasOne(models.Statistic, {
         as: 'statistic',
-        foreignKey: 'bookId',     
+        foreignKey: 'bookId',    
+        onDelete: 'CASCADE'  
       });
     }
   }

@@ -1,17 +1,53 @@
 const { Book, User, Message, Statistic } = require('../models');
+const { Sequelize, Op } = require('sequelize');
 
 const getHome = async (req, res) => {
 
-  const query = await Book.findAll({
-    limit: 4,
-    order: [['createdAt', 'DESC']],
-  });
+  var userLat = null;
+  var userLon = null;
+  const currentUserId = res.locals.userLogged ? res.locals.userLogged.id : null;
 
-  const result = query.map((u) => u.get({ plain: true }));
+  if(req.cookies.latitude && req.cookies.longitude){
 
-  res.render('home', {
-    latestBooks: result,
-  });
+    userLat = req.cookies.latitude;
+    userLon  = req.cookies.longitude;
+
+      const queryDistance = Sequelize.literal(
+            `6371000 * ACOS( 
+              COS(RADIANS(${userLat})) * COS(RADIANS(Book.lat)) * 
+               COS(RADIANS(Book.lon) - RADIANS(${userLon})) + 
+                SIN(RADIANS(${userLat})) * SIN(RADIANS(Book.lat)))`
+        );
+
+        const query = await Book.findAll({
+            attributes: ['id', 'title', 'author', 'description', 'category', 'cover', 'slug', [queryDistance, 'distance']],
+            where: {
+                    [Op.and]: Sequelize.where(queryDistance, { [Op.lte]: 500 }),
+                    /** questa condizione esclude i contenuti dell'utente se ha effettuato il login */
+                    ...(currentUserId && { userId: { [Op.ne]: currentUserId } }),
+                  },                    
+            limit: 4,
+            order: [['createdAt', 'DESC']]
+        });
+
+    
+      const result = query.map((u) => u.get({ plain: true }));
+        res.render('home', {
+          latestBooks: result,
+        });
+  
+  }else{
+     
+    const query = await Book.findAll({
+      limit: 4,
+      order: [['createdAt', 'DESC']],
+    });
+
+    const result = query.map((u) => u.get({ plain: true }));
+      res.render('home', {
+        latestBooks: result,
+      });
+  }  
 };
 
 
