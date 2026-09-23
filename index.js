@@ -68,7 +68,11 @@ var hbs = exphbs.create({
         minute: '2-digit'
       });
     },
-    eq: (a, b) => a == b
+    eq: (a, b) => a == b,
+    uniqueRow: (text)=>{
+       if (!text) return '';
+       return text.replace(/[\r\n]+/g, ' ').trim();
+    }
   }    
 });
 app.engine('handlebars', hbs.engine);

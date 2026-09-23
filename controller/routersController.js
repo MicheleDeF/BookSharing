@@ -249,6 +249,27 @@ const getRecoverPassword = (req, res) => {
   res.render('recover-password');
 };
 
+const getEditBook = async (req, res) => {
+
+  const { id } = req.params;
+
+  try {
+  
+  const query = await Book.findByPk(id);
+  const book = query.get({ plain: true });
+
+    if (!book) {
+          res.render('404');
+      }
+  
+   res.render('edit-book', {book: book});
+    
+  } catch (error) {
+     console.log(error);
+     res.render('404');
+  }  
+
+};
 
 module.exports = {
   getHome,
@@ -262,5 +283,6 @@ module.exports = {
   getCookiePolicy,
   getTermsAndConditions,
   getPrivacyPolicy,
-  getRecoverPassword
+  getRecoverPassword,
+  getEditBook
 };

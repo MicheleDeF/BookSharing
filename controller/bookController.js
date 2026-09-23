@@ -1,7 +1,6 @@
 const { User, Book, Message, Statistic, sequelize  } = require('../models'); 
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
-const multer = require('multer');
 const fs = require('fs');
 const path = require('path'); 
 
@@ -212,11 +211,57 @@ const deleteBook = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Errore interno durante la procedura di eliminazione!'});
  }
 
-}
+};
+
+const editBook = async (req, res) => {
+
+  const t = await sequelize.transaction();
+
+  try {
+
+  const token = req.cookies.token;
+  const decoded = jwt.verify(token, JWT_SECRET);
+  const id = req.params.id;
+  const book = await Book.findOne({ where: { id } });
+
+    if (!req.file) {        
+        return res.status(400).json({ success: false,  message: 'Nessuna Immagine di Copertina!' });
+      }
+
+    if (!book) {
+          return res.status(404).json({
+              success: false,
+              message: 'Libro non trovato!'
+          });
+      }
+
+    const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;  
+    const {title, author, publish_year, category, description} = req.body;
+
+    
+   
+    res.status(201).json({
+      success: true,
+      message: 'Libro modifcato con successo!',
+    }); 
+  
+  //await t.commit();
+
+    
+  } catch (error) {
+    await t.rollback();
+    console.error(error);
+    return res.status(500).json({ success: false, message: 'Errore interno durante la procedura di modifica!'});
+  }
+
+
+};
 
 module.exports = {
   getAllBooks,
   getBook,
   createNewBook,
-  deleteBook
+  deleteBook,
+  editBook,
+  editBook
 };

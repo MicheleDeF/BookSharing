@@ -6,6 +6,7 @@ const trackBookViews = require('./middlewares/trackBookViews');
 
 router.get('/', routersController.getHome);
 router.get('/insert-book', verifyToken, routersController.getInsertBook);
+router.get('/book/edit/:id', verifyToken, routersController.getEditBook);
 router.get('/view-map', routersController.getViewMap);
 router.get('/login', routersController.getLogin);
 router.get('/sign-up', routersController.getSignUp);

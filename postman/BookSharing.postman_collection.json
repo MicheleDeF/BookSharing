@@ -263,17 +263,75 @@
               "formdata": []
             },
             "url": {
-              "raw": "{{dasepath}}/api/book/35",
+              "raw": "{{dasepath}}/api/book/56",
               "host": [
                 "{{dasepath}}"
               ],
               "path": [
                 "api",
                 "book",
-                "35"
+                "56"
               ]
             },
             "description": "Eliminazione di un libro specifico."
+          },
+          "response": []
+        },
+        {
+          "name": "Edit Book",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Freakonomics",
+                  "type": "text"
+                },
+                {
+                  "key": "author",
+                  "value": "Vance Packard",
+                  "type": "text"
+                },
+                {
+                  "key": "publish_year",
+                  "value": "1982",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "Altro",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Electronic Soap designed with Plastic for charakterstark performance Savor the rich essence in our Shoes, designed for grob culinary adventures Our sour-inspired Sausages brings a taste of luxury to your international lifestyle Stylish Bacon designed to make you stand out with günstig looks The Schneeweiß Tuna combines Svalbard und Jan Mayen aesthetics with Hassium-based durability The sleek and wunderbar Pizza comes with Schneeweiß LED lighting for smart functionality Savor the creamy essence in our Bacon, designed for verantwortungslos culinary adventures",
+                  "type": "text"
+                },
+                {
+                  "key": "copertina_libro",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/micde/Downloads/geralt-brain-4490836_1920.jpg"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{dasepath}}/api/book/edit/34",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "book",
+                "edit",
+                "34"
+              ]
+            },
+            "description": "Modifica Libro"
           },
           "response": []
         }
