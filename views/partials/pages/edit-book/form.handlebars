@@ -53,7 +53,7 @@
                 <div class="flex-grow-1 w-100">
                     <label for="cover-upload" class="form-label fw-semibold text-secondary">Seleziona un file immagine 
                     <span class="text-danger" aria-hidden="true">*</span></label>
-                    <input type="file" id="cover-upload" name="cover" class="form-control border-secondary-subtle" accept="image/png, image/jpeg" required>
+                    <input type="file" id="cover-upload" data-uri="{{detailBook.cover}}" name="cover" class="form-control border-secondary-subtle" accept="image/png, image/jpeg" required>
                     <div class="invalid-feedback">Caricare un'immagine di copertina, dimensioni minime 600x800.</div>
                     <div class="form-text text-muted small mt-2">
                         <i class="fa-solid fa-circle-info"></i> Formati accettati: JPG, PNG, dimensioni minime 600x800.

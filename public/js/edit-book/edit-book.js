@@ -48,11 +48,36 @@ $('#cropButton').on('click', function () {
     }, 'image/jpeg', 0.85);
 });
 
+var urlCover = $('form#edit-book').find('input#cover-upload').data('uri');
+const fileInput = document.querySelector('input[type="file"]');
+async function setInputFile(){
+
+    try {
+        const response = await fetch(urlCover);
+        const blob = await response.blob();
+        const fileName = urlCover.substring(urlCover.lastIndexOf('/') + 1);
+        const file = new File([blob], fileName, { type: blob.type });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        fileInput.files = dataTransfer.files;
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+setInputFile();
+
 $('body').on('submit', 'form#edit-book', function (e) {
     e.preventDefault();
     let form = $(this)[0];
     var data = new FormData();
     var elements = form.elements;
+    const url = new URL(window.location.href);
+    const path = url.pathname; 
+    const id = path.split('/').pop(); 
+  
+
 
       if (form.checkValidity() === false) {
         form.classList.add('was-validated');
@@ -78,6 +103,43 @@ $('body').on('submit', 'form#edit-book', function (e) {
                     }
                 }
          }
+
+        var settings = {
+            "url": `/api/book/edit/${id}`,
+            "method": "POST",
+            "processData": false,
+            "contentType": false,
+            "beforeSend": function (xhr) {
+                $('#divLoading').addClass('show');
+            },
+            "success": function(result,status,xhr){
+               console.log(result);
+               Swal.fire({
+                    title: result.message,                    
+                    icon: "success",
+                    confirmButtonText: "Chiudi"
+                    }).then((r) => {
+                        if (r.isConfirmed) window.location.reload();                    
+                    });
+            },
+            "complete": function(xhr,status){
+                $('#divLoading').removeClass('show'); 
+            },
+            "error": function(xhr,status,error){
+                $('#divLoading').removeClass('show');
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: xhr.responseJSON.message,
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    cancelButtonText: "Chiudi",                    
+                    });
+            },
+            "data": data
+       };
+
+       $.ajax(settings);
       }
 });
 

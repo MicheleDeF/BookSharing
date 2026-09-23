@@ -1,7 +1,7 @@
 const { User, Book, Message, Statistic, sequelize  } = require('../models'); 
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path'); 
 
 function generateAlias(text) {
@@ -190,13 +190,30 @@ const deleteBook = async (req, res) => {
               message: 'Libro non trovato!'
           });
       }
-     
+
+      const cover = book.cover;
+      const urlObj = new URL(cover);
+      const nameFile = path.basename(urlObj.pathname);
+      
+      if (!nameFile || nameFile === '/' || nameFile === '.') {
+        return res.status(400).json({ success: false, message: 'Nessun file valido trovato nell\'URL'});
+      }
+      
+      const uploads_folder = path.join(__dirname, '..', 'public', 'images/books');
+      const pathFile = path.join(uploads_folder, nameFile);
+
+      if (!pathFile.startsWith(uploads_folder)) {
+        return res.status(401).json({ success: false, message: 'Tentativo di accesso non autorizzato!'});
+      }
+
+      await fs.unlink(pathFile);
+
       const deletedBook = await Book.destroy({
         where: { id: id }
       }, { transaction: t });
 
   
-    await t.commit();
+     await t.commit();
 
     res.status(201).json({
       success: true,
@@ -238,14 +255,26 @@ const editBook = async (req, res) => {
     const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;  
     const {title, author, publish_year, category, description} = req.body;
 
-    
+    const [updateBook] = await Book.update(
+      {
+	     title: title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+       author: author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+       publish_year: publish_year,
+       category: category,
+       description: description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+       cover: imageUrl,
+       slug: generateAlias(title),
+      },
+      { where: { id: id }}, 
+      { transaction: t });    
    
-    res.status(201).json({
-      success: true,
-      message: 'Libro modifcato con successo!',
-    }); 
+      res.status(201).json({
+        success: true,
+        message: 'Libro modifcato con successo!',
+        updateBook: updateBook
+      }); 
   
-  //await t.commit();
+   await t.commit();
 
     
   } catch (error) {

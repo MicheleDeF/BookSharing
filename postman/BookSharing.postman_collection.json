@@ -320,7 +320,7 @@
               ]
             },
             "url": {
-              "raw": "{{dasepath}}/api/book/edit/34",
+              "raw": "{{dasepath}}/api/book/edit/45",
               "host": [
                 "{{dasepath}}"
               ],
@@ -328,7 +328,7 @@
                 "api",
                 "book",
                 "edit",
-                "34"
+                "45"
               ]
             },
             "description": "Modifica Libro"
@@ -413,7 +413,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{ \r\n    \"email\": \"Gualtiero.DeRosa@email.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
+          "raw": "{ \r\n    \"email\": \"Ludovica.Fois@gmail.com\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
