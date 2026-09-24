@@ -380,7 +380,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{dasepath}}/api/map/?lat=40.90160521046844&lon=14.336548891010342",
+              "raw": "{{dasepath}}/api/map/?lat=40.949282740897054&lon=14.523030645794485",
               "host": [
                 "{{dasepath}}"
               ],
@@ -392,11 +392,11 @@
               "query": [
                 {
                   "key": "lat",
-                  "value": "40.90160521046844"
+                  "value": "40.949282740897054"
                 },
                 {
                   "key": "lon",
-                  "value": "14.336548891010342"
+                  "value": "14.523030645794485"
                 }
               ]
             },
@@ -413,7 +413,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{ \r\n    \"email\": \"Gualtiero.DeRosa@email.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
+          "raw": "{ \r\n    \"email\": \"Marciano71@yahoo.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
