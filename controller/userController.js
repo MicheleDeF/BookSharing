@@ -138,6 +138,9 @@ const userLogin = async(req, res) =>{
                                   id: user.id,
                                   firstName: user.firstName,
                                   lastName: user.lastName, 
+                                  lat: user.lat,
+                                  lon: user.lon,
+                                  address: user.address
                                 });
 
   } catch (error) {

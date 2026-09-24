@@ -31,7 +31,12 @@ var elements = form.elements;
                  "beforeSend": function(xhr){
                    $('#divLoading').addClass('show');
                  },
-                 "success": function(dati){         
+                 "success": function(dati){
+                    localStorage.setItem('latitude', dati.lat);  
+                    localStorage.setItem('longitude', dati.lon);   
+                    localStorage.setItem('display_name_address', dati.address);     
+                    document.cookie = `latitude=${dati.lat}`;
+                    document.cookie = `longitude=${dati.lon}`;
                     location.href = "/dashboard";                   
                  },
                  "error": function(jqXHR, textStatus, errorThrown){

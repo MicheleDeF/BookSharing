@@ -26,67 +26,81 @@ function getLongProductDescription(minLength = 500) {
   return desc;
 }
 
-/** Camposano, Napoli, Campania, 80035, Italia 
- * const userLat = 40.949312991789604;
- * const userLng = 14.523031351428408;
- * 
- * Via Salice, Casalnuovo di Napoli, Napoli, Campania, 80013, Italia
- * const userLat = 40.90154601444162;
- * const userLng = 14.33668455234904;
- * 
- * latitudine: userLat + 0.0001, // Spostamento di circa 11 metri
- * longitudine: userLng + 0.0001
- * 
- * latitudine: userLat - 0.0015, // Spostamento di circa 170 metri
- * longitudine: userLng + 0.0015
- * 
- * latitudine: userLat + 0.00045, // Spostamento di circa 50 metri
- * longitudine: userLng + 0.00045
- * 
- * latitudine: userLat + 0.0035, // Spostamento di circa 390 metri
- * longitudine: userLng - 0.0020
-*/
 /** Camposano, Napoli, Campania, 80035, Italia */
 const userLat = 40.949282740897054;
 const userLng = 14.523030645794485;
-
+/** il valore 0 non incremente le coordinate, 
+ *  0.00045 crea utente a 50 metri di distanza dal primo,
+ *  0.0001 crea utente a 11 metri di distanza dal primo
+ */
 const typeCategories = ["Romanzo", "Gialli/Thriller", "Fantascienza", "Fumetti", "Altro"];
-
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-     for (let i = 0; i < 2; i++) {
+     for (var i = 0; i < 2; i++) {
 
-      const street = faker.location.streetAddress();
-      const city = faker.location.city();
-      const province = faker.location.state({ abbreviated: true });
-      const zipcode = faker.location.zipCode();
-      const bookTitle = faker.book.title();
+       if( i == 0 ){
 
+          for (var j = 1; j <= 20; j++) {   
 
-        await queryInterface.bulkInsert('Books', [{
-         title: bookTitle,
-         author: faker.book.author(),
-         publish_year: faker.date.past({ years: 100 }).getFullYear(),
-         category: faker.helpers.arrayElement(typeCategories),
-         address: `${street}, ${zipcode} ${city} (${province})`,
-         radius: '500',
-         description: getLongProductDescription(500),
-         cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
-         lon: userLng + 0.0015,
-         lat: userLat - 0.0015,
-         userId: 6,
-         slug: generateAlias(bookTitle),
-         createdAt: new Date(),
-         updatedAt: new Date()   
-       }], {});
+              const street = faker.location.streetAddress();
+              const city = faker.location.city();
+              const province = faker.location.state({ abbreviated: true });
+              const zipcode = faker.location.zipCode();
+              const bookTitle = faker.book.title();
 
-     }
+              await queryInterface.bulkInsert('Books', [{
+              title: bookTitle,
+              author: faker.book.author(),
+              publish_year: faker.date.past({ years: 100 }).getFullYear(),
+              category: faker.helpers.arrayElement(typeCategories),
+              address: `${street}, ${zipcode} ${city} (${province})`,
+              radius: '500',
+              description: getLongProductDescription(500),
+              cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
+              lon: userLng,
+              lat: userLat,
+              userId: 1,
+              slug: generateAlias(bookTitle),
+              createdAt: new Date(),
+              updatedAt: new Date()   
+            }], {});
+        
+       }
 
-    
-  },
+     }else{
+
+          for (var j = 1; j <= 20; j++) {   
+
+              const street = faker.location.streetAddress();
+              const city = faker.location.city();
+              const province = faker.location.state({ abbreviated: true });
+              const zipcode = faker.location.zipCode();
+              const bookTitle = faker.book.title();
+
+              await queryInterface.bulkInsert('Books', [{
+              title: bookTitle,
+              author: faker.book.author(),
+              publish_year: faker.date.past({ years: 100 }).getFullYear(),
+              category: faker.helpers.arrayElement(typeCategories),
+              address: `${street}, ${zipcode} ${city} (${province})`,
+              radius: '500',
+              description: getLongProductDescription(500),
+              cover: faker.image.url({width: 600,height: 800,category: 'abstract'}),
+              lon: userLng + 0.00045,
+              lat: userLat + 0.00045,
+              userId: 2,
+              slug: generateAlias(bookTitle),
+              createdAt: new Date(),
+              updatedAt: new Date()   
+            }], {});
+        
+       }      
+    }
+  }    
+},
 
   async down (queryInterface, Sequelize) {
 

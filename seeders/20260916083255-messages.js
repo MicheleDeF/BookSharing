@@ -6,18 +6,33 @@ const faker = new Faker({ locale: [de_AT, de, en, base] });
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-   
-     for (let i = 0; i < 1; i++) {
+       
+     for (let i = 0; i < 2; i++) {
 
-        await queryInterface.bulkInsert('Messages', [{
-          content: faker.commerce.productDescription(),
-          senderId: faker.number.int({ min: 6, max: 6 }),
-          recipientId: faker.number.int({ min: 4, max: 4 }),
-          isRead: false,
-          createdAt: new Date(),
-          updatedAt: new Date()  
-       }], {});
-     }    
+        if( i==0 ){
+
+            await queryInterface.bulkInsert('Messages', [{
+                  content: faker.commerce.productDescription(),
+                  senderId: faker.number.int({ min: 1, max: 1 }),
+                  recipientId: faker.number.int({ min: 2, max: 2 }),
+                  isRead: false,
+                  createdAt: new Date(),
+                  updatedAt: new Date()  
+               }], {});
+
+        }else{
+            await queryInterface.bulkInsert('Messages', [{
+                  content: faker.commerce.productDescription(),
+                  senderId: faker.number.int({ min: 2, max: 2 }),
+                  recipientId: faker.number.int({ min: 1, max: 1 }),
+                  isRead: false,
+                  createdAt: new Date(),
+                  updatedAt: new Date()  
+               }], {});
+
+        }
+
+    }    
   },
   async down (queryInterface, Sequelize) {
     /**
