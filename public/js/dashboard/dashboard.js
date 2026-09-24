@@ -1,4 +1,29 @@
+function viewPassword(item) {
+    var $inputPassword = $(item).siblings('input[type=password]');
+    $(item)
+        .hover(function () {
+            $inputPassword.attr('type', 'text');
+        }, function () {
+            $inputPassword.attr('type', 'password');
+        }
+        ).click(function (e) { e.preventDefault(); });
+}
+
+function checkPasswordMatch() {
+    var password = $('form#editProfile').find("input#password").val();
+    var confirmPassword = $('form#editProfile').find("input#password_confirm").val();
+    if (password != confirmPassword)
+         $('form#editProfile').find("input#password_confirm").addClass('is-invalid');    
+    else     
+       $('form#editProfile').find("input#password_confirm").removeClass('is-invalid');   
+}
+
+
 $(document).ready(function(){
+
+$('form#editProfile')
+.find("input#password_confirm")
+.keyup(checkPasswordMatch);
 
 var itemsForPage = 10;
 var currentIndex = 10; 
@@ -377,6 +402,38 @@ function loadMoreItems() {
                 };
                 $.ajax(settings);
         }
+    });
+
+    $('body')
+    .on('submit', 'form#editProfile', function (e) {
+        e.preventDefault();
+        let form = $(this)[0];
+        var data = {};
+        var elements = form.elements;
+
+        if (form.checkValidity() === false) {
+            form.classList.add('was-validated');                 
+            return false;
+        }else{
+
+            for (var i = 0, element; element = elements[i++];) {
+
+                if(element.name == 'first_name'  || 
+                   element.name == 'last_name'   ||
+                   element.name == 'description' ||
+                   element.name == 'password'    ||
+                   element.name == 'password_confirm'
+                  ){
+                    
+                    data[element.name] = element.value; 
+
+                  }
+             }
+
+             console.log(data);
+        }
+
+        
     });
 
 });

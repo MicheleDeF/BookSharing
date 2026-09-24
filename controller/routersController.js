@@ -118,6 +118,19 @@ const getDashboard = async (req, res) => {
       });
 
       const result = query ? query.get({ plain: true }) : null;
+      
+      const profile = {
+        id: result.id,
+        lastName: result.lastName,
+        firstName: result.firstName,
+        description: result.description,
+        avatar: result.avatar,
+        address: result.address,
+        radius: result.radius,
+        lon: result.lon,
+        lat: result.lat,
+        email: result.email
+      };
 
       var receiverLastName = result.lastName;
       var receiverFirstName = result.firstName;
@@ -187,7 +200,8 @@ const getDashboard = async (req, res) => {
       res.render('dashboard', { 
                                userBooks: result.books, 
                                recipientMessages: uniqueUsers, 
-                               isRead: isRead
+                               isRead: isRead,
+                               profile: profile
                               });
 
     }

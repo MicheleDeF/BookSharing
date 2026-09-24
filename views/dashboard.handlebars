@@ -34,6 +34,11 @@ Passalibro - Area Personale
 
                     </button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+                        Profilo
+                    </button>
+                </li>
             </ul>
             <hr />
             <div class="tab-content" id="myDashboardContent">
@@ -167,7 +172,75 @@ Passalibro - Area Personale
                     </div>
 
                 </div>
-
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <div class="container py-5">
+                    <div class="row g-4">
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <div class="card border-0 shadow-sm text-center p-3">
+                                <div class="card-body">
+                                    <div class="position-relative d-inline-block mb-3">
+                                        <img src="{{profile.avatar}}" alt="Foto Profilo" class="rounded-circle img-thumbnail"
+                                            style="width: 120px; height: 120px; object-fit: cover" />
+                                    </div>
+                                    <h5 class="card-title mb-0">{{profile.firstName}} {{profile.lastName}}</h5>
+                                    <p class="text-muted small">{{profile.email}}</p>
+                                    <p class="text-muted small">{{profile.address}}</p> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 col-lg-9">
+                            <div class="card border-0 shadow-sm p-4">
+                                <form id="editProfile" class="edit-profile-needs-validation" novalidate>
+                                    <h3 class="card-title h4 mb-4 pb-2 border-bottom">
+                                       Modifica Informazioni Personali
+                                     </h3>
+                                    <div class="row g-3">
+                                        <div class="col-12 col-sm-6">
+                                            <label for="first_name" class="form-label fw-semibold text-secondary">Nome</label>
+                                            <input type="text" name="first_name" class="form-control form-control-lg border-secondary-subtle" id="first_name" value="{{profile.firstName}}" required />
+                                            <div class="invalid-feedback">Inserisci il tuo nome".</div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="last_name" class="form-label fw-semibold text-secondary">Cognome</label>
+                                            <input type="text" name="last_name" class="form-control form-control-lg border-secondary-subtle" id="last_name" value="{{profile.lastName}}" required />
+                                            <div class="invalid-feedback">Inserisci il tuo cognome.</div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="description" class="form-label fw-semibold text-secondary">La tua descrizione</label>
+                                            <textarea class="form-control form-control-lg border-secondary-subtle" name="description" id="description" rows="4" required>{{profile.description}}</textarea>
+                                            <div class="invalid-feedback">Inserisci una breve descrizione di te.</div>
+                                        </div>
+                                        <hr/>
+                                         <h3 class="card-title h4 mb-4 pb-2 border-bottom">
+                                          Modifica Password <small class="text-body-secondary">(rienpi i campi solo se vuoi modificare la password)</small>
+                                         </h3>
+                                        <div class="col-12 col-md-6">
+                                            <label for="password" class="form-label fw-semibold text-secondary">Password</label>
+                                            <div class="input-group mb-3">
+                                            <input type="password" id="password" value="" name="password" minlength="8" class="form-control form-control-lg border-secondary-subtle" placeholder="Minimo 8 caratteri" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="button_view_password">
+                                            <button class="btn btn-outline-secondary" type="button" id="button_view_password" onmouseover="viewPassword(this)"><i class="fa-solid fa-eye"></i></button>
+                                            <div class="invalid-feedback">Password non valida</div>
+                                            </div>                                                
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="password_confirm" class="form-label fw-semibold text-secondary">Conferma Password </label>
+                                            <div class="input-group mb-3">
+                                                <input type="password" id="password_confirm" value="" onChange="checkPasswordMatch();"  name="password_confirm" class="form-control form-control-lg border-secondary-subtle" placeholder="Ripeti la password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="button_view_password">
+                                                <button class="btn btn-outline-secondary" type="button" id="button_view_password" onmouseover="viewPassword(this)"><i class="fa-solid fa-eye"></i></button>
+                                                <div class="invalid-feedback">Conferma password non valida</div>
+                                            </div>                            
+                                        </div> 
+                                        <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
+                                            <button type="reset" class="btn btn-outline-secondary px-4">Annulla</button>
+                                            <button type="submit" class="btn btn-primary px-4">Salva</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
         </div>
     </div>
