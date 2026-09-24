@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-/** Submit login Form */
+/** Login utente. */
 $('body')
 .on('submit', 'form#login', function(e){
 e.preventDefault();

@@ -2,38 +2,42 @@
 Passalibro - Home
 {{/section}}
 {{#section 'script'}}
+<script>const latestBooks = {{{ json latestBooks }}};</script>
 <script src="/js/home/home.js"></script> 
 {{/section}}
-<section class=" border-bottom py-5 py-lg-5">
-        <div class="container-xl py-4">
-            <div class="row align-items-center g-5">                
-                <div class="col-12 col-lg-7">
-                    <p class="lead mb-4">
-                     <h5><span class="badge text-bg-primary text-light ms-1">nel quartiere <i class="fa-solid fa-person-walking"></i></span></h5>
-                     </p>
-                    <h1 class="display-6 fw-extrabold mb-3">
-                        I libri che cerchi sono a pochi passi da te.
-                    </h1>
-                    <p class="lead mb-4">
-                        Condividi le tue letture con la comunità locale, scopri i testi disponibili nel tuo palazzo e scambia cultura a costo zero e senza spedizioni.
-                    </p>
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="#" onclick="return false;" id="view-map" class="btn btn-primary text-light px-4 py-3 fw-bold border">
-                            Esplora i libri vicini <i class="fa-solid fa-map-location-dot"></i>
-                        </a>
-                        <a href="/insert-book" class="btn btn-primary text-light px-4 py-3 fw-bold border">
-                            Aggiungi un libro <i class="fa-solid fa-book"></i>
-                        </a>
-                    </div>
+<section id="section-home" class="border-bottom py-5 py-lg-5">
+    <div class="container-xl py-4">
+        <div class="row align-items-center g-5">
+            <div class="col-12 col-lg-7 p-4 shadow-lg border-light rounded-4 bg-light bg-opacity-75">
+                <p class="lead mb-4">
+                <h5><span class="badge text-bg-primary text-light ms-1">nel quartiere <i
+                            class="fa-solid fa-person-walking"></i></span></h5>
+                </p>
+                <h1 class="display-6 fw-extrabold mb-3">
+                    I libri che cerchi sono a pochi passi da te.
+                </h1>
+                <p class="lead mb-4">
+                    Condividi le tue letture con la comunità locale, scopri i testi disponibili nel tuo palazzo e
+                    scambia cultura a costo zero e senza spedizioni.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#" onclick="return false;" id="view-map"
+                        class="btn btn-primary text-light px-4 py-3 fw-bold border">
+                        Esplora i libri vicini <i class="fa-solid fa-map-location-dot"></i>
+                    </a>
+                    <a href="/insert-book" class="btn btn-primary text-light px-4 py-3 fw-bold border">
+                        Aggiungi un libro <i class="fa-solid fa-book"></i>
+                    </a>
                 </div>
-                <div class="col-12 col-lg-5">
-                    <div class="card p-4 shadow-lg border-light rounded-4 bg-light">
-                        {{> pages/home/form }}
-                    </div>
+            </div>
+            <div class="col-12 col-lg-5">
+                <div class="card p-4 shadow-lg border-light rounded-4 bg-light bg-opacity-75">
+                    {{> pages/home/form }}
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
     <br/>
     <div class="container">
         <div class="row">
@@ -43,24 +47,8 @@ Passalibro - Home
                 </h1>
             </div>
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-            {{#each latestBooks}}
-            <div class="col">
-                <div class="card" style="width: 20rem;">
-                    <img src="{{this.cover}}" class="card-img-top">
-                    <div class="card-body">
-                        <h6 class="card-title">{{this.title}}</h6>
-                        <p><em>Autore: {{this.author}}</em></p>
-                        <p class="card-text">{{truncate this.description 50}} </p>
-                        <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-primary">
-                            Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {{else}}
-             <div class="col">Nessun Libro Recente.</div>
-            {{/each}}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="latestBooks">
+            {{> pages/home/placeholder }}
         </div>
     </div>
     <hr/>       

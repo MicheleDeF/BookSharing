@@ -4,6 +4,13 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const fs = require('fs').promises;
 const path = require('path'); 
 
+/** Questo è il controller per gestire i libri,
+ *  funzioni per eseguire le operazioni CRUD
+ */
+
+/** Questa funzione (generateAlias) genera l'url per aprire il dettaglio
+ *  del libro nel browser.
+ */
 function generateAlias(text) {
     if (!text) return '';
 
@@ -178,7 +185,7 @@ const deleteBook = async (req, res) => {
   const t = await sequelize.transaction();
 
  try {
-
+  const regex = /^\d+-\d+-copertina\.jpg\$/;
   const token = req.cookies.token;
   const decoded = jwt.verify(token, JWT_SECRET);
   const id = req.params.id;
@@ -194,19 +201,21 @@ const deleteBook = async (req, res) => {
       const cover = book.cover;
       const urlObj = new URL(cover);
       const nameFile = path.basename(urlObj.pathname);
-      
+
       if (!nameFile || nameFile === '/' || nameFile === '.') {
         return res.status(400).json({ success: false, message: 'Nessun file valido trovato nell\'URL'});
       }
       
       const uploads_folder = path.join(__dirname, '..', 'public', 'images/books');
-      const pathFile = path.join(uploads_folder, nameFile);
+      const pathFile = path.join(uploads_folder, nameFile);    
 
       if (!pathFile.startsWith(uploads_folder)) {
         return res.status(401).json({ success: false, message: 'Tentativo di accesso non autorizzato!'});
       }
 
-      await fs.unlink(pathFile);
+      if (regex.test(nameFile)) {
+        await fs.unlink(pathFile);
+      }      
 
       const deletedBook = await Book.destroy({
         where: { id: id }

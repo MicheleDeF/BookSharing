@@ -3,8 +3,10 @@ $(document).ready(function(){
 var itemsForPage = 10;
 var currentIndex = 10; 
 
+/** Visualizza il numero di libri che l'utente autenticato ha inserito. */
 $('body').find('#totalBooks').text(userBooks.length);
 
+/** Dalla documentazione di bootstrap, per inserire un link sul tab. */
 $('ul#myDashboard > li > button[data-bs-toggle="tab"]')
 .on('shown.bs.tab', function (e) {
     var targetHash = $(e.target).attr('data-bs-target') || $(e.target).attr('href');
@@ -22,6 +24,9 @@ $('ul#myDashboard > li > button[data-bs-toggle="tab"]')
     }
   }
 
+  /** Questa funzione effettua la visualizzazione dei contenuti 
+   *  nella dashboard utente allo scrollare della pagina.
+   */
 function loadMoreItems() {
     
     if (currentIndex >= userBooks.length) {
@@ -67,6 +72,7 @@ function loadMoreItems() {
         }
     });
 
+    /** Eliminazione di uno specifivo libro. */
     $('body').on('click', 'button#deleteBook', function (e) {
         e.preventDefault();
         var idBook = $(this).data('id');
@@ -300,6 +306,7 @@ function loadMoreItems() {
         .append(`<div class="col-md-12">Nessun Dato da Mostrare.</div>`);
     }
 
+    /** Invio messaggio dalla dashboard utente. */
     $('body')
     .on('submit', '#sendMesssage', function (e) {
         e.preventDefault();
@@ -350,6 +357,7 @@ function loadMoreItems() {
            $.ajax(settings);        
     });
 
+    /** Settaggio messaggi da 'non letti' a 'letti'. */
     $('body')
     .on('click', '#messages-tab', function(){    
         var $buttonMessagesTag = $(this);

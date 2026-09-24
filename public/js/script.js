@@ -13,22 +13,21 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 const accept_cookies = document.cookie.indexOf('accept_cookies=');
 
 if(accept_cookies == -1){
-setTimeout(()=>{
-Swal.fire({
-  title: 'Cookies & Privacy',
-  html: `Questo sito web utilizza i cookie per garantirti la migliore esperienza sul nostro sito.<br/><br/><a href="/cookie-policy">Per saperne di più</a>`,
-  icon: "info",
-  confirmButtonText: 'Conferma' 
-}).then((result) => {  
-  if(result.isConfirmed == true){
-    const cname = "accept_cookies"; const cvalue = 1; const exdays = 1; const d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    let expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-  }
- 
-});
-}, 2000); 
+  Swal.fire({
+    title: 'Cookies & Privacy',
+    html: `Questo sito web utilizza i cookie per garantirti la migliore esperienza sul nostro sito.<br/><br/><a href="/cookie-policy">Per saperne di più</a>`,
+    icon: "info",
+    confirmButtonText: 'Conferma' 
+  }).then((result) => {  
+    if(result.isConfirmed == true){
+      const cname = "accept_cookies"; const cvalue = 1; const exdays = 1; const d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      let expires = "expires="+ d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      window.location.reload();
+    }
+  
+  }); 
 }
 
 // Verifica lo stato del permesso di geolocalizzazione

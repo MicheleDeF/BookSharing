@@ -1,3 +1,5 @@
+/** Questo file comprende tutte le rotte API utilizzate nel progetto. */
+
 const express = require('express');
 const router = express.Router();
 const upload = require('./config/multer'); 

@@ -1,3 +1,7 @@
+/** Questa funzione visualizza la password inserita 
+ *  all'atto della registrazione passando il mouse sul
+ *  pulsante a forma di occhio.
+ */
 function viewPassword(item) {
     var $inputPassword = $(item).siblings('input[type=password]');
     $(item)
@@ -9,6 +13,7 @@ function viewPassword(item) {
         ).click(function (e) { e.preventDefault(); });
 }
 
+/** Questa funzione verifica che i campi 'password' e 'password_confirm' siano uguali. */
 function checkPasswordMatch() {
     var password = $('form#registration').find("input#password").val();
     var confirmPassword = $('form#registration').find("input#password_confirm").val();
@@ -20,6 +25,9 @@ function checkPasswordMatch() {
 
 $(document).ready(function(){
 
+  /** Carica i dati di geolocalizzazione utente 
+   *  nel form di registrazione (campi nascosti 'latitude' e 'longitude').
+   */
   setInterval(()=>{
   if( localStorage.getItem('display_name_address') !== null && 
     localStorage.getItem('latitude') !== null && 
@@ -34,11 +42,12 @@ $(document).ready(function(){
 }
 }, 2000); 
 
+/** Verifica compatibilità campi 'password' e 'password_confirm' */
 $('form#registration')
 .find("input#password_confirm")
 .keyup(checkPasswordMatch);
 
-/** Submit Registration Form */
+/** Registrazione utente */
 $('body')
 .on('submit', 'form#registration', function(e){
 e.preventDefault();

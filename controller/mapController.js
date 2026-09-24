@@ -1,6 +1,8 @@
 const { Book, User } = require('../models');
 const { Op, Sequelize } = require('sequelize');
 
+/** Questo controlle gestisce i dati da visualizare sulla mappa */
+
 const getSearchBooks = async (req, res)=>{    
     const currentUserId = res.locals.userLogged ? res.locals.userLogged.id : null;
     const { category, lat, lon } = req.query;

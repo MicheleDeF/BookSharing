@@ -1,7 +1,22 @@
+/* 
+   Questi sono gli stili aggiuntivi.
+   Importazione di font-awersome.css per l'utilizzo delle icone.
+   Formattazione pop-up sulla mappa.
+   ect..
+   Il file di riferimento compilato da questo style.scss è style.css (in formato minimizzato).   
+*/
+
 @import 'font-awersome.css';
 
 body {
-    margin-top: 80px;
+    margin-top: 60px;
+
+    section#section-home{
+        background-image: url('../images/background-home.jpg');
+        background-repeat: no-repeat; 
+        background-position: center;
+        background-size: cover;
+    }
 
     div.container.detail-book {
 

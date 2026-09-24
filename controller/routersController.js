@@ -1,6 +1,10 @@
 const { Book, User, Message, Statistic } = require('../models');
 const { Sequelize, Op } = require('sequelize');
 
+/** Questo controller gestisce la vista delle pagine,
+ *  home page, mappa, dashboard utente, ect..
+ */
+
 const getHome = async (req, res) => {
 
   var userLat = null;

@@ -1,3 +1,5 @@
+/** Questo file comprende tutte le rotte delle pagine dell'applicazione. */
+
 const express = require('express');
 const router = express.Router();
 const routersController = require('./controller/routersController');

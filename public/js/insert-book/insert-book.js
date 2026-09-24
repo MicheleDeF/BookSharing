@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+    /** Ritaglio immagine a 600x800 con Cropper (https://fengyuanchen.github.io/cropperjs/guide.html)
+ *  e jquery-cropper (https://github.com/fengyuanchen/jquery-cropper).
+ */
 let cropper;
 const $coverUpload = $('#cover-upload');
 const $cropperModal = new bootstrap.Modal(document.getElementById('cropperModal'));
@@ -49,7 +52,7 @@ $('#cropButton').on('click', function () {
 });
 
 
-/** Submit insert-book Form */
+/** Inserisci un nuovo libro. */
 $('body')
 .on('submit', 'form#insert-book', function(e){
 e.preventDefault();

@@ -4,6 +4,15 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 
+/** Questo controller gestisce tutte le operazioni che 
+ *  un utente può fare:
+ *  login, 
+ *  logout, 
+ *  registrazione, 
+ *  inviare un messaggio
+ *  ect..  
+ */
+
 const getUserBooks = async (req, res) => {
 
   const { iduser } = req.params;

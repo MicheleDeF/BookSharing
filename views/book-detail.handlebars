@@ -6,7 +6,8 @@ Passalibro - {{detailBook.title}}
 <script src="/leaflet.js"></script>
 {{/section}}
 {{#section 'script'}}
-<script>     
+<script>   
+    /** Visualizza sulla mappa il punto di scambio del libro. */  
     const lat = {{detailBook.lat}};
     const lon = {{detailBook.lon}};
     const radius = {{detailBook.radius}};
@@ -146,6 +147,7 @@ Passalibro - {{detailBook.title}}
                             il form "Contatta il proprietario" non è visibile.                            
                             -->
                         {{else}} 
+                        <!-- Form per contattare il proprietario del libro -->
                         <form id="sendMesssageOnDetailBook">
                             <input type="hidden" name="recipient" value="{{detailBook.user.id}}">
                             <input type="hidden" name="bookId" value="{{detailBook.id}}">
@@ -161,6 +163,7 @@ Passalibro - {{detailBook.title}}
                         {{/if}} 
 
                     {{else}}  
+                    <!-- Form per contattare il proprietario del libro -->
                     <form onsubmit="notLogged(); return false;">
                         <div class="mb-3">
                             <textarea name="textRecipient" class="form-control border border-primary" placeholder="....contatta {{detailBook.user.firstName}} {{detailBook.user.lastName}}" rows="4"></textarea>

@@ -1,5 +1,11 @@
 $(document).ready(function(){
 
+/** Visualizza i dati sulla mappa, 
+ *  ci sono due opzioni:
+ *  1. visualizza dati per latitudine e longitudine
+ *  2. visualizza dati sulla mappa per categoria, latitudine e longitudine.
+ *  La mappa è genarata da leafletjs (https://leafletjs.com/) 
+ */  
 var locations = [];
 
 const urlParams = new URLSearchParams(window.location.search);

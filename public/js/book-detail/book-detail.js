@@ -1,5 +1,7 @@
 $(document).ready(function(){
-
+    /** Invio di un messaggio dalla pagina dettaglio libro
+     *  al proprietario del libro. 
+     */
     $('body')
     .on('submit', 'form#sendMesssageOnDetailBook', function (e) {
         e.preventDefault();

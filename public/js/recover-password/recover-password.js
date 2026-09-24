@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    /** Recupera password dimenticata. */
     $('body')
     .on('submit', 'form#recover_password', function(e){
         e.preventDefault();
