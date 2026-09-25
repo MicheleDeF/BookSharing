@@ -3,6 +3,8 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
+const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+const salt = bcrypt.genSaltSync(10);
 
 /** Questo controller gestisce tutte le operazioni che 
  *  un utente può fare:
@@ -335,8 +337,6 @@ const userUpdateUnreadMessages = async (req, res)=>{
 const userRegistration = async (req, res) =>{
   
   const t = await sequelize.transaction();
-  const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-  const salt = bcrypt.genSaltSync(10);
   const styles = ["blobs", "glyphs", "identicon"];
   const index = Math.floor(Math.random() * styles.length);
 
@@ -430,6 +430,93 @@ const userRegistration = async (req, res) =>{
 
 };
 
+const editProfileUser = async (req, res)=>{
+
+    const t = await sequelize.transaction();
+    
+    try {
+
+      const token = req.cookies.token;
+      const decoded = jwt.verify(token, JWT_SECRET);
+      const userId = decoded.id; 
+      const {first_name, last_name, description, password, password_confirm} = req.body;     
+
+      if(password.length > 0 && password_confirm.length > 0){
+
+        if(password !== password_confirm){
+             return res.status(422)
+                       .json({
+                              success: false, 
+                              message: "Il valore 'password' e il valore 'conferma password' devono essere uguali!" 
+                            });
+          }
+
+          if (!passwordRegex.test(password)) {
+
+                 return res.status(422)
+                           .json({
+                                  success: false, 
+                                  message: "Password non valida. Deve contenere almeno 8 caratteri, una maiuscola, una minuscola e un numero." 
+                                 });
+    
+           }
+
+           const passwordHash = bcrypt.hashSync(password, salt);
+
+           const [updateProfileUser] = await User.update(
+            {
+              lastName: last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+              firstName: first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+              description: description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+              password_hash: passwordHash,              
+            },
+            {
+              where: {
+                id: userId 
+              }
+            }
+          );
+
+          await t.commit();
+
+          return res.status(200).json({ 
+            message: `Operazione completata con successo!`,
+            updateProfileUser: updateProfileUser
+          }); 
+
+      }else{
+
+          const [updateProfileUser] = await User.update(
+            {
+              lastName: last_name,
+              firstName: first_name,
+              description: description,          
+            },
+            {
+              where: {
+                id: userId 
+              }
+            }
+          );
+
+         await t.commit();
+
+         return res.status(200).json({ 
+          message: `Operazione completata con successo!`,
+          updateProfileUser: updateProfileUser
+        }); 
+      }
+      
+    } catch (error) {
+      await t.rollback();
+      console.error(error);
+      return res.status(500).json({
+      success: false,
+      message: "Impossibile completare l'operazione."
+    });
+  }
+
+};
 
 module.exports = {
   getUserBooks,
@@ -439,5 +526,6 @@ module.exports = {
   userSendMessage,
   userSendMesssageOnDetailBook,
   userUpdateUnreadMessages,
-  userRegistration
+  userRegistration,
+  editProfileUser
 };

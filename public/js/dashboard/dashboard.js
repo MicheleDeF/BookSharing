@@ -430,10 +430,44 @@ function loadMoreItems() {
                   }
              }
 
-             console.log(data);
-        }
-
-        
-    });
+             /** rechiesta ajax con jquery >> */
+             var settings = {
+                    "url": "/api/edit-profile-user",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                      "Content-Type": "application/json"
+                    },
+                    "beforeSend": function (xhr) {
+                      $('#divLoading').addClass('show');
+                     },
+                    "success": function(result,status,xhr){
+                    Swal.fire({
+                            title: result.message,
+                            icon: "success",
+                            confirmButtonText: "Chiudi"
+                            }).then((r) => {
+                                if (r.isConfirmed) window.location.reload();                    
+                            });
+                    },
+                    "complete": function(xhr,status){
+                        $('#divLoading').removeClass('show'); 
+                    },
+                    "error": function(xhr,status,error){
+                        $('#divLoading').removeClass('show');
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: xhr.responseJSON.message,
+                            showCancelButton: true,
+                            showConfirmButton: false,
+                            cancelButtonText: "Chiudi",                    
+                            });
+                    },
+                    "data": JSON.stringify(data),
+                };
+                $.ajax(settings);
+              }        
+          });
 
 });

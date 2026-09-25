@@ -21,4 +21,5 @@ router.post('/user-registration', userController.userRegistration);
 router.post('/create-new-book', upload.single('copertina_libro'), bookController.createNewBook);
 router.delete('/book/:id', bookController.deleteBook);
 router.post('/book/edit/:id', upload.single('copertina_libro'), bookController.editBook);
+router.post('/edit-profile-user', userController.editProfileUser);
 module.exports = router;

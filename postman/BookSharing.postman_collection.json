@@ -150,6 +150,34 @@
             "description": "Registrazione Utente"
           },
           "response": []
+        },
+        {
+          "name": "Edit Profile User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"first_name\":\"Serena\",\r\n \"last_name\":\"Autieri\",\r\n \"description\":\"Fugiat fugit a dignissimos cum libero illo nihil.\",\r\n \"password\":\"\",\r\n \"password_confirm\":\"\"\r\n }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{dasepath}}/api/edit-profile-user",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "edit-profile-user"
+              ]
+            },
+            "description": "Modifica informazioni personali di un utente specifico, inoltre modifica la password se richiesto dall'utente."
+          },
+          "response": []
         }
       ]
     },
@@ -413,7 +441,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{ \r\n    \"email\": \"Marciano71@yahoo.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
+          "raw": "{ \r\n    \"email\": \"Cesario.Pedroni@email.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
