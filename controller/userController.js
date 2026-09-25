@@ -121,7 +121,7 @@ const userLogin = async(req, res) =>{
     res.cookie('token', token, {
         httpOnly: true,
         secure: false ? process.env.PROTUCTION === false : true, 
-        maxAge: 3600000 
+        //maxAge: 3600000 
     });
 
      req.session.userLogged = {
