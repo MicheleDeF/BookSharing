@@ -23,7 +23,7 @@ Succcessivamente installare tutti i pacchetti npm contenuti nel file **package.j
 npm install
 ```
 ## Creazione database
-Prima di proseguire con le altre operazioni, creare un database denominato **books_sharing** come impostato nel file _config/config.json_, con _username_ **root** e _password_ **null**, è possibile cambiare questi valori a condizione che si modifichi il file _config/config.json_.
+Prima di proseguire con le altre operazioni, creare un database denominato **books_sharing** come impostato nel file _config/config.json_, con _username_ **root** e _password_ **null**, è possibile cambiare questi valori a condizione che si modifichi il file _config/config.json_ nella sezione _development_
 
 ## Creazione tabelle
 Per creare le tabelle eseguire il seguente comando nella cartella radice del progetto, in questo caso è BookSharing
