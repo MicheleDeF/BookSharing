@@ -11,12 +11,14 @@
 ```
 git clone https://github.com/MicheleDeF/BookSharing.git 
 ```
-questo comando crea una cartella **BookSharing**, eseguire il comando
+questo comando crea una cartella **BookSharing**, eseguire il comando per entrare nella cartella creata
 ```
 cd BookSharing
 ```
+Aprire la cartella BookSharing con un IDE qualsiasi (ad esempio Visual Studio Code), e rinominare il file ```.env_example``` in ```.env``` e definire le variabili di ambiente _JWT_SECRET_, _SESSION_SECRET_ rispettivamente per il jwt web token e le sessioni.
+
 ## Istallazione pacchetti npm richiesti
-succcessivamente installare tutti i pacchetti npm contenuti nel file **package.json**, eseguire il seguente comando nella cartella radice del prodetto, in questo caso è BookSharing
+Succcessivamente installare tutti i pacchetti npm contenuti nel file **package.json**, eseguire il seguente comando nella cartella radice del progetto, in questo caso è BookSharing
 ```
 npm install
 ```
@@ -24,7 +26,7 @@ npm install
 Prima di proseguire con le altre operazioni, creare un database denominato **books_sharing** come impostato nel file _config/config.json_, con _username_ **root** e _password_ **null**, è possibile cambiare questi valori a condizione che si modifichi il file _config/config.json_.
 
 ## Creazione tabelle
-Per creare le tabelle eseguire il comando nella cartella radice del progetto, in questo caso è BookSharing
+Per creare le tabelle eseguire il seguente comando nella cartella radice del progetto, in questo caso è BookSharing
 ```
 npx sequelize-cli db:migrate
 ```
@@ -35,7 +37,7 @@ Per generare i dati di test eseguire il seguente comando nella cartella radice d
 ```
 npx sequelize-cli db:seed:all
 ```
-questo comado popolerà le tabelle create in precedenza con dati di esempio, in particolare due utenti ```user1@mail.it``` e ```user2@mail.it```, la password è unica per entrambi ```a1s2d3F4```.
+questo comando popolerà le tabelle create in precedenza con dati di esempio, in particolare due utenti i cui indirizzi email sono reperibili nella tabella **users** colonna _email_, la password è unica per entrambi ```a1s2d3F4```, usare email e password con uno degli utenti per effettuare il login.
 
 ## Avviare l'applicazione
 E' possibile avviare l'applicazione tramite il comado 
@@ -51,5 +53,5 @@ Per testare l'applicazione vengono inseriti tramite seeders dati di test, in par
 Se si vuole testare l'applicazione con ```latitudine``` e ```longitudine``` con valori reali seguire i seguenti passi:
 
 * prire il file ```public\js\script.js``` 
-* decommentare le le due righe 50,51 per ottenere la posizione esatta
-* commentare 52,53 per non usare i dati di test
+* decommentare le le due righe 50, 51 per ottenere la posizione esatta
+* commentare 52, 53 per non usare i dati di test
