@@ -46,3 +46,10 @@ oppure
 ```
 node index.js
 ```
+## Nota sull'uso dei dati di test
+Per testare l'applicazione vengono inseriti tramite seeders dati di test, in particolare vengono usate coordinate fisse ```latitudine = 40.949282740897054``` e ```longitudine = 14.523030645794485``` per generare due utenti poco distanti uno dall'altro in modo simulare tutte le funzionalità.
+Se si vuole testare l'applicazione con ```latitudine``` e ```longitudine``` con valori reali seguire i seguenti passi:
+
+* prire il file ```public\js\script.js``` 
+* decommentare le le due righe 50,51 per ottenere la posizione esatta
+* commentare 52,53 per non usare i dati di test
