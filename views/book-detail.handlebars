@@ -124,7 +124,6 @@ Passalibro - {{detailBook.title}}
                 </p>
             </div>
 
-
             <div class="card shadow-sm p-4 bg-white rounded">
                 <h5 class="card-title border-bottom pb-3 mb-3">Info proprietario</h5>
                 <div class="d-flex align-items-start align-items-sm-center flex-column flex-sm-row">
@@ -143,19 +142,20 @@ Passalibro - {{detailBook.title}}
                 <h6 class="card-title border-bottom pb-3 mb-3">
                     Altri Llbri in evidenza di {{detailBook.user.firstName}} {{detailBook.user.lastName}}:
                 </h6>                
-                <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="container">
+                <div class="container my-5">
+                    <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {{#each userBooks}}
+                            <div class="carousel-item {{#if this.isFirst}}active{{/if}}">
                                 <div class="row">
-                                    {{#each (limit userBooks 3) }}
+                                    {{#each this.books}}                                    
                                     <div class="col-md-4">
                                         <div class="card h-100">
-                                            <img src="{{this.cover}}" class="card-img-top">
+                                            <img src="{{this.cover}}" class="card-img-top" alt="{{this.title}}">
                                             <div class="card-body">
-                                                <h6 class="card-title">
-                                                    <a href="/book/{{this.id}}/{{this.slug}}">{{truncate this.title 25}}</a>
-                                                </h6>
+                                                <p class="card-title fs-6">
+                                                    <a href="/book/{{this.id}}/{{this.slug}}">{{truncate this.title 20}}</a>                                                    
+                                                </p>
                                                 <p class="card-text">{{this.category}}</p>
                                             </div>
                                         </div>
@@ -163,48 +163,19 @@ Passalibro - {{detailBook.title}}
                                     {{/each}}
                                 </div>
                             </div>
+                            {{/each}}
                         </div>
-                        <div class="carousel-item">
-                            <div class="container">
-                                <div class="row">
-                                    {{#each userBooks}}
-                                    <div class="col-md-4">
-                                        <div class="card h-100">
-                                            <img src="{{this.cover}}" class="card-img-top">
-                                            <div class="card-body">
-                                                <h6 class="card-title">
-                                                    <a href="/book/{{this.id}}/{{this.slug}}">{{truncate this.title 25}}</a>
-                                                </h6>
-                                                <p class="card-text">{{this.category}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{#createRows @index 3}}
-                                    {{#unless @last}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="container">
-                                <div class="row">
-                                    {{/unless}}
-                                    {{/createRows}}
-                                    {{/each}}
-                                </div>
-                            </div>
-                        </div>
-                
+                        <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                            <span class="visually-hidden">Precedente</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#cardCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                            <span class="visually-hidden">Successivo</span>
+                        </button>
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true" style="color:#fff;"></span>
-                    <span class="visually-hidden">Precedente</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#cardCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true" style="color:#fff;"></span>
-                    <span class="visually-hidden">Successivo</span>
-                </button>
-                 {{/if}}
+                {{/if}}
                 <p class="border">
                     {{#if userLogged.logged}} 
 

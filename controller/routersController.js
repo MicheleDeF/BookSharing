@@ -5,6 +5,15 @@ const { Sequelize, Op } = require('sequelize');
  *  home page, mappa, dashboard utente, ect..
  */
 
+/** Suddivide un array in blocchi */
+function chunkArray(array, size) {
+  const result = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+}
+
 const getHome = async (req, res) => {
 
   var userLat = null;
@@ -245,10 +254,25 @@ const getBook = async (req, res) => {
         }]
       });
 
+   /** Altri libri dell'utente proprietario del libro visualizzato */
    const resultUserBooks = userBooks ? userBooks.get({ plain: true }) : null;
+   var bookChunks = [];
+   
+   if(resultUserBooks.books.length > 0){
+    /** Suddivide l'array resultUserBooks.books in blocchi da 3, per poter formare il carousel */
+    bookChunks = chunkArray(resultUserBooks.books, 3).map((chunk, index) => {
+        return {
+          isFirst: index === 0,
+          books: chunk
+        };
+    });
+
+   }else{
+    bookChunks = [];
+   }
 
    return res.render('book-detail', {
-      detailBook: result, userBooks: resultUserBooks.books, lenghtUserBooks: (resultUserBooks.books).length
+      detailBook: result, userBooks: bookChunks, lenghtUserBooks: bookChunks.length
     });
 
   } catch (error) {
