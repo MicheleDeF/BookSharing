@@ -30,47 +30,49 @@ if(accept_cookies == -1){
   }); 
 }
 
+setTimeout(()=>{
 // Verifica lo stato del permesso di geolocalizzazione
-navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
-  if (result.state === 'denied') {
-       $('body').find('div#alertSharePosition').removeClass('visually-hidden');
+  navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+    if (result.state === 'denied') {
+      $('body').find('div#alertSharePosition').removeClass('visually-hidden');
 
     } else {
-     
-     if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition((position) => { 
-        /** Decommentare le due righe 50,51 per ottenere la posizione esatta,
-         *  commentare 52,53 per non usare i dati di test
-         */
-        /** Coordinate per dati di test >> */
-        if(localStorage.getItem('latitude') && localStorage.getItem('longitude')){          
-          var latitude = localStorage.getItem('latitude');
-          var longitude = localStorage.getItem('longitude');
-        }else{
-          // var latitude = position.coords.latitude;
-          // var longitude = position.coords.longitude;
-          var latitude = 40.949282740897054;
-          var longitude = 14.523030645794485;
-        }
-        /** << Coordinate per dati di test  */
 
-        localStorage.setItem('latitude', latitude);
-        localStorage.setItem('longitude', longitude);
-        document.cookie = `latitude=${latitude}`;
-        document.cookie = `longitude=${longitude}`;
-        var url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
-         if (localStorage.getItem('display_name_address') === null) {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          /** Decommentare le due righe 50,51 per ottenere la posizione esatta,
+           *  commentare 52,53 per non usare i dati di test
+           */
+          /** Coordinate per dati di test >> */
+          if (localStorage.getItem('latitude') && localStorage.getItem('longitude')) {
+            var latitude = localStorage.getItem('latitude');
+            var longitude = localStorage.getItem('longitude');
+          } else {
+            // var latitude = position.coords.latitude;
+            // var longitude = position.coords.longitude;
+            var latitude = 40.949282740897054;
+            var longitude = 14.523030645794485;
+          }
+          /** << Coordinate per dati di test  */
+
+          localStorage.setItem('latitude', latitude);
+          localStorage.setItem('longitude', longitude);
+          document.cookie = `latitude=${latitude}`;
+          document.cookie = `longitude=${longitude}`;
+          var url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+          if (localStorage.getItem('display_name_address') === null) {
             $.get(url, function (data) {
               /** Decommentare la seguente riga per ottenere l'indirizzo esatto */
               localStorage.setItem('display_name_address', data.display_name);
               /** Indirizzo per dati di test */
             });
-         }
+          }
+        }
+        );
+      }
     }
-    );
- }
-}
-});
+  });
+}, 4000);
 
 $('body')
 .on('click', 'returnTop', function(e){
