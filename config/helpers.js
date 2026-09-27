@@ -31,5 +31,11 @@ module.exports = {
     uniqueRow: (text)=>{
        if (!text) return '';
        return text.replace(/[\r\n]+/g, ' ').trim();
+    },
+    createRows: (index, n, options)=>{
+      if ((index + 1) % n === 0) {
+          return options.fn(this);
+        }
+      return options.inverse(this);
     }
 }

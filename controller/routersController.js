@@ -236,12 +236,23 @@ const getBook = async (req, res) => {
       });
 
     const result = query ? query.get({ plain: true }) : null;
+    const userId =result.user.id;
 
-    return res.render('book-detail', {
-      detailBook: result
+    const userBooks = await User.findByPk(userId, {
+        include: [{
+          model: Book,
+          as: 'books'
+        }]
+      });
+
+   const resultUserBooks = userBooks ? userBooks.get({ plain: true }) : null;
+
+   return res.render('book-detail', {
+      detailBook: result, userBooks: resultUserBooks.books, lenghtUserBooks: (resultUserBooks.books).length
     });
 
   } catch (error) {
+    console.log(error);
     res.render('404');
   }
 
