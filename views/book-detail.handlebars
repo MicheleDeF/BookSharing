@@ -5,6 +5,42 @@ Passalibro - {{detailBook.title}}
 <link rel="stylesheet" href="/leaflet.css" />
 <script src="/leaflet.js"></script>
 {{/section}}
+{{#section 'schema'}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "{{detailBook.title}},
+  "url": "{{currentUrl}}",
+  "datePublished": "{{detailBook.publish_year}}",
+  "author": {
+    "@type": "Person",
+    "name": "{{detailBook.author}}"
+  },
+  "genre": "{{detailBook.category}}",
+  "image": "{{detailBook.cover}}",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org",
+    "offeredBy": {
+      "@type": "Person",
+      "givenName": "{{detailBook.user.firstName}}",
+      "familyName": "{{detailBook.user.lastName}}",
+      "image": "{{detailBook.user.avatar}}",
+      "homeLocation": {
+        "@type": "Place",
+        "name": "{{detailBook.address}}",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "{{detailBook.lat}}",
+          "longitude": "{{detailBook.lon}}"
+        }
+      }
+    }
+  }
+}
+</script>
+{{/section}}
 {{#section 'script'}}
 <script>   
     /** Visualizza sulla mappa il punto di scambio del libro. */  

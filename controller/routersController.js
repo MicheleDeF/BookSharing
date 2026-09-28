@@ -270,9 +270,10 @@ const getBook = async (req, res) => {
    }else{
     bookChunks = [];
    }
+   const currentUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
    return res.render('book-detail', {
-      detailBook: result, userBooks: bookChunks, lenghtUserBooks: bookChunks.length
+      detailBook: result, userBooks: bookChunks, lenghtUserBooks: bookChunks.length, currentUrl: currentUrl
     });
 
   } catch (error) {
