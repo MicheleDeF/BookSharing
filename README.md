@@ -53,5 +53,5 @@ Per testare l'applicazione vengono inseriti tramite seeders dati di test, in par
 Se si vuole testare l'applicazione con ```latitudine``` e ```longitudine``` con valori reali seguire i seguenti passi:
 
 * prire il file ```public\js\script.js``` 
-* decommentare le le due righe 50, 51 per ottenere la posizione esatta
-* commentare 52, 53 per non usare i dati di test
+* decommentare le le due righe 51, 52 per ottenere la posizione esatta
+* commentare 53, 54 per non usare i dati di test

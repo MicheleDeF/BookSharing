@@ -40,8 +40,8 @@ setTimeout(()=>{
 
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
-          /** Decommentare le due righe 50,51 per ottenere la posizione esatta,
-           *  commentare 52,53 per non usare i dati di test
+          /** Decommentare le due righe 51, 52 per ottenere la posizione esatta,
+           *  commentare 53, 54 per non usare i dati di test
            */
           /** Coordinate per dati di test >> */
           if (localStorage.getItem('latitude') && localStorage.getItem('longitude')) {
