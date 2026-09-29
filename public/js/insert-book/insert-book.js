@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    /** Ritaglio immagine a 600x800 con Cropper (https://fengyuanchen.github.io/cropperjs/guide.html)
+/** Ritaglio immagine a 600x800 con Cropper (https://fengyuanchen.github.io/cropperjs/guide.html)
  *  e jquery-cropper (https://github.com/fengyuanchen/jquery-cropper).
  */
 let cropper;
@@ -9,41 +9,51 @@ const $cropperModal = new bootstrap.Modal(document.getElementById('cropperModal'
 const imageToCrop = document.getElementById('imageToCrop');
 let croppedBlob = null; 
 
-$coverUpload.on('change', function (e) {  
-    const files = e.target.files;
-    if (files && files.length > 0) {
-        const file = files[0];
-        const reader = new FileReader();        
-        reader.onload = function (event) {
-            imageToCrop.src = event.target.result;            
-            $cropperModal.show();
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-$('#cropperModal').on('shown.bs.modal', function () {
-    cropper = new Cropper(imageToCrop, {
-        aspectRatio: 600 / 800, 
-        viewMode: 1,       
-        autoCropArea: 0.9     
-    });
-}).on('hidden.bs.modal', function () {
-    if (cropper) {
-        cropper.destroy();
-        cropper = null;
-    }
-});
-
-$('#cropButton').on('click', function () {
-    if (!cropper) return;
-    const canvas = cropper.getCroppedCanvas({
-        width: 600, 
-        height: 800,
-        imageSmoothingEnabled: true,
-        imageSmoothingQuality: 'high'
+    /** L'utente carica un'immagine, la ritaglia in una modale bootstrap che si apre in automatico
+     *  e viene mostrata l'anteprima
+    */
+    $coverUpload.on('change', function (e) {  
+        /** carica immagine tramite input type file */
+        const files = e.target.files;
+        if (files && files.length > 0) {
+            const file = files[0];
+            const reader = new FileReader();        
+            reader.onload = function (event) {
+                imageToCrop.src = event.target.result;   
+                /** 
+                 * apertura modale per ritagliare l'immagine caricata
+                */
+                $cropperModal.show();
+            };
+            reader.readAsDataURL(file);
+        }
     });
 
+    /** il plug-in Cropper è impostato per ritagliare l'immagine ad una dimensione fissa 600x800 */
+    $('#cropperModal').on('shown.bs.modal', function () {
+        cropper = new Cropper(imageToCrop, {
+            aspectRatio: 600 / 800, 
+            viewMode: 1,       
+            autoCropArea: 0.9     
+        });
+    }).on('hidden.bs.modal', function () {
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
+    });
+
+    /** ritaglio  immagine tramite click su apposito pulsante */
+    $('#cropButton').on('click', function () {
+        if (!cropper) return;
+        const canvas = cropper.getCroppedCanvas({
+            width: 600, 
+            height: 800,
+            imageSmoothingEnabled: true,
+            imageSmoothingQuality: 'high'
+        });
+
+    /** mostra anteprima immagine ritagliata */
     canvas.toBlob(function (blob) {
         croppedBlob = blob;
         $('#cover-preview').attr('src', canvas.toDataURL('image/jpeg'));     
@@ -123,9 +133,7 @@ var elements = form.elements;
 
         $.ajax(settings);
     }
-
-
-});
-
+    
+  });
 
 });
