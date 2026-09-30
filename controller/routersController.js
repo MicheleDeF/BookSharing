@@ -206,6 +206,7 @@ const getDashboard = async (req, res) => {
       });
       
       const isRead = recipientMessages.filter(element => !element.isRead).length;
+
       res.render('dashboard', { 
                                userBooks: result.books, 
                                recipientMessages: uniqueUsers, 

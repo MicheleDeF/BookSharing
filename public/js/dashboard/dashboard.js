@@ -68,24 +68,23 @@ function loadMoreItems() {
                              <h6 class="card-title">${item.title}</h5>
                               <p><em>Autore: ${item.author}</em></p>
                                <p class="card-text">${truncate(item.description)}</p>
-                               <ul class="list-inline">
-                                <li class="list-inline-item">
-                                 <a href="/book/${item.id}/${item.slug}" class="btn btn-primary">Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i></a>
-                                  </li>
-                                   <li class="list-inline-item">
-                                    <button type="button" class="btn btn-secondary">
-                                     <i class="fa-solid fa-pen"></i>
-                                      </button>
-                                       </li>
-                                        <li class="list-inline-item">
-                                         <button type="button" id="deleteBook" class="btn btn-danger">
-                                          <i class="fa-solid fa-trash"></i>
-                                          </button>
-                                          </li>
-                                           </ul>                                
-                                            </div>
-                                             </div>
-                                              </div>`;
+                                <div class="btn-group w-100">
+                                 <a href="/book/${item.id}/${item.slug}" class="btn btn-info" data-bs-toggle="tooltip" data-bs-title="Visualizza Dettaglio">
+                                  <i class="fa-solid fa-square-up-right"></i>
+                                   </a>
+                                    <a href="/book/edit/${item.id}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Modifica">
+                                     <i class="fa-solid fa-pen-clip"></i>
+                                      </a>
+                                       <a href="#" class="btn btn-danger" id="deleteBook" data-title="${item.title}" data-id="${item.id}" data-bs-toggle="tooltip" data-bs-title="Cancella">
+                                        <i class="fa-solid fa-trash"></i>
+                                         </a>
+                                          <a href="#" id="availability" data-availability="${item.availability}" data-id="${item.id}" class="btn ${item.availability == 1 ? `btn-secondary` : `btn-warning`}" data-bs-toggle="tooltip" data-bs-title="${item.availability == 1 ? `Segnala non come disponibile` : `Segnala come disponibile`}">                                           
+                                           ${item.availability == 1 ? `<i class="fa-regular fa-circle-check"></i>` : `<i class="fa-regular fa-circle-xmark"></i>`}
+                                            </a>
+                                             </div>                              
+                                              </div>
+                                               </div>
+                                                </div>`;
         $('#content-container').append(itemHtml);
         });
         currentIndex += itemsForPage;
@@ -97,8 +96,30 @@ function loadMoreItems() {
         }
     });
 
+    /** Settaggio libro come disponibile o non disponibile */
+    $('body').on('click', 'a#availability', function (e) {
+        e.preventDefault();
+        let availability = $(this).data('availability');
+        let id = $(this).data('id');  
+        var newAvailability = availability == 1 ? 0 : 1;      
+
+        var settings = {
+            "url": `/api/update-availability-book/${id}`,
+            "method": "POST",
+            "timeout": 0,
+            "data": JSON.stringify({
+                "availability": newAvailability
+            }),
+            };
+
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            });
+        
+    });
+
     /** Eliminazione di uno specifivo libro. */
-    $('body').on('click', 'button#deleteBook', function (e) {
+    $('body').on('click', 'a#deleteBook', function (e) {
         e.preventDefault();
         var idBook = $(this).data('id');
         var title = $(this).data('title');

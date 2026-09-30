@@ -223,7 +223,7 @@ const deleteBook = async (req, res) => {
       }, { transaction: t });
 
   
-     await t.commit();
+    await t.commit();
 
     res.status(201).json({
       success: true,
@@ -297,13 +297,14 @@ const editBook = async (req, res) => {
       { where: { id: id }}, 
       { transaction: t });    
    
+      await t.commit();
       res.status(201).json({
         success: true,
         message: 'Libro modifcato con successo!',
         updateBook: updateBook
       }); 
   
-   await t.commit();
+   
 
     
   } catch (error) {
@@ -315,11 +316,58 @@ const editBook = async (req, res) => {
 
 };
 
+const updateAvailabilityBook = async (req, res) => {
+   const t = await sequelize.transaction();
+   try {
+
+     const token = req.cookies.token;
+     const decoded = jwt.verify(token, JWT_SECRET);
+     const id = req.params.id;
+     const { availability } = req.body;
+     console.log(availability);     
+     
+     const book = await Book.findOne({ where: { id } });
+
+     if (!book) {
+          return res.status(404).json({
+              success: false,
+              message: 'Libro non trovato!'
+          });
+      }
+
+      const [updateAvailability] = await Book.update({
+         availability: availability
+      },
+      { where: { id: id }},
+      { transaction: t });
+
+      await t.commit();
+
+      res.status(201).json({
+        success: true,
+        message: 'Disponibilià libro modifcata con successo!',
+        //updateAvailability: updateAvailability
+        
+      });
+
+    
+   } catch (error) {
+    await t.rollback();
+    console.error(error);
+    return res.status(500).json({ success: false, message: 'Errore interno durante la procedura di eliminazione!'});
+    
+   }
+
+};
+
+
+
 module.exports = {
   getAllBooks,
   getBook,
   createNewBook,
   deleteBook,
   editBook,
-  editBook
+  editBook,
+  updateAvailabilityBook
 };

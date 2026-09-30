@@ -53,28 +53,26 @@ Passalibro - Area Personale
                                     <h6 class="card-title">{{this.title}}</h5>
                                         <p><em>Autore: {{this.author}}</em></p>
                                         <p class="card-text">{{truncate this.description 50}}</p>
-
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item">
-                                                <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-primary">
-                                                    Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="/book/edit/{{this.id}}" class="btn btn-secondary">
-                                                    <i class="fa-solid fa-pen"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <button type="button" id="deleteBook" data-title="{{this.title}}" data-id="{{this.id}}" class="btn btn-danger">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                            </li>
-                                        </ul>
-
-                                </div>
-                            </div>
-                        </div>
+                                        <div class="btn-group w-100">
+                                            <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-info" data-bs-toggle="tooltip"
+                                                data-bs-title="Visualizza Dettaglio">
+                                                <i class="fa-solid fa-square-up-right"></i>
+                                            </a>
+                                            <a href="/book/edit/{{this.id}}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Modifica">
+                                                <i class="fa-solid fa-pen-clip"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-danger" id="deleteBook" data-title="{{this.title}}" data-id="{{this.id}}"
+                                                data-bs-toggle="tooltip" data-bs-title="Cancella">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                            <a href="#" id="availability" data-availability="{{this.availability}}" data-id="{{this.id}}" class="btn {{#if (eq this.availability 1)}} btn-secondary {{else}} btn-warning {{/if}}" data-bs-toggle="tooltip" data-bs-title="{{#if (eq this.availability 1)}} Segnala non come disponibile {{else}} Segnala come disponibile {{/if}}">
+                                                {{#if (eq this.availability 1)}} <i class="fa-regular fa-circle-check"></i> {{else}} <i class="fa-regular fa-circle-xmark"></i> {{/if}}
+                                                
+                                            </a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
                         {{else}}
                         <div class="col-md-12">
                             Non hai inserito nessun libro! <a href="/insert-book">Inserisci un nuovo libro.</a>

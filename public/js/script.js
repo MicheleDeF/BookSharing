@@ -8,8 +8,10 @@ function truncate(text, limit = 50) {
 $(document)
 .ready(function(){
 /** Tooltip Bootstrap */
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+$('body').tooltip({
+    selector: '[data-bs-toggle="tooltip"]'
+});
+
 const accept_cookies = document.cookie.indexOf('accept_cookies=');
 
 if(accept_cookies == -1){

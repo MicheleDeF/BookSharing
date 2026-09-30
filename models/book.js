@@ -35,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     lon: DataTypes.STRING,
     userId: DataTypes.NUMBER,   
     slug: DataTypes.STRING,
+    availability: DataTypes.NUMBER
   }, {
     sequelize,
     modelName: 'Book',

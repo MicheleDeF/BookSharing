@@ -22,4 +22,5 @@ router.post('/create-new-book', upload.single('copertina_libro'), bookController
 router.delete('/book/:id', bookController.deleteBook);
 router.post('/book/edit/:id', upload.single('copertina_libro'), bookController.editBook);
 router.post('/edit-profile-user', userController.editProfileUser);
+router.post('/update-availability-book/:id', bookController.updateAvailabilityBook);
 module.exports = router;

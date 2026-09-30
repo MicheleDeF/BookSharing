@@ -93,6 +93,7 @@ module.exports = {
               lat: userLat + 0.00045,
               userId: 2,
               slug: generateAlias(bookTitle),
+              availability: 1,
               createdAt: new Date(),
               updatedAt: new Date()   
             }], {});
