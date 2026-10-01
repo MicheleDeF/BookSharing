@@ -370,7 +370,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"availability\": 0\r\n}",
+              "raw": "{\r\n    \"availability\": 1\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -378,14 +378,14 @@
               }
             },
             "url": {
-              "raw": "{{dasepath}}/api/update-availability-book/20",
+              "raw": "{{dasepath}}/api/update-availability-book/1",
               "host": [
                 "{{dasepath}}"
               ],
               "path": [
                 "api",
                 "update-availability-book",
-                "20"
+                "1"
               ]
             },
             "description": "Questa richiesta effettua l'update della disponibilità del libro."

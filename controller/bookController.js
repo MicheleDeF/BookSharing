@@ -346,7 +346,7 @@ const updateAvailabilityBook = async (req, res) => {
       res.status(201).json({
         success: true,
         message: 'Disponibilià libro modifcata con successo!',
-        //updateAvailability: updateAvailability
+        updateAvailability: updateAvailability
         
       });
 

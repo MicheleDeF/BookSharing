@@ -78,7 +78,7 @@ function loadMoreItems() {
                                        <a href="#" class="btn btn-danger" id="deleteBook" data-title="${item.title}" data-id="${item.id}" data-bs-toggle="tooltip" data-bs-title="Cancella">
                                         <i class="fa-solid fa-trash"></i>
                                          </a>
-                                          <a href="#" id="availability" data-availability="${item.availability}" data-id="${item.id}" class="btn ${item.availability == 1 ? `btn-secondary` : `btn-warning`}" data-bs-toggle="tooltip" data-bs-title="${item.availability == 1 ? `Segnala non come disponibile` : `Segnala come disponibile`}">                                           
+                                          <a href="#" id="availability" data-availability="${item.availability}" data-id="${item.id}" data-title="${item.title}" class="btn ${item.availability == 1 ? `btn-secondary` : `btn-warning`}" data-bs-toggle="tooltip" data-bs-title="${item.availability == 1 ? `Segnala non come disponibile` : `Segnala come disponibile`}">                                           
                                            ${item.availability == 1 ? `<i class="fa-regular fa-circle-check"></i>` : `<i class="fa-regular fa-circle-xmark"></i>`}
                                             </a>
                                              </div>                              
@@ -99,22 +99,66 @@ function loadMoreItems() {
     /** Settaggio libro come disponibile o non disponibile */
     $('body').on('click', 'a#availability', function (e) {
         e.preventDefault();
-        let availability = $(this).data('availability');
-        let id = $(this).data('id');  
-        var newAvailability = availability == 1 ? 0 : 1;      
+        var availability = $(this).data('availability');
+        var id = $(this).data('id');  
+        var title = $(this).data('title');
+        var newAvailability = availability == 1 ? 0 : 1;    
 
-        var settings = {
+        Swal.fire({
+            title: `Vuoi contrassegnare <br/><strong>${title}</strong><br/> ${availability == 1 ? `come non disponibile` : `come disponibile`} ?`,
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            cancelButtonText: "Annulla",
+            confirmButtonText: "Si, Procedi"
+        }).then((result) => {
+
+          if (result.isConfirmed) {
+
+            var settings = {
             "url": `/api/update-availability-book/${id}`,
             "method": "POST",
             "timeout": 0,
+            "processData": false,
+            "contentType": false,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "beforeSend": function (xhr) {
+                $('#divLoading').addClass('show');
+            },
+            "success": function(result,status,xhr){
+                Swal.fire({
+                    title: `${result.message}`,
+                    icon: "success",
+                    confirmButtonText: "Chiudi"
+                }).then((r) => {
+                    if (r.isConfirmed) window.location.reload();                    
+                });
+            },
+            "complete": function(xhr,status){
+                $('#divLoading').removeClass('show'); 
+            },
+            "error": function(xhr,status,error){
+                $('#divLoading').removeClass('show');
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: xhr.responseJSON.message,
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    cancelButtonText: "Chiudi",
+                });
+            },
             "data": JSON.stringify({
                 "availability": newAvailability
             }),
             };
 
-            $.ajax(settings).done(function (response) {
-            console.log(response);
-            });
+            $.ajax(settings);
+         }
+        }); 
         
     });
 

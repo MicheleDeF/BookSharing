@@ -65,7 +65,7 @@ Passalibro - Area Personale
                                                 data-bs-toggle="tooltip" data-bs-title="Cancella">
                                                 <i class="fa-solid fa-trash"></i>
                                             </a>
-                                            <a href="#" id="availability" data-availability="{{this.availability}}" data-id="{{this.id}}" class="btn {{#if (eq this.availability 1)}} btn-secondary {{else}} btn-warning {{/if}}" data-bs-toggle="tooltip" data-bs-title="{{#if (eq this.availability 1)}} Segnala non come disponibile {{else}} Segnala come disponibile {{/if}}">
+                                            <a href="#" id="availability" data-availability="{{this.availability}}" data-id="{{this.id}}" data-title="{{this.title}}" class="btn {{#if (eq this.availability 1)}} btn-secondary {{else}} btn-warning {{/if}}" data-bs-toggle="tooltip" data-bs-title="{{#if (eq this.availability 1)}} Segnala non come disponibile {{else}} Segnala come disponibile {{/if}}">
                                                 {{#if (eq this.availability 1)}} <i class="fa-regular fa-circle-check"></i> {{else}} <i class="fa-regular fa-circle-xmark"></i> {{/if}}
                                                 
                                             </a>
