@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
 const salt = bcrypt.genSaltSync(10);
+const moderationService = require('../services/moderationService');
 
 /** Questo controller gestisce tutte le operazioni che 
  *  un utente può fare:
@@ -226,9 +227,10 @@ try {
   const decoded = jwt.verify(token, JWT_SECRET);
   const senderId = decoded.id;
   const { recipient, text } = req.body;
+  const cleanText = moderationService.cleanText(text);
 
   const message = await Message.create({
-                                        content: text,
+                                        content: cleanText,
                                         senderId: senderId,
                                         recipientId: recipient
                                         }, { transaction: t }); 
@@ -258,10 +260,11 @@ const userSendMesssageOnDetailBook = async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     const senderId = decoded.id;    
     const { recipient, text, bookId } = req.body;
+    const cleanText = moderationService.cleanText(text);
     const userId = recipient;
 
     const message = await Message.create({
-      content: text,
+      content: cleanText,
       senderId: senderId,
       recipientId: recipient
     }, { transaction: t });  
@@ -361,6 +364,7 @@ const userRegistration = async (req, res) =>{
             } = req.body;
 
     const user = await User.findOne({ where: { email } });
+    const cleanDescription = moderationService.cleanText(description);
     
     if (user) {
       return res.status(409).json({
@@ -399,7 +403,7 @@ const userRegistration = async (req, res) =>{
   const newUser = await User.create({
     firstName: first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
     lastName: last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
-    description: description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+    description: cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
     email: email,
     avatar: avatar,
     password_hash: passwordHash,
@@ -439,7 +443,8 @@ const editProfileUser = async (req, res)=>{
       const token = req.cookies.token;
       const decoded = jwt.verify(token, JWT_SECRET);
       const userId = decoded.id; 
-      const {first_name, last_name, description, password, password_confirm} = req.body;     
+      const {first_name, last_name, description, password, password_confirm} = req.body;  
+      const cleanDescription = moderationService.cleanText(description);   
 
       if(password.length > 0 && password_confirm.length > 0){
 
@@ -467,7 +472,7 @@ const editProfileUser = async (req, res)=>{
             {
               lastName: last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
               firstName: first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
-              description: description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+              description: cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
               password_hash: passwordHash,              
             },
             {
@@ -490,7 +495,7 @@ const editProfileUser = async (req, res)=>{
             {
               lastName: last_name,
               firstName: first_name,
-              description: description,          
+              description: cleanDescription,          
             },
             {
               where: {

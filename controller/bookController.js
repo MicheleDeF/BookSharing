@@ -4,6 +4,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const fs = require('fs').promises;
 const path = require('path'); 
 const regex = /^\d+-\d+-copertina\.jpg$/;
+const moderationService = require('../services/moderationService');
 
 /** Questo è il controller per gestire i libri,
  *  funzioni per eseguire le operazioni CRUD
@@ -138,6 +139,7 @@ const createNewBook = async (req, res) => {
         
          const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;         
          const {title, author, publish_year, category, description} = req.body;
+         const cleanDescription = moderationService.cleanText(description);
 
          const newBook = await Book.create({
             title: title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
@@ -145,7 +147,7 @@ const createNewBook = async (req, res) => {
             publish_year: publish_year, 
             category: category, 
             address: address, 
-            description: description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+            description: cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
             cover: imageUrl,
             lat: latitude, 
             lon: longitude,
@@ -283,6 +285,7 @@ const editBook = async (req, res) => {
 
     const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;  
     const {title, author, publish_year, category, description} = req.body;
+    const cleanDescription = moderationService.cleanText(description);
 
     const [updateBook] = await Book.update(
       {
@@ -290,7 +293,7 @@ const editBook = async (req, res) => {
        author: author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
        publish_year: publish_year,
        category: category,
-       description: description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+       description: cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
        cover: imageUrl,
        slug: generateAlias(title),
       },
@@ -302,9 +305,7 @@ const editBook = async (req, res) => {
         success: true,
         message: 'Libro modifcato con successo!',
         updateBook: updateBook
-      }); 
-  
-   
+      });   
 
     
   } catch (error) {
@@ -312,7 +313,6 @@ const editBook = async (req, res) => {
     console.error(error);
     return res.status(500).json({ success: false, message: 'Errore interno durante la procedura di modifica!'});
   }
-
 
 };
 
@@ -324,7 +324,6 @@ const updateAvailabilityBook = async (req, res) => {
      const decoded = jwt.verify(token, JWT_SECRET);
      const id = req.params.id;
      const { availability } = req.body;
-     console.log(availability);     
      
      const book = await Book.findOne({ where: { id } });
 
