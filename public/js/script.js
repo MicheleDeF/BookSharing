@@ -42,16 +42,15 @@ setTimeout(()=>{
 
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
-          /** Decommentare le due righe 51, 52 per ottenere la posizione esatta,
-           *  commentare 53, 54 per non usare i dati di test
-           */
           /** Coordinate per dati di test >> */
           if (localStorage.getItem('latitude') && localStorage.getItem('longitude')) {
             var latitude = localStorage.getItem('latitude');
             var longitude = localStorage.getItem('longitude');
           } else {
+            /** coordinate esatte >> */
             // var latitude = position.coords.latitude;
             // var longitude = position.coords.longitude;
+            /** << coordinate esatte */
             var latitude = 40.949282740897054;
             var longitude = 14.523030645794485;
           }
@@ -64,9 +63,7 @@ setTimeout(()=>{
           var url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
           if (localStorage.getItem('display_name_address') === null) {
             $.get(url, function (data) {
-              /** Decommentare la seguente riga per ottenere l'indirizzo esatto */
-              localStorage.setItem('display_name_address', data.display_name);
-              /** Indirizzo per dati di test */
+              localStorage.setItem('display_name_address', data.display_name);  
             });
           }
         }

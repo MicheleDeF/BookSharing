@@ -55,4 +55,11 @@ Se si vuole testare l'applicazione con ```latitudine``` e ```longitudine``` con 
 
 * prire il file ```public\js\script.js``` 
 * decommentare le le due righe 51, 52 per ottenere la posizione esatta
-* commentare 53, 54 per non usare i dati di test
+* commentare 54, 55 per non usare i dati di test
+
+## Nota sull'uso del compilatore Sass per compilare style.css
+Per aggiungere stili aggiuntivi al file ```public/css/style.css``` eseguire il seguente comando nella cartella radice del progetto, in questo caso è BookSharing 
+```
+sass --watch public/scss/style.scss public/css/style.css  --style compressed
+```
+aggiungere gli stili aggiuntivi a ```public/scss/style.scss```, verranno aggiunti automaticamente a ```public/css/style.css```
