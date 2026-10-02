@@ -45,6 +45,7 @@ $('#cropButton').on('click', function () {
     });
 
     canvas.toBlob(function (blob) {
+        console.log(blob);
         croppedBlob = blob;
         $('#cover-preview').attr('src', canvas.toDataURL('image/jpeg'));     
         $cropperModal.hide();
@@ -56,8 +57,9 @@ const fileInput = document.querySelector('input[type="file"]');
 async function setInputFile(){
 
     try {
-        const response = await fetch(urlCover);
+        const response = await fetch(urlCover, { cache: "no-cache" });
         const blob = await response.blob();
+        croppedBlob = blob;
         const fileName = urlCover.substring(urlCover.lastIndexOf('/') + 1);
         const file = new File([blob], fileName, { type: blob.type });
         const dataTransfer = new DataTransfer();
@@ -101,12 +103,13 @@ $('body').on('submit', 'form#edit-book', function (e) {
                     data.append(element.name, element.value);
 
                 }else if(element.name == 'cover'){
-
+                 console.log(croppedBlob);
                  if (croppedBlob) {
                       data.set('copertina_libro', croppedBlob, 'copertina.jpg');
                     }
                 }
          }
+
 
         var settings = {
             "url": `/api/book/edit/${id}`,
