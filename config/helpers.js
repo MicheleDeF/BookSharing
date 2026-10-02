@@ -32,4 +32,7 @@ module.exports = {
        if (!text) return '';
        return text.replace(/[\r\n]+/g, ' ').trim();
     },
+    greaterThan: (a,b) =>{
+      if (a > b) return true;      
+    }
 }
