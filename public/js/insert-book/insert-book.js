@@ -105,7 +105,7 @@ var elements = form.elements;
                 $('#divLoading').addClass('show');
             },
             "success": function(result,status,xhr){
-               console.log(result);
+   
                Swal.fire({
                     title: result.message,                    
                     icon: "success",

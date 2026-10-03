@@ -32,11 +32,14 @@ var elements = form.elements;
                    $('#divLoading').addClass('show');
                  },
                  "success": function(dati){
+                    /** Salva le informazioni di geolocalizzazione nei localStorage. */
                     localStorage.setItem('latitude', dati.lat);  
                     localStorage.setItem('longitude', dati.lon);   
-                    localStorage.setItem('display_name_address', dati.address);     
+                    localStorage.setItem('display_name_address', dati.address);   
+                    /** Salva latitudine e longitudine nei cookies. */ 
                     document.cookie = `latitude=${dati.lat}`;
                     document.cookie = `longitude=${dati.lon}`;
+                    /** Effettua il redirect alla 'dashboard' */
                     location.href = "/dashboard";                   
                  },
                  "error": function(jqXHR, textStatus, errorThrown){
@@ -56,12 +59,8 @@ var elements = form.elements;
                  };
 
                 $.ajax(settings);
-   
-
         }
 
-
-});
-
+     });
 
 });

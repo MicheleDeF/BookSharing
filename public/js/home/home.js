@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+    /** Questo è l'evento 'submit' associato al modulo web nella home page per visualizzare dati sulla mappa. */
     $('body')
         .on('submit', 'form#bookSearch', function (e) {
             e.preventDefault();
@@ -10,6 +11,7 @@ $(document).ready(function(){
             window.location.href = `/view-map?category=${category}&lat=${lat}&lon=${lon}`;
         });
 
+    /** Mostra i libri nelle vicinanze inseriti di recente  */
      let latitude = document.cookie.split('; ').find(row => row.startsWith('latitude='))?.split('=')[1];
      let longitude = document.cookie.split('; ').find(row => row.startsWith('longitude='))?.split('=')[1];
      

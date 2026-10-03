@@ -469,6 +469,7 @@ function loadMoreItems() {
         }
     });
 
+    /** Modifica profilo utente. */
     $('body')
     .on('submit', 'form#editProfile', function (e) {
         e.preventDefault();

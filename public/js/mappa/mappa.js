@@ -43,7 +43,7 @@ var apiUrl = null;
 
         for (let index = 0; index < response.books.length; index++) {
             const element = response.books[index];
-            
+            /** crea l'oggetto per visualizzare i dati sulla mappa. */
             let loc = [
                         "LOCATION_" + index, 
                         element.lat, 

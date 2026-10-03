@@ -1,16 +1,12 @@
-/* 
-   Questi sono gli stili aggiuntivi.
-   Importazione di font-awersome.css per l'utilizzo delle icone.
-   Formattazione pop-up sulla mappa.
-   ect..
-   Il file di riferimento compilato da questo style.scss è style.css (in formato minimizzato).   
-*/
-
+/* Questi sono gli stili aggiuntivi. */
+/* Importazione FontAwersome per utilizzare le icone free. */
 @import 'font-awersome.css';
 
 body {
+    /* Assegnazione di un margine superiore di 80px al 'body'. */
     margin-top: 80px;
 
+    /* Immagine di  background nella pagina home.*/
     section#section-home{
         background-image: url('../images/background-home.jpg');
         background-repeat: no-repeat; 
@@ -27,6 +23,7 @@ body {
                 div.card.shadow-sm.p-4.bg-white.rounded {
                     div.d-flex.align-items-start.align-items-sm-center.flex-column.flex-sm-row {
                         img.rounded-circle.mb-3.mb-sm-0.me-sm-4.shadow-sm {
+                            /* stile applicato all'immagine dell'utente nella pagina dettaglio libro. */
                             width: 64px;
                             height: 64px;
                             object-fit: cover;
@@ -47,6 +44,7 @@ body {
 
                     li.list-inline-item {
                         img.img-thumbnail {
+                            /* stile applicato all'immagine dell'utente nella barra di navigazione. */
                             width: 50px;
                             border-radius: 50%
                         }
@@ -55,7 +53,7 @@ body {
             }
         }
     }
-
+    /* divLoading è un div per mostrare l'immagine di loading quando si inviano richieste ajax. */
     div#divLoading {
         display: none;
 
@@ -76,6 +74,7 @@ body {
         top: 0;
     }
 
+    /* Questa è la formattazione del pop-up che compare sulla mappa, dove sono indicate informazioni sul libro. */
     div#map {
 
         div.leaflet-popup-content-wrapper {
@@ -204,6 +203,7 @@ body {
 
     }
 
+    /* Stile aggiuntivo per la modale bootstrap per ritagliare l'immagine. */
     div#cropperModal {
 
         div.modal-dialog.modal-lg {
@@ -224,6 +224,7 @@ body {
         }
     }
 
+    /* Stile per personalizzare l'anteprima dell'immagine caricata dall'utente. */
     main.container-xl.py-5.flex-grow-1 {
 
         div.row.justify-content-center {

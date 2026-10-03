@@ -45,22 +45,24 @@ $('#cropButton').on('click', function () {
     });
 
     canvas.toBlob(function (blob) {
-        console.log(blob);
         croppedBlob = blob;
         $('#cover-preview').attr('src', canvas.toDataURL('image/jpeg'));     
         $cropperModal.hide();
     }, 'image/jpeg', 0.85);
 });
 
+/** Assegna il valore al campo input tipo file. */
 var urlCover = $('form#edit-book').find('input#cover-upload').data('uri');
+const controlExt = urlCover.toLowerCase().endsWith('.jpg');
 const fileInput = document.querySelector('input[type="file"]');
+
 async function setInputFile(){
 
     try {
         const response = await fetch(urlCover, { cache: "no-cache" });
         const blob = await response.blob();
         croppedBlob = blob;
-        const fileName = urlCover.substring(urlCover.lastIndexOf('/') + 1);
+        const fileName = (controlExt) ? urlCover.substring(urlCover.lastIndexOf('/') + 1) : urlCover.substring(urlCover.lastIndexOf('/') + 1) + '.jpg';
         const file = new File([blob], fileName, { type: blob.type });
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(file);
@@ -82,8 +84,6 @@ $('body').on('submit', 'form#edit-book', function (e) {
     const url = new URL(window.location.href);
     const path = url.pathname; 
     const id = path.split('/').pop(); 
-  
-
 
       if (form.checkValidity() === false) {
         form.classList.add('was-validated');
@@ -103,7 +103,6 @@ $('body').on('submit', 'form#edit-book', function (e) {
                     data.append(element.name, element.value);
 
                 }else if(element.name == 'cover'){
-                 console.log(croppedBlob);
                  if (croppedBlob) {
                       data.set('copertina_libro', croppedBlob, 'copertina.jpg');
                     }
@@ -120,7 +119,7 @@ $('body').on('submit', 'form#edit-book', function (e) {
                 $('#divLoading').addClass('show');
             },
             "success": function(result,status,xhr){
-               console.log(result);
+               
                Swal.fire({
                     title: result.message,                    
                     icon: "success",

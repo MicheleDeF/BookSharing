@@ -62,4 +62,4 @@ Per aggiungere stili aggiuntivi al file ```public/css/style.css``` eseguire il s
 ```
 sass --watch public/scss/style.scss public/css/style.css  --style compressed
 ```
-aggiungere gli stili aggiuntivi a ```public/scss/style.scss```, verranno aggiunti automaticamente a ```public/css/style.css```
+aggiungere gli stili aggiuntivi a ```public/scss/style.scss```, verranno aggiunti automaticamente a ```public/css/style.css```, il file ```public/scss/style.scss``` contiene i commenti per gli stili utilizzati, il file ```public/css/style.css``` è in formato compresso.

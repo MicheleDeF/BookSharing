@@ -121,7 +121,5 @@ var elements = form.elements;
             $.ajax(settings);
           
         }
-});
-
-
+     });
 });

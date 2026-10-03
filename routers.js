@@ -1,9 +1,11 @@
-/** Questo file comprende tutte le rotte delle pagine dell'applicazione. */
+/** Questo file comprende tutte le rotte delle pagine (le viste html) dell'applicazione. */
 
 const express = require('express');
 const router = express.Router();
 const routersController = require('./controller/routersController');
+/** Il Middleware 'verifyToken' è utilizzato sulle pagine private. */
 const verifyToken = require('./middlewares/verifyToken');
+/** Il Middleware 'trackBookViews' è utilizzato sulla pagina dettaglio libro per tenere traccia delle visualizzazioni. */
 const trackBookViews = require('./middlewares/trackBookViews');
 
 router.get('/', routersController.getHome);

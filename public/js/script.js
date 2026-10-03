@@ -13,7 +13,7 @@ $('body').tooltip({
 });
 
 const accept_cookies = document.cookie.indexOf('accept_cookies=');
-
+/** creazione cookie accept_cookies, quando l'utente clicca sul pop-up accetta i cookies. */
 if(accept_cookies == -1){
   Swal.fire({
     title: 'Cookies & Privacy',
@@ -73,6 +73,7 @@ setTimeout(()=>{
   });
 }, 4000);
 
+/** Evento sul pulsante 'torna su' */
 $('body')
 .on('click', 'returnTop', function(e){
    e.preventDefault();
@@ -83,6 +84,7 @@ $('body')
     });
 });
 
+/** Evento sul pulsante 'Cerca sulla Mappa', per visualizare i dati in base alla posizione attuale dell'utente. */
 $('body')
 .on('click', '#view-map', function(event){
   event.preventDefault();
@@ -102,7 +104,7 @@ $('body')
   }
 });
 
-
+/** Evento sul pulsante 'Esci' per effettuare il logout. */
 $('body')
 .on('click', '#logout', function (e) 
 {
@@ -127,8 +129,8 @@ $('body')
             "timeout": 0,
             };
 
-  $.ajax(settings);
+        $.ajax(settings);
 
-});
+  });
 
 });

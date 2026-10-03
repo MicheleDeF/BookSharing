@@ -3,7 +3,11 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const fs = require('fs').promises;
 const path = require('path'); 
+/** questa espressione regolare viene utilizzato per effettuare un controllo sul formato del nome dell'immagine. */
 const regex = /^\d+-\d+-copertina\.jpg$/;
+/** Il service 'moderationService' viene utilizzato per moderare il testo inserito dagli utenti. 
+ *  Descrizioni libro e utente, messaggi. 
+ */
 const moderationService = require('../services/moderationService');
 
 /** Questo è il controller per gestire i libri,
@@ -26,7 +30,7 @@ function generateAlias(text) {
         .replace(/\s+/g, '-')           
         .replace(/-+/g, '-');           
 };
-
+/** Api per ottenere la lista completa dei libri, i risultati sono impaginati usando il valore 'limit' nella richiesta. */
 const getAllBooks = async (req, res) => { 
 
   try {
@@ -34,12 +38,13 @@ const getAllBooks = async (req, res) => {
     const { page, limit } = req.params;
     
     /** example request /books/1/10 
-     * parseInt() function parses a string argument and returns an integer
+     * parseInt() La funzione analizza un argomento di tipo stringa e restituisce un numero intero.
      */    
     const numberpage = parseInt(page, 10) || 1;    
     const limitbooks = parseInt(limit, 10) || 10;
     const offset = (numberpage - 1) * limitbooks;
     
+    /** Sintassi Sequelize per ottenre la lista. */
     const { count, rows: books } = await Book.findAndCountAll({
       limit: limitbooks,
       offset: offset,  
@@ -72,6 +77,7 @@ const getAllBooks = async (req, res) => {
   }
 };
 
+/** Questa API consente di ottenere un singolo libro in base ai parametri passati nella richiesta 'id', 'slug'. */
 const getBook = async (req, res) => {
 
   const {id, slug} = req.params;
@@ -119,14 +125,20 @@ const getBook = async (req, res) => {
 
 };
 
+/** Questa API consente di creare un nuovo libro in base ai dati inviati al server dall'utente,
+ *  carica l'immagine nella posizione specificata nella configurazione 'config\multer.js'.
+ */
 const createNewBook = async (req, res) => {
 
     const t = await sequelize.transaction();
 
       try {
-                 
+         /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */        
          const token = req.cookies.token;
          const decoded = jwt.verify(token, JWT_SECRET);
+         /** Ottengo l' "userId" dal token per poi utilizzarlo per recuperare le coordinate geografiche dell'utente,
+          *  questo perchè il libro verrà salvato nella stessa posizione geografica del propritario del libro.
+          */
          const userId = decoded.id, id = decoded.id;
          const user = await User.findOne({ where: { id } });
          const latitude = user.lat; 
@@ -139,8 +151,9 @@ const createNewBook = async (req, res) => {
         
          const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;         
          const {title, author, publish_year, category, description} = req.body;
+         /** Effettuo una pulizia della 'description' se vi sono caratteri non ammessi. */
          const cleanDescription = moderationService.cleanText(description);
-
+        /** Creazione libro con la sintassi Sequelize. */
          const newBook = await Book.create({
             title: title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
             author: author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
@@ -158,8 +171,8 @@ const createNewBook = async (req, res) => {
          const bookId = newBook.id;
          const views = 0;
          const contacts = 0;
-
-        const newStatistic = await Statistic.create({
+         /** Dopo la creazione del libro creo una nuova riga nella tabella 'statistics' relativa al libro creato. */
+         const newStatistic = await Statistic.create({
             views: views,
             contacts: contacts,
             bookId: bookId,
@@ -182,16 +195,17 @@ const createNewBook = async (req, res) => {
          return res.status(500).json({ success: false, message: 'Errore interno durante il salvataggio!'});
       }
 };
-
+/** Questa API cancella uno specifico libro. */
 const deleteBook = async (req, res) => {
 
   const t = await sequelize.transaction();
 
  try {
-  
+  /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */ 
   const token = req.cookies.token;
   const decoded = jwt.verify(token, JWT_SECRET);
   const id = req.params.id;
+  /** Effettuo un check per verificare se i libro da cancellare esiste. */
   const book = await Book.findOne({ where: { id } });
       
     if (!book) {
@@ -215,11 +229,13 @@ const deleteBook = async (req, res) => {
       if (!pathFile.startsWith(uploads_folder)) {
         return res.status(401).json({ success: false, message: 'Tentativo di accesso non autorizzato!'});
       }
-
+      
+      /** Cancellazione dell'immagine del libro cancellato. */
       if (regex.test(nameFile)) {
         await fs.unlink(pathFile);
       }      
 
+      /** Cancellazione del libro. */
       const deletedBook = await Book.destroy({
         where: { id: id }
       }, { transaction: t });
@@ -241,16 +257,17 @@ const deleteBook = async (req, res) => {
  }
 
 };
-
+/** Questa API è utilizzata per modificare un libro. */
 const editBook = async (req, res) => {
 
   const t = await sequelize.transaction();
 
   try {
-
+  /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */ 
   const token = req.cookies.token;
   const decoded = jwt.verify(token, JWT_SECRET);
   const id = req.params.id;
+   /** Effettuo un check per verificare se i libro da modificare esiste. */
   const book = await Book.findOne({ where: { id } });
 
     if (!req.file) {        
@@ -278,7 +295,7 @@ const editBook = async (req, res) => {
       if (!pathFile.startsWith(uploads_folder)) {
         return res.status(401).json({ success: false, message: 'Tentativo di accesso non autorizzato!'});
       }
-      console.log(regex.test(nameFile));
+
       if (regex.test(nameFile)) {
         await fs.unlink(pathFile);
       }  
@@ -286,7 +303,7 @@ const editBook = async (req, res) => {
     const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;  
     const {title, author, publish_year, category, description} = req.body;
     const cleanDescription = moderationService.cleanText(description);
-
+    /** Effettuo l'update del libro con i nuovi dati. */
     const [updateBook] = await Book.update(
       {
 	     title: title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
@@ -315,11 +332,11 @@ const editBook = async (req, res) => {
   }
 
 };
-
+/** Questa API viene utilizzata per impostare un libro 'disponibile' o 'non disponibile' */
 const updateAvailabilityBook = async (req, res) => {
    const t = await sequelize.transaction();
    try {
-
+     /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */ 
      const token = req.cookies.token;
      const decoded = jwt.verify(token, JWT_SECRET);
      const id = req.params.id;
@@ -358,8 +375,6 @@ const updateAvailabilityBook = async (req, res) => {
    }
 
 };
-
-
 
 module.exports = {
   getAllBooks,

@@ -1,11 +1,25 @@
+/** Questo file contiene gli helpers personalizzati
+ *  da usate nei template handlebars,
+ *  https://handlebarsjs.com/guide/builtin-helpers.html
+ *  
+ *  "section", utilizzzata per creare sezioni personalizzate nei template handlebars, come css, script, ect.;
+ *  "getCurrentYear", utilizzata per ottenre l'anno corrente da utilizzare nel footer @2026;
+ *  "truncate", utilizzata per tagliare il testo quando è troppo lungo, viene utilizzata soprattutto nelle card;
+ *  "json", utilizzata per trasformare un oggetto json in stringa tramite 'JSON.stringify';
+ *  "limit", utilizzata per effettuare un loop con limite su un array;
+ *  "customizeData", utilizzata per ottenre una data in formato italiano;
+ *  "eq", utilizzata per stabilire se due valori sono uguali;
+ *  "uniqueRow", utilizzata per mettere un testo su una sola riga eliminando i ritorni a capo;
+ *  "greaterThan", utilizzata per stabilire se un valore è maggiore di un altro.
+ */
 module.exports = {
     section: function(name, options) { 
       if (!this._sections) this._sections = {};
         this._sections[name] = options.fn(this); 
         return null;
       },
-      getCurrentYear: () => new Date().getFullYear(),
-      truncate: function (str, len) {
+    getCurrentYear: () => new Date().getFullYear(),
+    truncate: function (str, len) {
       if (str && str.length > len) {
         return str.substring(0, len) + '...';
       }
@@ -16,7 +30,7 @@ module.exports = {
         if (!Array.isArray(arr)) { return []; }
          return arr.slice(0, limit);
     },
-     customizeData: function (d) {
+    customizeData: function (d) {
       if (!d) return '';
       const data = new Date(d);
       return data.toLocaleDateString('it-IT', {

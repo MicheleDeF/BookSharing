@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+/** 'upload' è utilizzato sulle rotte che richiedono il caricamento dell'immagine sul server. */
 const upload = require('./config/multer'); 
 const userController = require('./controller/userController');
 const bookController = require('./controller/bookController');

@@ -5,7 +5,7 @@ const { Sequelize, Op } = require('sequelize');
  *  home page, mappa, dashboard utente, ect..
  */
 
-/** Suddivide un array in blocchi */
+/** Suddivide un array in blocchi. */
 function chunkArray(array, size) {
   const result = [];
   for (let i = 0; i < array.length; i += size) {
@@ -13,7 +13,7 @@ function chunkArray(array, size) {
   }
   return result;
 }
-
+/** Questa funzione effettua il 'render' dalla pagiana Home, generando i dati da passare al template. */
 const getHome = async (req, res) => {
 
   var userLat = null;
@@ -63,23 +63,23 @@ const getHome = async (req, res) => {
   }  
 };
 
-
+/** 'render' della pagina inserisci libro. */
 const getInsertBook = (req, res) => {
   res.render('insert-book');
 };
-
+/** 'render' della pagina mappa. */
 const getViewMap = (req, res) => {
   res.render('mappa');
 };
-
+/** 'render' della pagina login. */
 const getLogin = (req, res) => {
   res.render('login');
 }
-
+/** 'render' della pagina registrazione. */
 const getSignUp = (req, res) => {
   res.render('registration');
 };
-
+/** 'render' della pagina dashboard. */
 const getDashboard = async (req, res) => {
 
   try {
@@ -222,7 +222,7 @@ const getDashboard = async (req, res) => {
   }
 
 };
-
+/** 'render' della pagina dettaglio libro. */
 const getBook = async (req, res) => {
 
   const id = req.params.id;
@@ -287,23 +287,23 @@ const getBook = async (req, res) => {
 const getPageNotFound = (req, res) => {
   res.render('404');
 };
-
+/** 'render' della pagina cookie policy. */
 const getCookiePolicy = (req, res) => {
   res.render('cookie-policy');
 };
-
+/** 'render' della pagina termini e condizioni. */
 const getTermsAndConditions = (req, res) => {
   res.render('terms-and-conditions');
 };
-
+/** 'render' della pagina privacy policy. */
 const getPrivacyPolicy = (req, res) => {
   res.render('privacy-policy');
 };
-
+/** 'render' della pagina recupera password. */
 const getRecoverPassword = (req, res) => {
   res.render('recover-password');
 };
-
+/** 'render' della pagina modifica libro. */
 const getEditBook = async (req, res) => {
 
   const { id } = req.params;

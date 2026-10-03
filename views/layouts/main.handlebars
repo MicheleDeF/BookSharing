@@ -1,27 +1,39 @@
+<!-- Layout principale utilizzato su tutte le pagine del sito web. -->
 <!doctype html>
 <html lang="it" class="h-100">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <!-- Sezione titolo pagina. -->
      <title>{{{_sections.title}}}</title>
      <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+     <!-- Sezione per i file css e js leaflet. -->
      {{{_sections.leaflet}}}
+     <!-- Sezione file css utilizzati su tutte le pagine. -->
      <link href="/css/bootstrap.min.css" rel="stylesheet"> 
      <link href="/sweetalert2/sweetalert2.min.css" rel="stylesheet"> 
+     <!-- Sezione css aggiuntivi. -->
      {{{_sections.css}}}
+     <!-- Foglio di stile contenente stili aggiuntivi. -->
      <link rel="stylesheet" href="/css/style.css">
   </head>
   <body class="d-flex flex-column h-100">
    {{{_sections.schema}}}
    <div id="divLoading" class=""></div>
+       <!-- Alert BootStrap visibile nel caso in cui l'utente non condivide la sua posizione. -->
        {{> alert-share-position }}
+       <!-- Menù di navigazione. -->
        {{> nav }}
+       <!-- Segnaposto body. -->
        {{{ body }}}
+       <!-- Footer -->
        {{> footer}}
+    <!-- Script usati su tutte le pagine. -->
     <script src="/jquery.min.js"></script>   
     <script src="/js/bootstrap.bundle.min.js"></script>    
     <script src="/sweetalert2/sweetalert2.min.js"></script>  
     <script src="/js/script.js"></script> 
+    <!-- Sezione script aggiuntivi. -->
     {{{_sections.script}}}
    </body>
 </html>

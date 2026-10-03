@@ -4,7 +4,9 @@ const { Op, Sequelize } = require('sequelize');
 /** Questo controlle gestisce i dati da visualizare sulla mappa */
 
 const getSearchBooks = async (req, res)=>{    
+    /** Se l'utente è loggato i sui contenuti non sono visibili sulla mappa. */
     const currentUserId = res.locals.userLogged ? res.locals.userLogged.id : null;
+    /** Dati passati come query nell'url. */
     const { category, lat, lon } = req.query;
     const radius = 500; // 500 metri  
     

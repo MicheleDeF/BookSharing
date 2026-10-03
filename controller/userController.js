@@ -15,7 +15,7 @@ const moderationService = require('../services/moderationService');
  *  inviare un messaggio
  *  ect..  
  */
-
+/** Questa API restituisce il libri di un determinato utente, passando come parametro 'iduser' */
 const getUserBooks = async (req, res) => {
 
   const { iduser } = req.params;
@@ -29,7 +29,7 @@ const getUserBooks = async (req, res) => {
         message: "Errore: 'iduser' deve essere un numero intero valido!" 
       });
     }  
-
+    /** Sintassi Sequelize per ottenere la lista dei libri in base ad uno specifico utente. */
     const user = await User.findByPk(parsedUserId, {
       include: [
         {
@@ -90,18 +90,18 @@ const getUserBooks = async (req, res) => {
     });
   }
 };
-
+/** Questa API viene utilizzata per effettuare il login dell'utente. */
 const userLogin = async(req, res) =>{
 
  try {
     const { email, password } = req.body;
-
+    /** Effattua un check per verificare se l'indirizzo email presente nel 'body' è presente nel database. */
     const user = await User.findOne({ where: { email } });
     
     if (!user) {
       return res.status(401).json({success: false, message: 'Credenziali non valide.' });
     }
-
+    /** Effettua un check per verificare la password. */
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!isMatch) {
@@ -114,18 +114,18 @@ const userLogin = async(req, res) =>{
         lastName: user.lastName,
         email: user.email
     };
-
+    /** Creazione jwt web token */
     const token = jwt.sign(payload, JWT_SECRET, { 
         expiresIn: '2 days' 
     });
-
+    /** Il jwt viene salvato in un cookie 'token' */
     res.cookie('token', token, {
         httpOnly: true,
         secure: false ? process.env.PROTUCTION === false : true, 
         //maxAge: 3600000 
     });
-
-     req.session.userLogged = {
+    /** Crea una sessione 'userLogged' che memorizza informazioni sull'utente loggato. */
+    req.session.userLogged = {
         logged: true,
         id: user.id,
         firstName: user.firstName,
@@ -151,7 +151,7 @@ const userLogin = async(req, res) =>{
   }
 
 };
-
+/** Questa API effettua il logout dell'utente. */
 const userLogout = async (req, res) => {
 
   if (!req.session) {
@@ -162,15 +162,18 @@ const userLogout = async (req, res) => {
     if (err) {
       return res.status(500).json({ success: false, message: "Impossibile effettuare il logout" });
     }
+    /** Cancella i cookie 'token', 'connect.sid', 'latitude', 'longitude' */
     res
     .clearCookie('token')
-    .clearCookie('connect.sid'); 
+    .clearCookie('connect.sid')
+    .clearCookie('latitude')
+    .clearCookie('longitude'); 
 
     return res.status(200).json({ success: true, message: "Logout effettuato con successo" });
   });
 
 };
-
+/** Questa API restituisce i messaggi inviati e ricevuti di uno specifico utente, tramite parametro 'iduser' */
 const getUserMessages = async (req, res) =>{
 
     const { iduser } = req.params;
@@ -216,19 +219,19 @@ const getUserMessages = async (req, res) =>{
     }
 
 };
-
+/** Questa API invia un messaggio da parte di uno specifico utente. */
 const userSendMessage = async (req, res)=>{
 
 const t = await sequelize.transaction();
 
 try {
-
+  /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */ 
   const token = req.cookies.token;
   const decoded = jwt.verify(token, JWT_SECRET);
   const senderId = decoded.id;
   const { recipient, text } = req.body;
   const cleanText = moderationService.cleanText(text);
-
+  /** Memorizza il messaggio nella tabella messages. */
   const message = await Message.create({
                                         content: cleanText,
                                         senderId: senderId,
@@ -252,14 +255,18 @@ try {
     });
 }
 };
-
+/** Questa API è utilizzata per inviare un messaggio direttamente dalla pagina dettaglio libro qualora l'utente è autenticato. */
 const userSendMesssageOnDetailBook = async (req, res) => {
+  
   const t = await sequelize.transaction();
+  
   try {
+    /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */ 
     const token = req.cookies.token;
     const decoded = jwt.verify(token, JWT_SECRET);
     const senderId = decoded.id;    
     const { recipient, text, bookId } = req.body;
+    /** Effattua una pulizia del testo, per eventuali frasi non consentite. */
     const cleanText = moderationService.cleanText(text);
     const userId = recipient;
 
@@ -297,17 +304,17 @@ const userSendMesssageOnDetailBook = async (req, res) => {
     });
   }
 };
-
+/** Questa API imposta i messaggi 'non letti' come 'letti' */
 const userUpdateUnreadMessages = async (req, res)=>{
 
   const t = await sequelize.transaction();
 
   try {
-
+    /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */ 
     const token = req.cookies.token;
     const decoded = jwt.verify(token, JWT_SECRET);
     const userId = decoded.id; 
-
+    /** Effattua update. */
     const [updatedUnReadMessages] = await Message.update(
       { isRead: 1 },
       { 
@@ -336,13 +343,14 @@ const userUpdateUnreadMessages = async (req, res)=>{
 
 
 };
-
+/** Queasta API è utilizzata per la registrazione utente. */
 const userRegistration = async (req, res) =>{
   
   const t = await sequelize.transaction();
+  /** Stili utilizzati per utilizzare l'API Dicebear */
   const styles = ["blobs", "glyphs", "identicon"];
+  /** Genera un indice random, da utilizzare per recuperare in modo random uno stile dall'array 'styles'. */
   const index = Math.floor(Math.random() * styles.length);
-
   
   try {
       /** Utilizzo di api.dicebear (https://www.dicebear.com/how-to-use/http-api/) 
@@ -364,8 +372,8 @@ const userRegistration = async (req, res) =>{
             } = req.body;
 
     const user = await User.findOne({ where: { email } });
-    const cleanDescription = moderationService.cleanText(description);
-    
+
+    /** Verifica se esiste già un utente con la stessa email. */
     if (user) {
       return res.status(409).json({
                                    success: false, 
@@ -373,7 +381,7 @@ const userRegistration = async (req, res) =>{
                                   });
      }
 
-
+    /** Verifica di tutti gli altri dati inviati. */
     if(agree_terms !=='on'){
         return res.status(422).json({
                                     success: false, 
@@ -397,9 +405,13 @@ const userRegistration = async (req, res) =>{
     
   }
     
+  /** Effattua una pulizia di 'description' per parole non consentite. */
+  const cleanDescription = moderationService.cleanText(description);
   
+  /** Genera la 'password hash'.  */
   const passwordHash = bcrypt.hashSync(password, salt);
   
+  /** Memorizza i dati nella tabella 'users'. */
   const newUser = await User.create({
     firstName: first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
     lastName: last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
@@ -434,18 +446,20 @@ const userRegistration = async (req, res) =>{
 
 };
 
+/** Questa API viene utilizzata per modificare i dati dell'utente. */
 const editProfileUser = async (req, res)=>{
 
     const t = await sequelize.transaction();
     
     try {
-
+      /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */ 
       const token = req.cookies.token;
       const decoded = jwt.verify(token, JWT_SECRET);
       const userId = decoded.id; 
       const {first_name, last_name, description, password, password_confirm} = req.body;  
       const cleanDescription = moderationService.cleanText(description);   
 
+      /** Effettua un check per verificare se l'utente ha modificato anche la password. */
       if(password.length > 0 && password_confirm.length > 0){
 
         if(password !== password_confirm){
@@ -490,7 +504,7 @@ const editProfileUser = async (req, res)=>{
           }); 
 
       }else{
-
+          /** L'utente non ha modificato la password ma solo i suoi dati. */
           const [updateProfileUser] = await User.update(
             {
               lastName: last_name,
