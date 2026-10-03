@@ -101,7 +101,7 @@ Passalibro - Area Personale
                             <div class="col-md-4 col-lg-3 sidebar bg-white p-0">
                                 <div class="list-group list-group-flush" role="tablist">
                                     {{#each recipientMessages }}
-                                    <a href="#Chat-{{this.firstName}}-{{this.lastName}}" class="list-group-item list-group-item-action p-3 border border-primary {{#if (eq @index 0)}} active {{else}} {{/if}}" data-bs-toggle="list" role="tab">
+                                    <a href="#{{slugChat this.firstName this.lastName}}" class="list-group-item list-group-item-action p-3 border border-primary {{#if (eq @index 0)}} active {{else}} {{/if}}" data-bs-toggle="list" role="tab">
                                         <h6 class="mb-1 fw-bold">
                                             {{this.firstName}} {{this.lastName}}
                                         </h6>
@@ -116,7 +116,7 @@ Passalibro - Area Personale
                                 <div class="tab-content h-100" id="nav-tabContent">
                                     {{#each recipientMessages }}
 
-                                    <div class="tab-pane {{#if (eq @index 0)}} fade show active {{else}} {{/if}} h-100" id="Chat-{{this.firstName}}-{{this.lastName}}" role="tabpanel">
+                                    <div class="tab-pane {{#if (eq @index 0)}} fade show active {{else}} {{/if}} h-100" id="{{slugChat this.firstName this.lastName}}" role="tabpanel">
                                         <div class="d-flex flex-column h-100">
                                             <div class="p-3 bg-white border-bottom">
                                                 <h6 class="m-0 fw-bold">{{this.firstName}} {{this.lastName}}</h6>

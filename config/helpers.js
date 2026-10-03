@@ -10,7 +10,8 @@
  *  "customizeData", utilizzata per ottenre una data in formato italiano;
  *  "eq", utilizzata per stabilire se due valori sono uguali;
  *  "uniqueRow", utilizzata per mettere un testo su una sola riga eliminando i ritorni a capo;
- *  "greaterThan", utilizzata per stabilire se un valore è maggiore di un altro.
+ *  "greaterThan", utilizzata per stabilire se un valore è maggiore di un altro;
+ *  "slugChat", utilizzata nella sezione messaggi nell'area personale, per utilizzare i tab bootstrap.
  */
 module.exports = {
     section: function(name, options) { 
@@ -48,5 +49,16 @@ module.exports = {
     },
     greaterThan: (a,b) =>{
       if (a > b) return true;      
-    }
+    },
+    slugChat: (name)=>{
+        if (!name || typeof name !== 'string') return '';    
+        return 'chat-' + name
+            .toLowerCase()
+            .normalize('NFD')                
+            .replace(/[\u0300-\u036f]/g, '') 
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, '')   
+            .replace(/\s+/g, '-')           
+            .replace(/-+/g, '-');           
+        }
 }
