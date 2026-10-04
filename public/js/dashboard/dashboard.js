@@ -78,7 +78,7 @@ function loadMoreItems() {
                                        <a href="#" class="btn btn-danger" id="deleteBook" data-title="${item.title}" data-id="${item.id}" data-bs-toggle="tooltip" data-bs-title="Cancella">
                                         <i class="fa-solid fa-trash"></i>
                                          </a>
-                                          <a href="#" id="availability" data-availability="${item.availability}" data-id="${item.id}" data-title="${item.title}" class="btn ${item.availability == 1 ? `btn-success` : `btn-warning`}" data-bs-toggle="tooltip" data-bs-title="${item.availability == 1 ? `Segnala non come disponibile` : `Segnala come disponibile`}">                                           
+                                          <a href="#" id="availability" data-availability="${item.availability}" data-id="${item.id}" data-title="${item.title}" class="btn ${item.availability == 1 ? `btn-success` : `btn-warning`}" data-bs-toggle="tooltip" data-bs-title="${item.availability == 1 ? `Segnala come non disponibile` : `Segnala come disponibile`}">                                           
                                            ${item.availability == 1 ? `<i class="fa-regular fa-circle-check"></i>` : `<i class="fa-regular fa-circle-xmark"></i>`}
                                             </a>
                                              </div>                              
