@@ -149,7 +149,7 @@ const createNewBook = async (req, res) => {
              return res.status(400).json({ success: false,  message: 'Nessuna Immagine di Copertina!' });
            }
         
-         const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;         
+         const imageUrl = `${process.env.BASE_PATH}/images/books/${req.file.filename}`;         
          const {title, author, publish_year, category, description} = req.body;
          /** Effettuo una pulizia della 'description' se vi sono caratteri non ammessi. */
          const cleanDescription = moderationService.cleanText(description);
@@ -300,7 +300,7 @@ const editBook = async (req, res) => {
         await fs.unlink(pathFile);
       }  
 
-    const imageUrl = `${req.protocol}://${req.get('host')}/images/books/${req.file.filename}`;  
+    const imageUrl = `${process.env.BASE_PATH}/images/books/${req.file.filename}`;  
     const {title, author, publish_year, category, description} = req.body;
     const cleanDescription = moderationService.cleanText(description);
     /** Effettuo l'update del libro con i nuovi dati. */
