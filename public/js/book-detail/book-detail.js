@@ -55,5 +55,23 @@ $(document).ready(function(){
 
     });
 
-
+    /** Integrazione swiperjs per creare il carousel 
+     *  https://swiperjs.com/get-started
+     */
+    const swiper = new Swiper('.other_books', {
+                slidesPerView: 1,       
+                spaceBetween: 20,      
+                loop: true,             
+                grabCursor: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    768: {
+                        slidesPerView: 3,   
+                        spaceBetween: 30, 
+                    }
+                }
+            });
 });

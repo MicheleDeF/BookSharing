@@ -1,0 +1,35 @@
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="content-container">
+    {{#each (limit userBooks 10) }}
+    <div class="col">
+        <div class="card" style="width: 20rem;">
+            <img src="{{this.cover}}" class="card-img-top">
+            <div class="card-body">
+                <h6 class="card-title">{{this.title}}</h5>
+                    <p><em>Autore: {{this.author}}</em></p>
+                    <p class="card-text">{{truncate this.description 50}}</p>
+                    <div class="btn-group w-100">
+                        <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-info" data-bs-toggle="tooltip"
+                            data-bs-title="Visualizza Dettaglio">
+                            <i class="fa-solid fa-square-up-right"></i>
+                        </a>
+                        <a href="/book/edit/{{this.id}}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Modifica">
+                            <i class="fa-solid fa-pen-clip"></i>
+                        </a>
+                        <a href="#" class="btn btn-danger" id="deleteBook" data-title="{{this.title}}" data-id="{{this.id}}"
+                            data-bs-toggle="tooltip" data-bs-title="Cancella">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                        <a href="#" id="availability" data-availability="{{this.availability}}" data-id="{{this.id}}" data-title="{{this.title}}" class="btn {{#if (eq this.availability 1)}} btn-success {{else}} btn-warning {{/if}}" data-bs-toggle="tooltip" data-bs-title="{{#if (eq this.availability 1)}} Segnala come non disponibile {{else}} Segnala come disponibile {{/if}}">
+                            {{#if (eq this.availability 1)}} <i class="fa-regular fa-circle-check"></i> {{else}} <i class="fa-regular fa-circle-xmark"></i> {{/if}}
+                            
+                        </a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+    {{else}}
+    <div class="col-md-12">
+        Non hai inserito nessun libro! <a href="/insert-book">Inserisci un nuovo libro.</a>
+    </div>
+    {{/each}}
+</div>

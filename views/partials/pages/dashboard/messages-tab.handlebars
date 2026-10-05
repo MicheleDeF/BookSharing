@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <div class="row h-100">
+        <div class="col-md-4 col-lg-3 sidebar bg-white p-0">
+            <div class="list-group list-group-flush" role="tablist">
+                {{#each recipientMessages }}
+                <a href="#{{slugChat this.firstName this.lastName}}" class="list-group-item list-group-item-action p-3 border border-primary {{#if (eq @index 0)}} active {{else}} {{/if}}" data-bs-toggle="list" role="tab">
+                    <h6 class="mb-1 fw-bold">
+                        {{this.firstName}} {{this.lastName}}
+                    </h6>
+                </a>
+                {{else}}
+                <div class="col">Nessun Messaggio Ricevuto.</div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="col-md-8 col-lg-9 p-0 bg-light">
+            <div class="tab-content h-100" id="nav-tabContent">
+                {{#each recipientMessages }}
+                <div class="tab-pane {{#if (eq @index 0)}} fade show active {{else}} {{/if}} h-100" id="{{slugChat this.firstName this.lastName}}" role="tabpanel">
+                    <div class="d-flex flex-column h-100">
+                        <div class="p-3 bg-white border-bottom">
+                            <h6 class="m-0 fw-bold">{{this.firstName}} {{this.lastName}}</h6>
+                        </div>
+                        <div class="p-4 d-flex flex-column">
+                            {{#each this.message }}
+                            {{#if (eq this.senderId userLogged.logged.id)}}
+                            <div
+                                class="shadow-sm bg-primary-subtle border-end border-primary border-3 text-xxl-end p-3">
+                                <div class="fw-bold text-primary small mb-1">{{this.firstName}}
+                                    {{this.lastName}}</div>
+                                <p class="badge text-bg-primary">{{ customizeData this.createdAt }}
+                                </p>
+                                <p>{{this.content}}</p>
+                            </div>
+                            {{else}}
+                            <div
+                                class="shadow-sm p-3 bg-secondary-subtle border-end border-secondary border-3">
+                                <div class="fw-bold text-primary small mb-1">{{this.firstName}}
+                                    {{this.lastName}}</div>
+                                <p class="badge text-bg-primary">{{ customizeData this.createdAt }}
+                                </p>
+                                <p>{{this.content}}</p>
+                            </div>
+                            {{/if}}
+                            <hr />
+                            {{/each}}
+                            <form id="sendMesssage">
+                                <input type="hidden" name="recipient" value="{{this.id}}">
+                                <div class="mb-3">
+                                    <textarea name="textRecipient" class="form-control border border-primary" placeholder="Invia un messaggio a {{this.firstName}} {{this.lastName}}" rows="4" required></textarea>
+                                </div>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <button type="submit" class="btn btn-primary me-md-2">
+                                        <i class="fa-solid fa-message me-2"></i> Invia Messaggio
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,7 +3,7 @@ Passalibro - Area Personale
 {{/section}}
 {{#section 'script'}}
 <script>const userBooks = {{{ json userBooks }}};</script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/js/dashboard/dashboard.js"></script>
 {{/section}}
 <br />
@@ -43,201 +43,16 @@ Passalibro - Area Personale
             <hr />
             <div class="tab-content" id="myDashboardContent">
                 <div class="tab-pane fade show active" id="books-tab-pane" role="tabpanel" aria-labelledby="books-tab" tabindex="0">
-
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="content-container">
-                        {{#each (limit userBooks 10) }}
-                        <div class="col">
-                            <div class="card" style="width: 20rem;">
-                                <img src="{{this.cover}}" class="card-img-top">
-                                <div class="card-body">
-                                    <h6 class="card-title">{{this.title}}</h5>
-                                        <p><em>Autore: {{this.author}}</em></p>
-                                        <p class="card-text">{{truncate this.description 50}}</p>
-                                        <div class="btn-group w-100">
-                                            <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-info" data-bs-toggle="tooltip"
-                                                data-bs-title="Visualizza Dettaglio">
-                                                <i class="fa-solid fa-square-up-right"></i>
-                                            </a>
-                                            <a href="/book/edit/{{this.id}}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Modifica">
-                                                <i class="fa-solid fa-pen-clip"></i>
-                                            </a>
-                                            <a href="#" class="btn btn-danger" id="deleteBook" data-title="{{this.title}}" data-id="{{this.id}}"
-                                                data-bs-toggle="tooltip" data-bs-title="Cancella">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </a>
-                                            <a href="#" id="availability" data-availability="{{this.availability}}" data-id="{{this.id}}" data-title="{{this.title}}" class="btn {{#if (eq this.availability 1)}} btn-success {{else}} btn-warning {{/if}}" data-bs-toggle="tooltip" data-bs-title="{{#if (eq this.availability 1)}} Segnala come non disponibile {{else}} Segnala come disponibile {{/if}}">
-                                                {{#if (eq this.availability 1)}} <i class="fa-regular fa-circle-check"></i> {{else}} <i class="fa-regular fa-circle-xmark"></i> {{/if}}
-                                                
-                                            </a>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                        {{else}}
-                        <div class="col-md-12">
-                            Non hai inserito nessun libro! <a href="/insert-book">Inserisci un nuovo libro.</a>
-                        </div>
-                        {{/each}}
-                    </div>
+                   {{> pages/dashboard/books-tab userBooks=userBooks }}
                 </div>
                 <div class="tab-pane fade" id="statistics-tab-pane" role="tabpanel" aria-labelledby="statistics-tab" tabindex="0">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-4 w-100">
-                                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
-                                    <h1 class="h2">
-                                        <i class="fa-solid fa-chart-line text-primary"></i> Performance Top 4 Libri
-                                    </h1>
-                                </div>
-                            </main>
-                        </div>
-                    </div>
+                     {{> pages/dashboard/statistics-tab }}
                 </div>
                 <div class="tab-pane fade" id="messages-tab-pane" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">
-
-                    <div class="container-fluid">
-                        <div class="row h-100">
-
-                            <div class="col-md-4 col-lg-3 sidebar bg-white p-0">
-                                <div class="list-group list-group-flush" role="tablist">
-                                    {{#each recipientMessages }}
-                                    <a href="#{{slugChat this.firstName this.lastName}}" class="list-group-item list-group-item-action p-3 border border-primary {{#if (eq @index 0)}} active {{else}} {{/if}}" data-bs-toggle="list" role="tab">
-                                        <h6 class="mb-1 fw-bold">
-                                            {{this.firstName}} {{this.lastName}}
-                                        </h6>
-                                    </a>
-                                    {{else}}
-                                    <div class="col">Nessun Messaggio Ricevuto.</div>
-                                    {{/each}}
-                                </div>
-                            </div>
-
-                            <div class="col-md-8 col-lg-9 p-0 bg-light">
-                                <div class="tab-content h-100" id="nav-tabContent">
-                                    {{#each recipientMessages }}
-
-                                    <div class="tab-pane {{#if (eq @index 0)}} fade show active {{else}} {{/if}} h-100" id="{{slugChat this.firstName this.lastName}}" role="tabpanel">
-                                        <div class="d-flex flex-column h-100">
-                                            <div class="p-3 bg-white border-bottom">
-                                                <h6 class="m-0 fw-bold">{{this.firstName}} {{this.lastName}}</h6>
-                                            </div>
-                                            <div class="p-4 d-flex flex-column">
-
-                                                {{#each this.message }}
-
-                                                {{#if (eq this.senderId userLogged.logged.id)}}
-                                                <div
-                                                    class="shadow-sm bg-primary-subtle border-end border-primary border-3 text-xxl-end p-3">
-                                                    <div class="fw-bold text-primary small mb-1">{{this.firstName}}
-                                                        {{this.lastName}}</div>
-                                                    <p class="badge text-bg-primary">{{ customizeData this.createdAt }}
-                                                    </p>
-                                                    <p>{{this.content}}</p>
-                                                </div>
-                                                {{else}}
-                                                <div
-                                                    class="shadow-sm p-3 bg-secondary-subtle border-end border-secondary border-3">
-                                                    <div class="fw-bold text-primary small mb-1">{{this.firstName}}
-                                                        {{this.lastName}}</div>
-                                                    <p class="badge text-bg-primary">{{ customizeData this.createdAt }}
-                                                    </p>
-                                                    <p>{{this.content}}</p>
-                                                </div>
-                                                {{/if}}
-                                                <hr />
-
-                                                {{/each}}
-                                                <form id="sendMesssage">
-                                                    <input type="hidden" name="recipient" value="{{this.id}}">
-                                                    <div class="mb-3">
-                                                        <textarea name="textRecipient" class="form-control border border-primary" placeholder="Invia un messaggio a {{this.firstName}} {{this.lastName}}" rows="4" required></textarea>
-                                                    </div>
-                                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                                        <button type="submit" class="btn btn-primary me-md-2">
-                                                            <i class="fa-solid fa-message me-2"></i> Invia Messaggio
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{/each}}
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-
+                   {{> pages/dashboard/messages-tab recipientMessages=recipientMessages }}
                 </div>
                 <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                <div class="container py-5">
-                    <div class="row g-4">
-                        <div class="col-12 col-md-4 col-lg-3">
-                            <div class="card border-0 shadow-sm text-center p-3">
-                                <div class="card-body">
-                                    <div class="position-relative d-inline-block mb-3">
-                                        <img src="{{profile.avatar}}" alt="Foto Profilo" class="rounded-circle img-thumbnail"
-                                            style="width: 120px; height: 120px; object-fit: cover" />
-                                    </div>
-                                    <h5 class="card-title mb-0">{{profile.firstName}} {{profile.lastName}}</h5>
-                                    <p class="text-muted small">{{profile.email}}</p>
-                                    <p class="text-muted small">{{profile.address}}</p> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-8 col-lg-9">
-                            <div class="card border-0 shadow-sm p-4">
-                                <form id="editProfile" class="edit-profile-needs-validation" novalidate>
-                                    <h3 class="card-title h4 mb-4 pb-2 border-bottom">
-                                       Modifica Informazioni Personali
-                                     </h3>
-                                    <div class="row g-3">
-                                        <div class="col-12 col-sm-6">
-                                            <label for="first_name" class="form-label fw-semibold text-secondary">Nome</label>
-                                            <input type="text" name="first_name" class="form-control form-control-lg border-secondary-subtle" id="first_name" value="{{profile.firstName}}" required />
-                                            <div class="invalid-feedback">Inserisci il tuo nome".</div>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <label for="last_name" class="form-label fw-semibold text-secondary">Cognome</label>
-                                            <input type="text" name="last_name" class="form-control form-control-lg border-secondary-subtle" id="last_name" value="{{profile.lastName}}" required />
-                                            <div class="invalid-feedback">Inserisci il tuo cognome.</div>
-                                        </div>
-                                        <div class="col-12">
-                                            <label for="description" class="form-label fw-semibold text-secondary">La tua descrizione</label>
-                                            <textarea class="form-control form-control-lg border-secondary-subtle" name="description" id="description" rows="4" required>{{profile.description}}</textarea>
-                                            <div class="invalid-feedback">Inserisci una breve descrizione di te.</div>
-                                        </div>
-                                        <hr/>
-                                         <h3 class="card-title h4 mb-4 pb-2 border-bottom">
-                                          Modifica Password <small class="text-body-secondary">(rienpi i campi solo se vuoi modificare la password)</small>
-                                         </h3>
-                                        <div class="col-12 col-md-6">
-                                            <label for="password" class="form-label fw-semibold text-secondary">Password</label>
-                                            <div class="input-group mb-3">
-                                            <input type="password" id="password" value="" name="password" minlength="8" class="form-control form-control-lg border-secondary-subtle" placeholder="Minimo 8 caratteri" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="button_view_password">
-                                            <button class="btn btn-outline-secondary" type="button" id="button_view_password" onmouseover="viewPassword(this)"><i class="fa-solid fa-eye"></i></button>
-                                            <div class="invalid-feedback">Password non valida</div>
-                                            </div>                                                
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <label for="password_confirm" class="form-label fw-semibold text-secondary">Conferma Password </label>
-                                            <div class="input-group mb-3">
-                                                <input type="password" id="password_confirm" value="" onChange="checkPasswordMatch();"  name="password_confirm" class="form-control form-control-lg border-secondary-subtle" placeholder="Ripeti la password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="button_view_password">
-                                                <button class="btn btn-outline-secondary" type="button" id="button_view_password" onmouseover="viewPassword(this)"><i class="fa-solid fa-eye"></i></button>
-                                                <div class="invalid-feedback">Conferma password non valida</div>
-                                            </div>                            
-                                        </div> 
-                                        <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
-                                            <button type="reset" class="btn btn-outline-secondary px-4">Annulla</button>
-                                            <button type="submit" class="btn btn-primary px-4">Salva</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                   {{> pages/dashboard/profile-tab profile=profile }}
                 </div>
             </div>
         </div>
