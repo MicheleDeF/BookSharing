@@ -369,7 +369,8 @@ const userRegistration = async (req, res) =>{
             address, 
             latitude, 
             longitude, 
-            agree_terms 
+            agree_terms,
+            captcha 
             } = req.body;
 
     const user = await User.findOne({ where: { email } });
@@ -538,6 +539,7 @@ const editProfileUser = async (req, res)=>{
 
 };
 
+/** Questa API viene utilizzata per generare il svg Captcha. */
 const genSvgCaptchaFromRegUser = async (req, res)=>{
 
     var captcha = svgCaptcha.create({
