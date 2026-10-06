@@ -72,7 +72,8 @@ var elements = form.elements;
                    element.name == 'address'     ||
                    element.name == 'latitude'    ||
                    element.name == 'longitude'   ||
-                   element.name == 'agree_terms'){
+                   element.name == 'agree_terms' ||
+                   element.name == 'captcha'){
 
                      data[element.name] = element.value;            
 

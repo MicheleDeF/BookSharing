@@ -29,6 +29,7 @@
     "mysql2": "^3.23.1",
     "nodemon": "^3.1.14",
     "sequelize": "^6.37.8",
+    "svg-captcha": "^1.4.0",
     "sweetalert2": "^11.26.25",
     "swiper": "^14.3.0"
   },

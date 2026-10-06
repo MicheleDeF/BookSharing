@@ -2,6 +2,7 @@ const { User, Book, Message, Statistic, sequelize} = require('../models');
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const svgCaptcha = require('svg-captcha');
 const JWT_SECRET = process.env.JWT_SECRET;
 const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
 const salt = bcrypt.genSaltSync(10);
@@ -537,6 +538,24 @@ const editProfileUser = async (req, res)=>{
 
 };
 
+const genSvgCaptchaFromRegUser = async (req, res)=>{
+
+    var captcha = svgCaptcha.create({
+      size: 4,
+      noise: 3,
+      color: true,
+      background: '#f0f0f0',
+    });
+
+    req.session.captcha = captcha.text;
+    res.setHeader(
+      'Cache-Control',
+      'no-store, no-cache, must-revalidate, private'
+    );
+    res.type('svg');
+    res.status(200).send(captcha.data);
+};
+
 module.exports = {
   getUserBooks,
   userLogin,
@@ -546,5 +565,6 @@ module.exports = {
   userSendMesssageOnDetailBook,
   userUpdateUnreadMessages,
   userRegistration,
-  editProfileUser
+  editProfileUser,
+  genSvgCaptchaFromRegUser
 };

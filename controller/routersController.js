@@ -39,7 +39,7 @@ const getHome = async (req, res) => {
                     /** questa condizione esclude i contenuti dell'utente se ha effettuato il login */
                     ...(currentUserId && { userId: { [Op.ne]: currentUserId } }),
                   },                    
-            limit: 4,
+            limit: 10,
             order: [['createdAt', 'DESC']]
         });
 

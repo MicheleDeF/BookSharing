@@ -42,7 +42,8 @@
                 <button class="btn btn-outline-secondary" type="button" id="button_view_password" onmouseover="viewPassword(this)"><i class="fa-solid fa-eye"></i></button>
                 <div class="invalid-feedback">Conferma password non valida</div>
             </div>                            
-        </div>    
+        </div> 
+
         <div class="col-12 col-md-12">
                 <label for="address" class="form-label fw-semibold text-secondary">Indirizzo <span class="text-danger" aria-hidden="true">*</span></label>
                 <div class="input-group">
@@ -53,6 +54,25 @@
 
         <input type="hidden" id="latitude"  value="" name="latitude">
         <input type="hidden" id="longitude" value="" name="longitude">
+
+            <div class="row g-3">
+                <label for="captcha" class="form-label fw-semibold text-secondary">Dimostraci che non sei un Bot <span class="text-danger"
+                        aria-hidden="true">*</span></label>
+                <div class="col-sm-7">
+                    <input type="text" id="captcha" name="captcha" class="form-control form-control-lg border-secondary-subtle"
+                        placeholder="...digita qui i caratteri che vedi nella figura" required>
+                    <div class="invalid-feedback">Digita i caratteri nella figura.</div>
+                </div>
+                <div class="col-sm">
+                    <img id="captchaImg" src="/api/captcha">
+                </div>
+                <div class="col-sm">
+                    <button type="button" id="refrescCaptchaImg" data-bs-toggle="tooltip" data-bs-title="Aggiorna"
+                        class="btn btn-primary w-100 fw-bold py-2 shadow-sm mt-1">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+                </div>
+            </div>
 
         <div class="mb-4 form-check">
             <input type="checkbox" class="form-check-input" name="agree_terms" id="agree_terms" required>

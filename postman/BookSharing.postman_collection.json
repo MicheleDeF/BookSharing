@@ -178,6 +178,25 @@
             "description": "Modifica informazioni personali di un utente specifico, inoltre modifica la password se richiesto dall'utente."
           },
           "response": []
+        },
+        {
+          "name": "Generate Svg Captcha From Registration User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{dasepath}}/api/captcha",
+              "host": [
+                "{{dasepath}}"
+              ],
+              "path": [
+                "api",
+                "captcha"
+              ]
+            },
+            "description": "Genera un CAPTCHA SVG per la registrazione dell'utente"
+          },
+          "response": []
         }
       ]
     },
@@ -538,7 +557,7 @@
   "variable": [
     {
       "key": "dasepath",
-      "value": "http://localhost:3000"
+      "value": ""
     }
   ]
 }

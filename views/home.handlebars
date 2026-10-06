@@ -1,7 +1,11 @@
 {{#section 'title'}}
-Passalibro - Home
+ScambioLibro - Home
+{{/section}}
+{{#section 'css'}}
+<link rel="stylesheet" href="/swiper/swiper-bundle.min.css" />
 {{/section}}
 {{#section 'script'}}
+<script src="/swiper/swiper-bundle.min.js"></script>
 <script>const latestBooks = {{{ json latestBooks }}};</script>
 <script src="/js/home/home.js"></script> 
 {{/section}}
@@ -47,8 +51,37 @@ Passalibro - Home
                 </h1>
             </div>
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="latestBooks">
-            {{> pages/home/placeholder }}
-        </div>
+        <div class="row">
+            <div class="col">
+                {{#if (eq latestBooks.length 0)}}
+                   <h6>Nessun libro nelle vicinanZe!</h6> 
+                  {{else}}
+                    <div class="swiper latest_books position-relative">
+                        <div class="swiper-wrapper">
+                            {{#each latestBooks}}
+                            <div class="swiper-slide">
+                                <div class="card shadow-sm">
+                                    <img src="{{this.cover}}" class="card-img-top" alt="{{this.title}}">
+                                    <div class="card-body d-flex flex-column">
+                                        <h6 class="card-title">
+                                            {{this.title}}
+                                        </h6>
+                                        <p class="card-text flex-grow-1">
+                                            {{truncate this.description 50}}
+                                        </p>
+                                        <a href="/book/{{this.id}}/{{this.slug}}" class="btn btn-primary mt-auto">
+                                            Vai al dettaglio <i class="fa-solid fa-arrow-right-long"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                     <div class="swiper-button-prev"></div>
+                     <div class="swiper-button-next"></div>
+                    </div>                   
+                 {{/if}}
+            </div>
+        </div>        
     </div>
-    <hr/>       
+<hr/>       
