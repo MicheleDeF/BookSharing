@@ -373,11 +373,18 @@ const userRegistration = async (req, res) =>{
             captcha 
             } = req.body;
 
+    if(captcha !== req.session.captcha ){
+        return res.status(409).json({
+                                success: false, 
+                                message: "Captcha non valido!" 
+                              });
+        }
+
     const user = await User.findOne({ where: { email } });
 
     /** Verifica se esiste già un utente con la stessa email. */
     if (user) {
-      return res.status(409).json({
+         return res.status(409).json({
                                    success: false, 
                                    message: "Indirizzo Email già in uso da un altro utente!" 
                                   });
@@ -549,12 +556,15 @@ const genSvgCaptchaFromRegUser = async (req, res)=>{
       background: '#f0f0f0',
     });
 
+    /** Memorizza il testo del  captcha nella sessione*/
     req.session.captcha = captcha.text;
+    /** Evita che il  browser salvi l'endpoint '/api/captcha' nella cache */
     res.setHeader(
       'Cache-Control',
       'no-store, no-cache, must-revalidate, private'
     );
     res.type('svg');
+    /** Restituisce un'immagine in formato svg */
     res.status(200).send(captcha.data);
 };
 

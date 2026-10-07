@@ -11,31 +11,32 @@ $(document).ready(function(){
             window.location.href = `/view-map?category=${category}&lat=${lat}&lon=${lon}`;
         });
 
-    /** Mostra i libri nelle vicinanze inseriti di recente, 
-     *  Carousel di immagini generato con swiperjs (https://swiperjs.com/get-started)
-     */
-    const swiper = new Swiper('.latest_books', {
+});
 
-      slidesPerView: 1,
-      spaceBetween: 20,
-      loop: true,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      breakpoints: {
-        576: {
-          slidesPerView: 2,
-          spaceBetween: 20
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 24
-        },
-        992: {
-          slidesPerView: 4,
-          spaceBetween: 24
-        }
-      }
-    });
+/** Mostra i libri nelle vicinanze inseriti di recente, 
+ *  Carousel di immagini generato con swiperjs (https://swiperjs.com/get-started)
+ */
+const swiper = new Swiper('.latest_books', {
+
+  slidesPerView: 1,
+  spaceBetween: 20,
+  loop: true,
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+  breakpoints: {
+    576: {
+      slidesPerView: 2,
+      spaceBetween: 20
+    },
+    768: {
+      slidesPerView: 3,
+      spaceBetween: 24
+    },
+    992: {
+      slidesPerView: 4,
+      spaceBetween: 24
+    }
+  }
 });

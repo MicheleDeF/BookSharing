@@ -92,7 +92,6 @@ var elements = form.elements;
                 $('#divLoading').addClass('show');
             },
             "success": function(result,status,xhr){
-               console.log(result);
                Swal.fire({
                     title: result.message,
                     text: "Ti è stata inviata un'email per attivare l'account.",
@@ -122,5 +121,17 @@ var elements = form.elements;
             $.ajax(settings);
           
         }
+     });
+
+     /** Evento 'click' sul pulsante aggiorna captcha */
+     $('body')
+     .on('click', 'button#refrescCaptchaImg', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        $this.html(`Attendi <i class="fa-solid fa-sync fa-spin"></i>`);
+        setTimeout(()=>{
+            $this.html(`Aggiorna <i class="fa-solid fa-rotate"></i>`); 
+            $('img#captchaImg').attr('src', `/api/captcha?t=${Date.now()}`);                   
+        },1500);
      });
 });

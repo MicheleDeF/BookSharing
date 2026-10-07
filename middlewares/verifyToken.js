@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 /** Questo middleware viene utilizzato sulle pagine che richiedono
