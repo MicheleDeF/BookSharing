@@ -131,6 +131,7 @@ var elements = form.elements;
         $this.html(`Attendi <i class="fa-solid fa-sync fa-spin"></i>`);
         setTimeout(()=>{
             $this.html(`Aggiorna <i class="fa-solid fa-rotate"></i>`); 
+            /** Aggiungo un timestamp "?t=Date.now()" per evitare che il browser usi la cache */
             $('img#captchaImg').attr('src', `/api/captcha?t=${Date.now()}`);                   
         },1500);
      });
