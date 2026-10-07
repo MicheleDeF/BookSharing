@@ -122,7 +122,7 @@ const userLogin = async(req, res) =>{
     /** Il jwt viene salvato in un cookie 'token' */
     res.cookie('token', token, {
         httpOnly: true,
-        secure: false ? process.env.PROTUCTION === false : true, 
+        secure: false ? process.env.PRODUCTION === false : true, 
         //maxAge: 3600000 
     });
     /** Crea una sessione 'userLogged' che memorizza informazioni sull'utente loggato. */
