@@ -102,7 +102,12 @@ const userLogin = async(req, res) =>{
     if (!user) {
       return res.status(401).json({success: false, message: 'Credenziali non valide.' });
     }
+    
     /** Effettua un check per verificare la password. */
+    if (!passwordRegex.test(password)) {
+      return res.status(401).json({ success: false, message: 'Credenziali non valide.' });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!isMatch) {
