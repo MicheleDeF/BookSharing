@@ -168,12 +168,9 @@ const userLogout = async (req, res) => {
     if (err) {
       return res.status(500).json({ success: false, message: "Impossibile effettuare il logout" });
     }
-    /** Cancella i cookie 'token', 'connect.sid', 'latitude', 'longitude' */
-    res
-    .clearCookie('token')
-    .clearCookie('connect.sid')
-    .clearCookie('latitude')
-    .clearCookie('longitude'); 
+    
+    /** Cancella il cookie 'token' */
+    res.clearCookie('token'); 
 
     return res.status(200).json({ success: true, message: "Logout effettuato con successo" });
   });
