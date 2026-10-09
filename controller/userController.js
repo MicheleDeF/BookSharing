@@ -159,23 +159,44 @@ const userLogin = async(req, res) =>{
 };
 /** Questa API effettua il logout dell'utente. */
 const userLogout = async (req, res) => {
-
-  if (!req.session) {
-    return res.status(400).json({ success: false, message: "Nessuna sessione attiva" });
+  
+  /** Verifica se esiste la sessione */
+  if (!req.session || !req.session.userLogged) {
+    return res.status(400).json({ 
+      success: false, 
+      message: "Nessuna sessione attiva o utente già disconnesso" 
+    });
   }
 
+  /** Errore durante la cancellazione della sessione */
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).json({ success: false, message: "Impossibile effettuare il logout" });
-    }
-    
-    /** Cancella il cookie 'token' */
-    res.clearCookie('token'); 
+      return res.status(500).json({ 
+        success: false, 
+        message: "Errore interno durante il logout" 
+      });
+    }   
 
-    return res.status(200).json({ success: true, message: "Logout effettuato con successo" });
+    /** Elimina i cookies 'token', 'connect.sid' */
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: false ? process.env.PRODUCTION === false : true,
+      sameSite: 'strict'
+    }); 
+
+    res.clearCookie('connect.sid', {
+      httpOnly: true,
+      secure: false ? process.env.PRODUCTION === false : true,
+      sameSite: 'strict'
+    });
+
+    return res.status(200).json({ 
+      success: true, 
+      message: "Logout effettuato con successo" 
+    });
   });
-
 };
+
 /** Questa API restituisce i messaggi inviati e ricevuti di uno specifico utente, tramite parametro 'iduser' */
 const getUserMessages = async (req, res) =>{
 
