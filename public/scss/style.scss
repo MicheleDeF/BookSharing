@@ -7,9 +7,9 @@ body {
     margin-top: 80px;
 
     /* Immagine di  background nella pagina home.*/
-    section#section-home{
+    section#section-home {
         background-image: url('../images/background-home.jpg');
-        background-repeat: no-repeat; 
+        background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
     }
@@ -53,10 +53,10 @@ body {
             }
         }
     }
+
     /* divLoading è un div per mostrare l'immagine di loading quando si inviano richieste ajax. */
     div#divLoading {
         display: none;
-
     }
 
     div#divLoading.show {
@@ -87,7 +87,6 @@ body {
                 margin: 0 !important;
                 width: 260px !important;
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-
 
                 div.book-popup-container {
                     padding: 12px;
@@ -121,9 +120,9 @@ body {
                                 color: #1a1a1a;
                                 line-height: 1.2;
                                 display: -webkit-box;
-                               -webkit-line-clamp: 2;
-                               -webkit-box-orient: vertical;
-                                line-clamp: 2; 
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                line-clamp: 2;
                                 box-orient: vertical;
                                 overflow: hidden;
                             }
@@ -255,6 +254,56 @@ body {
                         }
 
                     }
+                }
+            }
+        }
+    }
+
+    /* Stile Personalizzato per i pulsanti next e prev del carousel immagini della pagina dettaglio libro. */
+    div.container.detail-book {
+
+        div.row.g-4 {
+
+            div.col-md-7.col-lg-8 {
+
+                div.card.shadow-sm.p-4.bg-white.rounded {
+
+                    div.container.my-5 {
+
+                        div.swiper.other_books.position-relative {
+
+                            div.swiper-button-next {
+                                color: #ffffff;
+                            }
+
+                            div.swiper-button-prev {
+                                color: #ffffff;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    
+    /* Stile Personalizzato per i pulsanti next e prev del carousel immagini della pagina home. */
+    div.container.home {
+
+        div.row {
+
+            div.col {
+
+                div.swiper.latest_books.position-relative {
+
+                    div.swiper-button-next {
+                        color: #ffffff;
+                    }
+
+                    div.swiper-button-prev {
+                        color: #ffffff;
+                    }
+
                 }
             }
         }
