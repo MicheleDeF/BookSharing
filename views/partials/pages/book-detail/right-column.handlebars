@@ -94,8 +94,7 @@
         <div class="container my-5">
          <div class="swiper other_books position-relative">
             <div class="swiper-wrapper">
-                {{#each userBooks}}
-                    {{#each this.books}}
+                {{#each userBooks}}                    
                     <div class="swiper-slide">
                         <div class="card shadow-sm border">
                             <img src="{{this.cover}}" class="card-img-top" alt="{{this.title}}">
@@ -106,8 +105,7 @@
                                 <p class="card-text text-muted flex-grow-1">{{this.category}}</p>                                
                             </div>
                         </div>
-                    </div>
-                    {{/each}}
+                    </div>                    
                 {{/each}}
             </div>
             <div class="swiper-button-next"></div>
