@@ -49,10 +49,18 @@ const getHome = async (req, res) => {
           latestBooks: result,
         });
   
-  }else{     
-      res.render('home', {
-        latestBooks: [],
-      });
+  }else{   
+        
+        const query = await Book.findAll({
+          limit: 4,
+          order: [['createdAt', 'DESC']],
+        });
+	
+       const result = query.map((u) => u.get({ plain: true }));
+      
+       res.render('home', {
+        latestBooks: result,
+       });
   }  
 };
 
