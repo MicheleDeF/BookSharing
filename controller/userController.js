@@ -127,7 +127,7 @@ const userLogin = async(req, res) =>{
     /** Il jwt viene salvato in un cookie 'token' */
     res.cookie('token', token, {
         httpOnly: true,
-        secure: false ? process.env.PRODUCTION === false : true, 
+        secure: process.env.PRODUCTION === "true" ? true : false, 
         //maxAge: 3600000 
     });
     /** Crea una sessione 'userLogged' che memorizza informazioni sull'utente loggato. */
@@ -180,13 +180,13 @@ const userLogout = async (req, res) => {
     /** Elimina i cookies 'token', 'connect.sid' */
     res.clearCookie('token', {
       httpOnly: true,
-      secure: false ? process.env.PRODUCTION === false : true,
+      secure: process.env.PRODUCTION === "true" ? true : false,
       sameSite: 'strict'
     }); 
 
     res.clearCookie('connect.sid', {
       httpOnly: true,
-      secure: false ? process.env.PRODUCTION === false : true,
+      secure: process.env.PRODUCTION === "true" ? true : false,
       sameSite: 'strict'
     });
 

@@ -40,7 +40,7 @@ app.use(session({
     saveUninitialized: false, 
     cookie: {
         httpOnly: true, 
-        secure: false ? process.env.PRODUCTION === false : true,  
+        secure: process.env.PRODUCTION === "true" ? true : false, 
         maxAge: 1000 * 60 * 60 * 24 
     }
 }));
