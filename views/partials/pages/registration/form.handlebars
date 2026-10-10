@@ -21,7 +21,7 @@
     
         <div class="col-12 col-md-12">
             <label for="email" class="form-label fw-semibold text-secondary">Indirizzo Email <span class="text-danger" aria-hidden="true">*</span></label>
-            <input type="email" id="email" value="" name="email" class="form-control form-control-lg border-secondary-subtle" placeholder="nome@esempio.com" required>
+            <input type="email" id="email" value="" name="email" class="form-control form-control-lg border-secondary-subtle" placeholder="nome@esempio.com" pattern="[\w-\.]+@([\w-]+\.)+[\w-]{2,4}" required>
             <div class="invalid-feedback">Inserisci un indirizzo email valido.</div>
         </div>
 
@@ -78,7 +78,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold py-3 shadow-sm">
-            Crea il mio profilo
+            Crea il mio profilo <i class="fa-solid fa-circle-chevron-right"></i>
         </button>    
     </div>
 </form>

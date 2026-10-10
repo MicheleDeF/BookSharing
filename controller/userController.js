@@ -4,7 +4,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const svgCaptcha = require('svg-captcha');
 const JWT_SECRET = process.env.JWT_SECRET;
+/** Espressione regolare per verificare il formato della password. */
 const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+/** Espressione regolare per verificare il formato dell'email. */
+const emailRegex = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/;
 const salt = bcrypt.genSaltSync(10);
 const moderationService = require('../services/moderationService');
 
@@ -13,9 +16,10 @@ const moderationService = require('../services/moderationService');
  *  login, 
  *  logout, 
  *  registrazione, 
- *  inviare un messaggio
- *  ect..  
+ *  inviare un messaggio,
+ *  modifica profilo utente, etc..
  */
+
 /** Questa API restituisce il libri di un determinato utente, passando come parametro 'iduser' */
 const getUserBooks = async (req, res) => {
 
@@ -91,6 +95,7 @@ const getUserBooks = async (req, res) => {
     });
   }
 };
+
 /** Questa API viene utilizzata per effettuare il login dell'utente. */
 const userLogin = async(req, res) =>{
 
@@ -157,6 +162,7 @@ const userLogin = async(req, res) =>{
   }
 
 };
+
 /** Questa API effettua il logout dell'utente. */
 const userLogout = async (req, res) => {
   
@@ -243,6 +249,7 @@ const getUserMessages = async (req, res) =>{
     }
 
 };
+
 /** Questa API invia un messaggio da parte di uno specifico utente. */
 const userSendMessage = async (req, res)=>{
 
@@ -279,6 +286,7 @@ try {
     });
 }
 };
+
 /** Questa API è utilizzata per inviare un messaggio direttamente dalla pagina dettaglio libro qualora l'utente è autenticato. */
 const userSendMesssageOnDetailBook = async (req, res) => {
   
@@ -328,6 +336,7 @@ const userSendMesssageOnDetailBook = async (req, res) => {
     });
   }
 };
+
 /** Questa API imposta i messaggi 'non letti' come 'letti' */
 const userUpdateUnreadMessages = async (req, res)=>{
 
@@ -367,6 +376,7 @@ const userUpdateUnreadMessages = async (req, res)=>{
 
 
 };
+
 /** Queasta API è utilizzata per la registrazione utente. */
 const userRegistration = async (req, res) =>{
   
@@ -490,6 +500,7 @@ const editProfileUser = async (req, res)=>{
       const userId = decoded.id; 
       const {first_name, last_name, description, password, password_confirm} = req.body;  
       const cleanDescription = moderationService.cleanText(description);   
+      /** Trasforma il testo con tutte iniziali maiuscole. */
       const formattedFirstName = first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
       const formattedLastName = last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
       const formattedDescription = cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
@@ -532,7 +543,8 @@ const editProfileUser = async (req, res)=>{
           );
 
           await t.commit();
-
+          
+          /** Aggiorna i valori 'firstName' e 'lastName' nella sessione 'userLogged'. */
           req.session.userLogged = {
             ...req.session.userLogged,
             firstName: formattedFirstName,
@@ -561,6 +573,7 @@ const editProfileUser = async (req, res)=>{
 
          await t.commit();
 
+         /** Aggiorna i valori 'firstName' e 'lastName' nella sessione 'userLogged'. */
          req.session.userLogged = {
             ...req.session.userLogged,
             firstName: formattedFirstName,
