@@ -57,7 +57,7 @@ Se si vuole testare l'applicazione con ```latitudine``` e ```longitudine``` con 
 * decommentare le due righe 51, 52 per ottenere la posizione esatta
 * commentare 54, 55 per non usare i dati di test.
 
-Sempre riguardo i dati di test, per utilizzare correttamente il file ```postman/BookSharing.postman_collection.json``` utilizzare la password ```a1s2d3F4``` e una delle due email memorizzate nella colonna ```email``` della tabella ```users```
+Sempre riguardo i dati di test, per utilizzare correttamente il file ```postman/BookSharing.postman_collection.json``` utilizzare la password ```a1s2d3F4``` e una delle due email memorizzate nella colonna ```email``` della tabella ```users```, stessa cosa anche per effettuare il login sull'elaborato.
 
 ## Nota sull'uso del compilatore Sass per compilare style.css
 Per aggiungere stili aggiuntivi al file ```public/css/style.css``` eseguire il seguente comando nella cartella radice del progetto, in questo caso è BookSharing 

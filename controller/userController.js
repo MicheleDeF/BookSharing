@@ -490,6 +490,9 @@ const editProfileUser = async (req, res)=>{
       const userId = decoded.id; 
       const {first_name, last_name, description, password, password_confirm} = req.body;  
       const cleanDescription = moderationService.cleanText(description);   
+      const formattedFirstName = first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+      const formattedLastName = last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+      const formattedDescription = cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
 
       /** Effettua un check per verificare se l'utente ha modificato anche la password. */
       if(password.length > 0 && password_confirm.length > 0){
@@ -516,9 +519,9 @@ const editProfileUser = async (req, res)=>{
 
            const [updateProfileUser] = await User.update(
             {
-              lastName: last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
-              firstName: first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
-              description: cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+              lastName: formattedLastName,
+              firstName: formattedFirstName,
+              description: formattedDescription,
               password_hash: passwordHash,              
             },
             {
@@ -530,6 +533,12 @@ const editProfileUser = async (req, res)=>{
 
           await t.commit();
 
+          req.session.userLogged = {
+            ...req.session.userLogged,
+            firstName: formattedFirstName,
+            lastName: formattedLastName
+          };
+
           return res.status(200).json({ 
             message: `Operazione completata con successo!`,
             updateProfileUser: updateProfileUser
@@ -539,9 +548,9 @@ const editProfileUser = async (req, res)=>{
           /** L'utente non ha modificato la password ma solo i suoi dati. */
           const [updateProfileUser] = await User.update(
             {
-              lastName: last_name,
-              firstName: first_name,
-              description: cleanDescription,          
+              lastName: formattedLastName,
+              firstName: formattedFirstName,
+              description: formattedDescription,         
             },
             {
               where: {
@@ -551,6 +560,12 @@ const editProfileUser = async (req, res)=>{
           );
 
          await t.commit();
+
+         req.session.userLogged = {
+            ...req.session.userLogged,
+            firstName: formattedFirstName,
+            lastName: formattedLastName
+          };
 
          return res.status(200).json({ 
           message: `Operazione completata con successo!`,
