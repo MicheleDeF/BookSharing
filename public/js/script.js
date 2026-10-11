@@ -1,3 +1,4 @@
+/** Questa funzione viene utilizzata per tagliare il testo troppo lungo. */
 function truncate(text, limit = 50) {
     if (text.length > limit) {
         return text.slice(0, limit) + '...';

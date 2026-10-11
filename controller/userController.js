@@ -29,7 +29,7 @@ const getUserBooks = async (req, res) => {
     const parsedUserId = Number(iduser);
 
     if (!Number.isInteger(parsedUserId)) {
-      return res.status(400).json({ 
+      return res.status(422).json({ 
         success: false,
         message: "Errore: 'iduser' deve essere un numero intero valido!" 
       });
@@ -66,7 +66,7 @@ const getUserBooks = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ success: false, message: 'Utente non trovato!'});
+      return res.status(422).json({ success: false, message: 'Utente non trovato!'});
     }
 
     return res.status(200).json({
@@ -101,22 +101,28 @@ const userLogin = async(req, res) =>{
 
  try {
     const { email, password } = req.body;
+    
+    /** Effettua un check per verificare l'email. */
+    if (!emailRegex.test(email)) {
+      return res.status(422).json({ success: false, message: 'Credenziali non valide.' });
+    }
+    
     /** Effattua un check per verificare se l'indirizzo email presente nel 'body' è presente nel database. */
     const user = await User.findOne({ where: { email } });
     
     if (!user) {
-      return res.status(401).json({success: false, message: 'Credenziali non valide.' });
+      return res.status(422).json({success: false, message: 'Credenziali non valide.' });
     }
     
     /** Effettua un check per verificare la password. */
     if (!passwordRegex.test(password)) {
-      return res.status(401).json({ success: false, message: 'Credenziali non valide.' });
+      return res.status(422).json({ success: false, message: 'Credenziali non valide.' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: 'Credenziali non valide.' });
+      return res.status(422).json({ success: false, message: 'Credenziali non valide.' });
     }
 
    const payload = {
@@ -213,7 +219,7 @@ const getUserMessages = async (req, res) =>{
       const parsedUserId = Number(iduser);
       
       if (!Number.isInteger(parsedUserId)) {
-        return res.status(400).json({ 
+        return res.status(422).json({ 
            success: false,
            message: "Errore: 'iduser' deve essere un numero intero valido!" 
         });
@@ -406,18 +412,27 @@ const userRegistration = async (req, res) =>{
             captcha 
             } = req.body;
 
+    /** Effettua un check per verificare il captcha. */
     if(captcha !== req.session.captcha ){
-        return res.status(409).json({
+        return res.status(422).json({
                                 success: false, 
                                 message: "Captcha non valido!" 
                               });
         }
 
+    /** Effettua un check per verificare l'email. */
+    if (!emailRegex.test(email)) {
+      return res.status(422).json({ 
+                              success: false, 
+                              message: 'Indirizzo email non valido.' 
+                            });
+    }
+
     const user = await User.findOne({ where: { email } });
 
     /** Verifica se esiste già un utente con la stessa email. */
     if (user) {
-         return res.status(409).json({
+         return res.status(422).json({
                                    success: false, 
                                    message: "Indirizzo Email già in uso da un altro utente!" 
                                   });
