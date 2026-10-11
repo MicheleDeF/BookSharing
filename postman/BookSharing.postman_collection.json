@@ -489,7 +489,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{ \r\n    \"email\": \"Misaele_Teresi@yahoo.it\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
+          "raw": "{ \r\n    \"email\": \"< inserisci qui un indirizzo email generato dal seeder >\", \r\n    \"password\" : \"a1s2d3F4\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -557,7 +557,7 @@
   "variable": [
     {
       "key": "dasepath",
-      "value": ""
+      "value": "http://localhost:3000"
     }
   ]
 }
