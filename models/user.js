@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     firstName: DataTypes.STRING,
     email: DataTypes.STRING,
     description: DataTypes.TEXT,
-    avatar: DataTypes.STRING,
+    avatar: DataTypes.TEXT,
     password_hash: DataTypes.STRING,
     address: DataTypes.STRING,
     radius: DataTypes.ENUM('500'),

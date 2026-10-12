@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@dicebear/core": "^10.7.0",
+    "@dicebear/styles": "^10.6.0",
     "bcrypt": "^6.0.0",
     "bootstrap": "^5.3.8",
     "content-checker": "^1.1.3",

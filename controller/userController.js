@@ -10,7 +10,28 @@ const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
 const emailRegex = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/;
 const salt = bcrypt.genSaltSync(10);
 const moderationService = require('../services/moderationService');
-
+const { Style, Avatar } = require('@dicebear/core');
+const definition = require('@dicebear/styles/initials.json');
+const colors = [
+  'c44f4f',
+  'ac6039',
+  '8e6e2f',
+  '777728',
+  '627e2a',
+  '48822b',
+  '2d862d',
+  '2b8248',
+  '2b8265',
+  '2a7e7e',
+  '347a9d',
+  '4b73c3',
+  '6a6acd',
+  '825ec9',
+  '9f53c6',
+  'bb3ebb',
+  'c14497',
+  'c34b73',
+];
 /** Questo controller gestisce tutte le operazioni che 
  *  un utente può fare:
  *  login, 
@@ -387,16 +408,8 @@ const userUpdateUnreadMessages = async (req, res)=>{
 const userRegistration = async (req, res) =>{
   
   const t = await sequelize.transaction();
-  /** Stili utilizzati per utilizzare l'API Dicebear */
-  const styles = ["blobs", "glyphs", "identicon"];
-  /** Genera un indice random, da utilizzare per recuperare in modo random uno stile dall'array 'styles'. */
-  const index = Math.floor(Math.random() * styles.length);
   
   try {
-      /** Utilizzo di api.dicebear (https://www.dicebear.com/how-to-use/http-api/) 
-       *  per generare un avatar.
-       */
-      const avatar = `https://api.dicebear.com/10.x/${styles[index]}/svg?size=200`
 
       const {
             first_name, 
@@ -411,6 +424,28 @@ const userRegistration = async (req, res) =>{
             agree_terms,
             captcha 
             } = req.body;
+
+      /** Utilizzo di dicebear (https://www.dicebear.com/how-to-use/js-library/) 
+       *  per generare un avatar.
+       */
+      const firstIndex = Math.floor(Math.random() * colors.length);
+      const firstElement = colors.splice(firstIndex, 1)[0];
+      const secondIndex = Math.floor(Math.random() * colors.length);
+      const secondElement = colors.splice(secondIndex, 1)[0];
+      const backgroundColor = [firstElement, secondElement];
+      const title = first_name + ' ' + last_name;
+      const style = new Style(definition);
+      const avatar = new Avatar(style, {
+        seed: first_name,
+        title: title,
+        backgroundColor: backgroundColor,
+        backgroundColorFill: 'linear', //solid, linear, radial
+        textColor: 'ffffff',
+        size: 200,
+        scale: 0.75,
+      });
+
+      const dataUri = avatar.toDataUri();
 
     /** Effettua un check per verificare il captcha. */
     if(captcha !== req.session.captcha ){
@@ -474,7 +509,7 @@ const userRegistration = async (req, res) =>{
     lastName: last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
     description: cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
     email: email,
-    avatar: avatar,
+    avatar: dataUri,
     password_hash: passwordHash,
     address: address,
     lon: longitude,
