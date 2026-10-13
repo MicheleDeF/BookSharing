@@ -1,13 +1,17 @@
 {
-  "name": "projectwork",
+  "name": "scambiolibro",
   "version": "1.0.0",
-  "description": "",
+  "description": "ScambioLibro è una piattaforma web creata per dare alle persone l'opportunotà di scambiarsi libri nel raggio di 500 metri.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Michele De Falco",
+    "url": "https://micheledef.github.io"
+  },
   "license": "ISC",
   "dependencies": {
     "@dicebear/core": "^10.7.0",

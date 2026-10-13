@@ -42,9 +42,9 @@ npx sequelize-cli db:seed:all
 questo comando popolerà le tabelle create in precedenza con dati di esempio, in particolare due utenti i cui indirizzi email sono reperibili nella tabella **users** colonna _email_, la password è unica per entrambi ```a1s2d3F4```, usare email e password con uno degli utenti per effettuare il login.
 
 ## Avviare l'applicazione
-E' possibile avviare l'applicazione tramite il comado 
+E' possibile avviare l'applicazione tramite uno dei seguenti comandi 
 ```
-nodemon index.js
+npm run start
 ```
 oppure
 ```

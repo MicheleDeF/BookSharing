@@ -10,6 +10,7 @@ const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
 const emailRegex = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/;
 const salt = bcrypt.genSaltSync(10);
 const moderationService = require('../services/moderationService');
+/** dicebear e colori per generare l'avatar */
 const { Style, Avatar } = require('@dicebear/core');
 const definition = require('@dicebear/styles/initials.json');
 const colors = [

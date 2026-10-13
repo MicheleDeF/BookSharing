@@ -1,7 +1,7 @@
 const { Book, User } = require('../models');
 const { Op, Sequelize } = require('sequelize');
 
-/** Questo controlle gestisce i dati da visualizare sulla mappa */
+/** Questo controller gestisce i dati da visualizare sulla mappa */
 
 const getSearchBooks = async (req, res)=>{    
     /** Se l'utente è loggato i suoi contenuti non sono visibili sulla mappa. */
