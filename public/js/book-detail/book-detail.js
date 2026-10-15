@@ -38,7 +38,7 @@ $(document).ready(function(){
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Si è verificato un errore!",
+                    text: xhr.responseJSON.message,
                     showCancelButton: true,
                     showConfirmButton: false,
                     cancelButtonText: "Chiudi",                    

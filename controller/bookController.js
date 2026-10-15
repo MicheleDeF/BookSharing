@@ -5,10 +5,7 @@ const fs = require('fs').promises;
 const path = require('path'); 
 /** questa espressione regolare viene utilizzato per effettuare un controllo sul formato del nome dell'immagine. */
 const regex = /^\d+-\d+-copertina\.jpg$/;
-/** Il service 'moderationService' viene utilizzato per moderare il testo inserito dagli utenti. 
- *  Descrizioni libro e utente, messaggi. 
- */
-const moderationService = require('../services/moderationService');
+const xenovaTransformers = require('../services/xenovaTransformers');
 
 /** Questo è il controller per gestire i libri,
  *  funzioni per eseguire le operazioni CRUD
@@ -133,9 +130,30 @@ const createNewBook = async (req, res) => {
     const t = await sequelize.transaction();
 
       try {
+
          /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */        
          const token = req.cookies.token;
          const decoded = jwt.verify(token, JWT_SECRET);
+
+         const {title, author, publish_year, category, description} = req.body;
+
+          if (!req.file) {
+            return res.status(400).json({ success: false, message: 'Nessuna Immagine di Copertina!' });
+          }
+
+         const { isApproved, score } = await xenovaTransformers.checkText(description);
+
+          if (!isApproved) {
+            if (req.file) {
+              await fs.unlink(req.file.path).catch(err => console.error(err));
+            }
+            return res.status(400).json({
+              success: false,
+              message: "Il testo è stato rifiutato dai nostri sistemi di moderazione!",
+              confidence: `${(score * 100).toFixed(1)}%`
+            });
+          }
+
          /** Ottengo l' "userId" dal token per poi utilizzarlo per recuperare le coordinate geografiche dell'utente,
           *  questo perchè il libro verrà salvato nella stessa posizione geografica del propritario del libro.
           */
@@ -143,24 +161,20 @@ const createNewBook = async (req, res) => {
          const user = await User.findOne({ where: { id } });
          const latitude = user.lat; 
          const longitude = user.lon;
-         const address = user.address;
-      
-          if (!req.file) {
-             return res.status(400).json({ success: false,  message: 'Nessuna Immagine di Copertina!' });
-           }
+         const address = user.address;       
+         const imageUrl = `${process.env.BASE_PATH}/images/books/${req.file.filename}`; 
+         const customTitle = title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+         const customAuthor = author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+         const customDescription = description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
         
-         const imageUrl = `${process.env.BASE_PATH}/images/books/${req.file.filename}`;         
-         const {title, author, publish_year, category, description} = req.body;
-         /** Effettuo una pulizia della 'description' se vi sono caratteri non ammessi. */
-         const cleanDescription = moderationService.cleanText(description);
-        /** Creazione libro con la sintassi Sequelize. */
+         /** Creazione nuovo libro. */
          const newBook = await Book.create({
-            title: title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
-            author: author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+            title: customTitle, 
+            author: customAuthor, 
             publish_year: publish_year, 
             category: category, 
             address: address, 
-            description: cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+            description: customDescription, 
             cover: imageUrl,
             lat: latitude, 
             lon: longitude,
@@ -171,6 +185,7 @@ const createNewBook = async (req, res) => {
          const bookId = newBook.id;
          const views = 0;
          const contacts = 0;
+
          /** Dopo la creazione del libro creo una nuova riga nella tabella 'statistics' relativa al libro creato. */
          const newStatistic = await Statistic.create({
             views: views,
@@ -190,7 +205,10 @@ const createNewBook = async (req, res) => {
 
         
       } catch (error) {
-         await t.rollback();
+          await t.rollback();
+          if (req.file) {
+             await fs.unlink(req.file.path).catch(err => console.error(err));
+           }
          console.error(error);
          return res.status(500).json({ success: false, message: 'Errore interno durante il salvataggio!'});
       }
@@ -257,43 +275,82 @@ const deleteBook = async (req, res) => {
  }
 
 };
+
 /** Questa API è utilizzata per modificare un libro. */
 const editBook = async (req, res) => {
 
   const t = await sequelize.transaction();
 
   try {
+  
   /** Verifica se l'utente è autenticato tramite il jwt web token inviato nella richiesta come cookie. */ 
   const token = req.cookies.token;
   const decoded = jwt.verify(token, JWT_SECRET);
+
+  const {title, author, publish_year, category, description} = req.body;
   const id = req.params.id;
+
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Nessuna Immagine di Copertina!' });
+    } 
+
+  const parseIdbook = Number(id);
+
+  const { isApproved, score } = await xenovaTransformers.checkText(description);
+
+    if (!isApproved) {
+      if (req.file) {
+        await fs.unlink(req.file.path).catch(err => console.error(err));
+      }
+      return res.status(400).json({
+        success: false,
+        message: "Il testo è stato rifiutato dai nostri sistemi di moderazione!",
+        confidence: `${(score * 100).toFixed(1)}%`
+      });
+    }
+
+    if (!Number.isInteger(parseIdbook)) {
+      if (req.file) {
+        await fs.unlink(req.file.path).catch(err => console.error(err));
+      }
+      return res.status(400).json({
+        success: false,
+        message: "Errore: 'id' deve essere un numero intero valido!"
+      });
+    } 
+    
    /** Effettuo un check per verificare se i libro da modificare esiste. */
   const book = await Book.findOne({ where: { id } });
 
-    if (!req.file) {        
-        return res.status(400).json({ success: false,  message: 'Nessuna Immagine di Copertina!' });
-      }
-
     if (!book) {
-          return res.status(404).json({
-              success: false,
-              message: 'Libro non trovato!'
-          });
+      if (req.file) {
+        await fs.unlink(req.file.path).catch(err => console.error(err));
       }
+      return res.status(404).json({
+        success: false,
+        message: 'Libro non trovato!'
+      });
+    }
 
     const cover = book.cover;
     const urlObj = new URL(cover);
     const nameFile = path.basename(urlObj.pathname);
 
-      if (!nameFile || nameFile === '/' || nameFile === '.') {
-        return res.status(400).json({ success: false, message: 'Nessun file valido trovato nell\'URL'});
+    if (!nameFile || nameFile === '/' || nameFile === '.') {
+      if (req.file) {
+        await fs.unlink(req.file.path).catch(err => console.error(err));
       }
+      return res.status(400).json({ success: false, message: 'Nessun file valido trovato nell\'URL' });
+    }
 
     const uploads_folder = path.join(__dirname, '..', 'public', 'images/books');
     const pathFile = path.join(uploads_folder, nameFile);         
 
       if (!pathFile.startsWith(uploads_folder)) {
-        return res.status(401).json({ success: false, message: 'Tentativo di accesso non autorizzato!'});
+        if (req.file) {
+          await fs.unlink(req.file.path).catch(err => console.error(err));
+        }
+        return res.status(401).json({ success: false, message: 'Tentativo di accesso non autorizzato!' });
       }
 
       if (regex.test(nameFile)) {
@@ -301,16 +358,18 @@ const editBook = async (req, res) => {
       }  
 
     const imageUrl = `${process.env.BASE_PATH}/images/books/${req.file.filename}`;  
-    const {title, author, publish_year, category, description} = req.body;
-    const cleanDescription = moderationService.cleanText(description);
+    const customTitle = title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+    const customAuthor = author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+    const customDescription = description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+    
     /** Effettuo l'update del libro con i nuovi dati. */
     const [updateBook] = await Book.update(
       {
-	     title: title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
-       author: author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+	     title: customTitle, 
+       author: customAuthor, 
        publish_year: publish_year,
        category: category,
-       description: cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '), 
+       description: customDescription, 
        cover: imageUrl,
        slug: generateAlias(title),
       },
@@ -327,8 +386,11 @@ const editBook = async (req, res) => {
     
   } catch (error) {
     await t.rollback();
+    if (req.file) {
+      await fs.unlink(req.file.path).catch(err => console.error(err));
+    }
     console.error(error);
-    return res.status(500).json({ success: false, message: 'Errore interno durante la procedura di modifica!'});
+    return res.status(500).json({ success: false, message: 'Errore interno durante la procedura di modifica!' });
   }
 
 };

@@ -9,7 +9,7 @@ const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
 /** Espressione regolare per verificare il formato dell'email. */
 const emailRegex = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/;
 const salt = bcrypt.genSaltSync(10);
-const moderationService = require('../services/moderationService');
+const xenovaTransformers = require('../services/xenovaTransformers');
 /** dicebear e colori per generare l'avatar */
 const { Style, Avatar } = require('@dicebear/core');
 const definition = require('@dicebear/styles/initials.json');
@@ -289,10 +289,18 @@ try {
   const decoded = jwt.verify(token, JWT_SECRET);
   const senderId = decoded.id;
   const { recipient, text } = req.body;
-  const cleanText = moderationService.cleanText(text);
+  const { isApproved, score } = await xenovaTransformers.checkText(text);
+  if (!isApproved) {
+            return res.status(400).json({ 
+                success: false,
+                message: "Il testo è stato rifiutato dai nostri sistemi di moderazione!",
+                confidence: `${(score * 100).toFixed(1)}%`
+            });
+        }
+
   /** Memorizza il messaggio nella tabella messages. */
   const message = await Message.create({
-                                        content: cleanText,
+                                        content: text,
                                         senderId: senderId,
                                         recipientId: recipient
                                         }, { transaction: t }); 
@@ -326,12 +334,19 @@ const userSendMesssageOnDetailBook = async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     const senderId = decoded.id;    
     const { recipient, text, bookId } = req.body;
-    /** Effattua una pulizia del testo, per eventuali frasi non consentite. */
-    const cleanText = moderationService.cleanText(text);
+    const { isApproved, score } = await xenovaTransformers.checkText(text);
+
+      if (!isApproved) {
+                return res.status(400).json({ 
+                    success: false,
+                    message: "Il testo è stato rifiutato dai nostri sistemi di moderazione!",
+                    confidence: `${(score * 100).toFixed(1)}%`
+                });
+            }
     const userId = recipient;
 
     const message = await Message.create({
-      content: cleanText,
+      content: text,
       senderId: senderId,
       recipientId: recipient
     }, { transaction: t });  
@@ -426,118 +441,128 @@ const userRegistration = async (req, res) =>{
             captcha 
             } = req.body;
 
-      /** Utilizzo di dicebear (https://www.dicebear.com/how-to-use/js-library/) 
-       *  per generare un avatar.
-       */
-      const firstIndex = Math.floor(Math.random() * colors.length);
-      const firstElement = colors.splice(firstIndex, 1)[0];
-      const secondIndex = Math.floor(Math.random() * colors.length);
-      const secondElement = colors.splice(secondIndex, 1)[0];
-      const backgroundColor = [firstElement, secondElement];
-      const title = first_name + ' ' + last_name;
-      const style = new Style(definition);
-      const avatar = new Avatar(style, {
-        seed: first_name,
-        title: title,
-        backgroundColor: backgroundColor,
-        backgroundColorFill: 'linear', //solid, linear, radial
-        textColor: 'ffffff',
-        size: 200,
-        scale: 0.75,
-      });
+      const { isApproved, score } = await xenovaTransformers.checkText(description);
 
-      const dataUri = avatar.toDataUri();
+            if (!isApproved) {
+              return res.status(400).json({
+                success: false,
+                message: "Il testo è stato rifiutato dai nostri sistemi di moderazione!",
+                confidence: `${(score * 100).toFixed(1)}%`
+              });
+            }
 
-    /** Effettua un check per verificare il captcha. */
-    if(captcha !== req.session.captcha ){
-        return res.status(422).json({
-                                success: false, 
-                                message: "Captcha non valido!" 
-                              });
-        }
+            /** Effettua un check per verificare il captcha. */
+            if (captcha !== req.session.captcha) {
+              return res.status(422).json({
+                success: false,
+                message: "Captcha non valido!"
+              });
+            }
 
-    /** Effettua un check per verificare l'email. */
-    if (!emailRegex.test(email)) {
-      return res.status(422).json({ 
-                              success: false, 
-                              message: 'Indirizzo email non valido.' 
-                            });
-    }
+            /** Effettua un check per verificare l'email. */
+            if (!emailRegex.test(email)) {
+              return res.status(422).json({
+                success: false,
+                message: 'Indirizzo email non valido.'
+              });
+            }
 
-    const user = await User.findOne({ where: { email } });
+            const user = await User.findOne({ where: { email } });
 
-    /** Verifica se esiste già un utente con la stessa email. */
-    if (user) {
-         return res.status(422).json({
-                                   success: false, 
-                                   message: "Indirizzo Email già in uso da un altro utente!" 
-                                  });
-     }
+            /** Verifica se esiste già un utente con la stessa email. */
+            if (user) {
+              return res.status(422).json({
+                success: false,
+                message: "Indirizzo Email già in uso da un altro utente!"
+              });
+            }
 
-    /** Verifica di tutti gli altri dati inviati. */
-    if(agree_terms !=='on'){
-        return res.status(422).json({
-                                    success: false, 
-                                    message: "E' necessario accettare i termini di servizio!" 
-                                  });     
-    }
+            /** Verifica di tutti gli altri dati inviati. */
+            if (agree_terms !== 'on') {
+              return res.status(422).json({
+                success: false,
+                message: "E' necessario accettare i termini di servizio!"
+              });
+            }
 
-    if(password !== password_confirm){
-       return res.status(422).json({
-                                    success: false, 
-                                    message: "Il valore 'password' e il valore 'conferma password' devono essere uguali!" 
-                                  });
-    }
+            if (!passwordRegex.test(password)) {
+              return res.status(422).json({
+                success: false,
+                message: "Password non valida. Deve contenere almeno 8 caratteri, una maiuscola, una minuscola e un numero."
+              });
+
+            }
+
+            if (password !== password_confirm) {
+              return res.status(422).json({
+                success: false,
+                message: "Il valore 'password' e il valore 'conferma password' devono essere uguali!"
+              });
+            }
+
+            /** Utilizzo di dicebear (https://www.dicebear.com/how-to-use/js-library/) 
+             *  per generare un avatar.
+             */
+            const firstIndex = Math.floor(Math.random() * colors.length);
+            const firstElement = colors.splice(firstIndex, 1)[0];
+            const secondIndex = Math.floor(Math.random() * colors.length);
+            const secondElement = colors.splice(secondIndex, 1)[0];
+            const backgroundColor = [firstElement, secondElement];
+            const title = first_name + ' ' + last_name;
+            const style = new Style(definition);
+            const avatar = new Avatar(style, {
+              seed: first_name,
+              title: title,
+              backgroundColor: backgroundColor,
+              backgroundColorFill: 'linear', //solid, linear, radial
+              textColor: 'ffffff',
+              lettersVariant: 'single',
+              size: 200,
+              scale: 0.75,
+            });
+
+            const dataUri = avatar.toDataUri();
+
+            /** Genera la 'password hash'.  */
+            const passwordHash = bcrypt.hashSync(password, salt);
+
+            /** Trasforma il testo con tutte iniziali maiuscole. */
+            const formattedFirstName = first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+            const formattedLastName = last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+            const formattedDescription = description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+                  
+            /** Memorizza i dati nella tabella 'users'. */
+            const newUser = await User.create({
+              firstName: formattedFirstName,
+              lastName: formattedLastName,
+              description: formattedDescription,
+              email: email,
+              avatar: dataUri,
+              password_hash: passwordHash,
+              address: address,
+              lon: longitude,
+              lat: latitude  
+
+            }, { transaction: t });
+            
+            await t.commit();
+            
+            return res.status(201).json({ 
+                success: true,
+                message: "Account creato con successo!",
+                data: newUser,      
+              }); 
     
-    if (!passwordRegex.test(password)) {
+          } catch (error) {
+            await t.rollback();
+            console.log(error);
+            return res.status(500).json({
+              success: false,
+              message: "Impossibile completare l'operazione."
+            });
+          }
 
-       return res.status(422).json({
-                                    success: false, 
-                                    message: "Password non valida. Deve contenere almeno 8 caratteri, una maiuscola, una minuscola e un numero." 
-                                   });
-    
-  }
-    
-  /** Effattua una pulizia di 'description' per parole non consentite. */
-  const cleanDescription = moderationService.cleanText(description);
-  
-  /** Genera la 'password hash'.  */
-  const passwordHash = bcrypt.hashSync(password, salt);
-  
-  /** Memorizza i dati nella tabella 'users'. */
-  const newUser = await User.create({
-    firstName: first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
-    lastName: last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
-    description: cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
-    email: email,
-    avatar: dataUri,
-    password_hash: passwordHash,
-    address: address,
-    lon: longitude,
-    lat: latitude  
-
-  }, { transaction: t });
-  
-   await t.commit();
-  
-   return res.status(201).json({ 
-      success: true,
-      message: "Account creato con successo!",
-      data: newUser,      
-    }); 
-
-
-    
-  } catch (error) {
-    await t.rollback();
-    console.log(error);
-    return res.status(500).json({
-      success: false,
-      message: "Impossibile completare l'operazione."
-    });
-  }
-
-};
+    };
 
 /** Questa API viene utilizzata per modificare i dati dell'utente. */
 const editProfileUser = async (req, res)=>{
@@ -550,11 +575,19 @@ const editProfileUser = async (req, res)=>{
       const decoded = jwt.verify(token, JWT_SECRET);
       const userId = decoded.id; 
       const {first_name, last_name, description, password, password_confirm} = req.body;  
-      const cleanDescription = moderationService.cleanText(description);   
+      const { isApproved, score } = await xenovaTransformers.checkText(description);
+
+      if (!isApproved) {
+                return res.status(400).json({ 
+                    success: false,
+                    message: "Il testo è stato rifiutato dai nostri sistemi di moderazione!",
+                    confidence: `${(score * 100).toFixed(1)}%`
+                });
+            }
       /** Trasforma il testo con tutte iniziali maiuscole. */
       const formattedFirstName = first_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
       const formattedLastName = last_name.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
-      const formattedDescription = cleanDescription.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+      const formattedDescription = description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
 
       /** Effettua un check per verificare se l'utente ha modificato anche la password. */
       if(password.length > 0 && password_confirm.length > 0){
