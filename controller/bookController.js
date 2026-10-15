@@ -5,6 +5,7 @@ const fs = require('fs').promises;
 const path = require('path'); 
 /** questa espressione regolare viene utilizzato per effettuare un controllo sul formato del nome dell'immagine. */
 const regex = /^\d+-\d+-copertina\.jpg$/;
+/** Import del service 'xenovaTransformers' */
 const xenovaTransformers = require('../services/xenovaTransformers');
 
 /** Questo è il controller per gestire i libri,
@@ -140,7 +141,7 @@ const createNewBook = async (req, res) => {
           if (!req.file) {
             return res.status(400).json({ success: false, message: 'Nessuna Immagine di Copertina!' });
           }
-
+         /** Verifica moderazione testo. */
          const { isApproved, score } = await xenovaTransformers.checkText(description);
 
           if (!isApproved) {
@@ -163,6 +164,7 @@ const createNewBook = async (req, res) => {
          const longitude = user.lon;
          const address = user.address;       
          const imageUrl = `${process.env.BASE_PATH}/images/books/${req.file.filename}`; 
+         /** Trasforma 'title', 'author', 'description' con iniziali maiuscole. */
          const customTitle = title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
          const customAuthor = author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
          const customDescription = description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
@@ -295,7 +297,7 @@ const editBook = async (req, res) => {
     } 
 
   const parseIdbook = Number(id);
-
+  /** Verifica moderazione testo. */
   const { isApproved, score } = await xenovaTransformers.checkText(description);
 
     if (!isApproved) {
@@ -358,6 +360,7 @@ const editBook = async (req, res) => {
       }  
 
     const imageUrl = `${process.env.BASE_PATH}/images/books/${req.file.filename}`;  
+    /** Trasforma 'title', 'author', 'description' con iniziali maiuscole. */
     const customTitle = title.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
     const customAuthor = author.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
     const customDescription = description.split(' ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');

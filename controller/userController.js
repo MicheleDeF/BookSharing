@@ -4,12 +4,21 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const svgCaptcha = require('svg-captcha');
 const JWT_SECRET = process.env.JWT_SECRET;
+
 /** Espressione regolare per verificare il formato della password. */
 const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+
 /** Espressione regolare per verificare il formato dell'email. */
 const emailRegex = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/;
+
+/** Generazione stringa di caratteri casuali che viene unita alla password prima di calcolarne l'hash
+ *  (https://www.npmjs.com/package/bcrypt)
+ */
 const salt = bcrypt.genSaltSync(10);
+
+/** Import del service 'xenovaTransformers' */
 const xenovaTransformers = require('../services/xenovaTransformers');
+
 /** dicebear e colori per generare l'avatar */
 const { Style, Avatar } = require('@dicebear/core');
 const definition = require('@dicebear/styles/initials.json');
@@ -289,6 +298,8 @@ try {
   const decoded = jwt.verify(token, JWT_SECRET);
   const senderId = decoded.id;
   const { recipient, text } = req.body;
+
+  /** Verifica moderazione testo. */
   const { isApproved, score } = await xenovaTransformers.checkText(text);
   if (!isApproved) {
             return res.status(400).json({ 
@@ -334,6 +345,8 @@ const userSendMesssageOnDetailBook = async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     const senderId = decoded.id;    
     const { recipient, text, bookId } = req.body;
+
+    /** Verifica moderazione testo. */
     const { isApproved, score } = await xenovaTransformers.checkText(text);
 
       if (!isApproved) {
@@ -441,6 +454,7 @@ const userRegistration = async (req, res) =>{
             captcha 
             } = req.body;
 
+      /** Verifica moderazione testo. */
       const { isApproved, score } = await xenovaTransformers.checkText(description);
 
             if (!isApproved) {
@@ -575,6 +589,8 @@ const editProfileUser = async (req, res)=>{
       const decoded = jwt.verify(token, JWT_SECRET);
       const userId = decoded.id; 
       const {first_name, last_name, description, password, password_confirm} = req.body;  
+
+      /** Verifica moderazione testo. */
       const { isApproved, score } = await xenovaTransformers.checkText(description);
 
       if (!isApproved) {
