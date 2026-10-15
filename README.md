@@ -54,9 +54,10 @@ node index.js
 Per testare l'applicazione vengono inseriti tramite seeders dati di test, in particolare vengono usate coordinate fisse ```latitudine = 40.949282740897054``` e ```longitudine = 14.523030645794485``` per generare due utenti poco distanti uno dall'altro in modo da simulare tutte le funzionalità.
 Se si vuole testare l'applicazione con ```latitudine``` e ```longitudine``` con valori reali seguire i seguenti passi:
 
-* aprire il file ```public\js\script.js``` 
-* decommentare le due righe 51, 52 per ottenere la posizione esatta
-* commentare 54, 55 per non usare i dati di test.
+* aprire il file ```public\js\script.js```;
+* decommentare le due righe 51, 52 per ottenere la posizione esatta;
+* commentare 54, 55 per non usare i dati di test;
+* svuotare la cache del browser.
 
 Sempre riguardo i dati di test, per utilizzare correttamente il file ```postman/BookSharing.postman_collection.json``` utilizzare la password ```a1s2d3F4``` e una delle due email memorizzate nella colonna ```email``` della tabella ```users```, stessa cosa anche per effettuare il login sull'elaborato.
 
