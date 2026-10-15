@@ -25,7 +25,7 @@ async function checkText(text) {
     const moderationPipeline = await modelPromise;
     
     if (!moderationPipeline) {
-        throw new Error("Il modello di moderazione non è disponibile!");
+        throw new Error("Si è verificato un errore durante il caricamento del modello!");
     }
 
     /** Effettua un controllo sul testo. */
