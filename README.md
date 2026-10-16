@@ -5,7 +5,6 @@
 * Versione Apache 2.4.52 o superiore
 * Versione MySql 8.4.3 o superiore
 * Versione Git 2.47 o superiore
-* Version TypeScript 5.9.3 o superiore (facoltativa)
 
 ## Effettuare il clone del repository
 ### Da CMD eseguire il seguente comado
