@@ -67,7 +67,7 @@ const getSearchBooks = async (req, res)=>{
 
 
       }else{
-        /** Canvalid Latitudine e Longitudine */
+        /** Canvalida Latitudine e Longitudine */
         if( !latRegex.test(lat) || !lonRegex.test(lon)){
           return res.status(404).json({
               success: false,
