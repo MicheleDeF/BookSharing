@@ -1,68 +1,67 @@
-## Guida all'installazione dell'applicazione
+## Application Installation Guide
 
-### Requisiti di sitema
-* Versione NodeJs 22.21.1 o superiore
-* Versione Apache 2.4.52 o superiore
-* Versione MySql 8.4.3 o superiore
-* Versione Git 2.47 o superiore
+### System Requirements
+* ```Node.js``` version 22.21.1 or higher
+* ```Apache``` version 2.4.52 or higher
+* ```MySQL``` version 8.4.3 or higher
+* ```Git``` version 2.47 or higher
 
-## Effettuare il clone del repository
-### Da CMD eseguire il seguente comado
+## Cloning the Repository
+### Run the following command from the CMD
 ```
 git clone https://github.com/MicheleDeF/BookSharing.git 
 ```
-questo comando crea una cartella **BookSharing**, eseguire il comando per entrare nella cartella creata
+this command creates a folder named **BookSharing**. Run the following command to enter the created folder:
 ```
 cd BookSharing
 ```
-Aprire la cartella BookSharing con un IDE qualsiasi (ad esempio Visual Studio Code), e rinominare il file ```.env_example``` in ```.env``` e definire le variabili di ambiente _JWT_SECRET_, _SESSION_SECRET_ rispettivamente per il jwt web token e le sessioni.
+Open the BookSharing folder with any IDE (such as Visual Studio Code), rename the file ```.env_example``` to ```.env```, and define the environment variables _JWT_SECRET_ and _SESSION_SECRET_ for the JWT web token and sessions, respectively.
 
-## Creazione database
-Prima di proseguire con le altre operazioni, creare un database denominato **books_sharing** come impostato nel file _config/config.json_, con _username_ **root** e _password_ **null**, è possibile cambiare questi valori a condizione che si modifichi il file _config/config.json_ nella sezione _development_.
+## Creating the Database
+Before proceeding with the other operations, create a database named **books_sharing** as configured in the _config/config.json_ file, with the _username_ **root** and a **null** _password_. You can change these values as long as you modify the _development_ section in the _config/config.json_ file.
 
-## Istallazione pacchetti npm richiesti
-Succcessivamente installare tutti i pacchetti npm contenuti nel file **package.json**, eseguire il seguente comando nella cartella radice del progetto, in questo caso è BookSharing
+## Installing Required npm Packages
+Next, install all the npm packages listed in the **package.json** file. Run the following command in the root folder of the project (which is BookSharing in this case):
 ```
 npm install
 ```
-
-## Creazione tabelle
-Per creare le tabelle eseguire il seguente comando nella cartella radice del progetto, in questo caso è BookSharing
+## Creating Tables
+To create the tables, run the following command in the project root folder (BookSharing):
 ```
 npx sequelize-cli db:migrate
 ```
-Se l'operazione è andata a buon fine verranno create le tabelle **books**, **messages**, **sequelizemeta**, **statistics** e **users**.
+If the operation is successful, the tables **books**, **messages**, **sequelizemeta**, **statistics**, and **users** will be created.
 
-## Generare dati di test
-Per generare i dati di test eseguire il seguente comando nella cartella radice del progetto, in questo caso è BookSharing
+## Generating Test Data
+To generate the test data, run the following command in the project root folder (BookSharing):
 ```
 npx sequelize-cli db:seed:all
 ```
-questo comando popolerà le tabelle create in precedenza con dati di esempio, in particolare due utenti i cui indirizzi email sono reperibili nella tabella **users** colonna _email_, la password è unica per entrambi ```a1s2d3F4```, usare email e password con uno degli utenti per effettuare il login.
+this command will populate the previously created tables with sample data. Specifically, it creates two users whose email addresses can be found in the _email_ column of the **users** table. The password is the same for both: ```a1s2d3F4```. Use the email and password of one of these users to log in.
 
-## Avviare l'applicazione
-E' possibile avviare l'applicazione tramite uno dei seguenti comandi 
+## Starting the Application
+You can start the application using one of the following commands:
 ```
 npm run start
 ```
-oppure
+or
 ```
 node index.js
 ```
-## Nota sull'uso dei dati di test
-Per testare l'applicazione vengono inseriti tramite seeders dati di test, in particolare vengono usate coordinate fisse ```latitudine = 40.949282740897054``` e ```longitudine = 14.523030645794485``` per generare due utenti poco distanti uno dall'altro in modo da simulare tutte le funzionalità.
-Se si vuole testare l'applicazione con ```latitudine``` e ```longitudine``` con valori reali seguire i seguenti passi:
+## Note on Using Test Data
+To test the application, test data is inserted via seeders. Specifically, fixed coordinates ```latitude = 40.949282740897054``` and ```longitude = 14.523030645794485``` are used to generate two users located close to each other, allowing you to simulate all features.
+If you want to test the application with real ```latitude``` and ```longitude``` values, follow these steps:
 
-* aprire il file ```public\js\script.js```;
-* decommentare le due righe 51, 52 per ottenere la posizione esatta;
-* commentare 54, 55 per non usare i dati di test;
-* svuotare la cache del browser.
+* Open the file ```public\js\script.js```;
+* Un-comment lines 51 and 52 to get the exact location;
+* Comment out lines 54 and 55 to disable the test data;
+* Clear your browser cache.
 
-Sempre riguardo i dati di test, per utilizzare correttamente il file ```postman/BookSharing.postman_collection.json``` utilizzare la password ```a1s2d3F4``` e una delle due email memorizzate nella colonna ```email``` della tabella ```users```, stessa cosa anche per effettuare il login sull'elaborato.
+Regarding the test data, to correctly use the ```postman/BookSharing.postman_collection.json``` file, use the password ```a1s2d3F4``` and one of the two emails stored in the ```email``` column of the ```users``` table. The same credentials apply for logging into the application.
 
-## Nota sull'uso del compilatore Sass per compilare style.css
-Per aggiungere stili aggiuntivi al file ```public/css/style.css``` eseguire il seguente comando nella cartella radice del progetto, in questo caso è BookSharing 
+## Note on Using the Sass Compiler to Compile style.css
+To add additional styles to the ```public/css/style.css``` file, run the following command in the project root folder (BookSharing):
 ```
 sass --watch public/scss/style.scss public/css/style.css  --style compressed
 ```
-aggiungere gli stili aggiuntivi a ```public/scss/style.scss```, verranno aggiunti automaticamente a ```public/css/style.css```, il file ```public/scss/style.scss``` contiene i commenti per gli stili utilizzati, il file ```public/css/style.css``` è in formato compresso.
+Add your custom styles to ```public/scss/style.scss```, and they will be automatically compiled into ```public/css/style.css```. The ```public/scss/style.scss``` file contains comments regarding the styles used, while the ```public/css/style.css``` file is in a compressed format.
