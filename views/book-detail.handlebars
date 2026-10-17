@@ -6,14 +6,16 @@ ScambioLibro - {{detailBook.title}}
 <script src="/leaflet.js"></script>
 {{/section}}
 {{#section 'css'}}
+<!-- Swiper CSS -->
 <link rel="stylesheet" href="/swiper/swiper-bundle.min.css" />
 {{/section}}
 {{#section 'schema'}}
+<!-- Sezione schema.org per la SEO. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Book",
-  "name": "{{detailBook.title}},
+  "name": "{{detailBook.title}}",
   "url": "{{currentUrl}}",
   "datePublished": "{{detailBook.publish_year}}",
   "author": {
@@ -50,27 +52,31 @@ ScambioLibro - {{detailBook.title}}
     const lat = {{detailBook.lat}};
     const lon = {{detailBook.lon}};
     const radius = {{detailBook.radius}};
+    /** Inizializza la mappa con Leaflet. */
     const map = L.map('mapBookDetail').setView([lat, lon], 14);
+    /** Aggiunge il layer della mappa di OpenStreetMap. */
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
     }).addTo(map);
-
+    /** Aggiunge un marker per il punto di scambio del libro. */
     const marker = L.marker([lat, lon]).addTo(map);
+    /** Aggiunge un popup al marker con l'indirizzo del punto di scambio. */
     marker.bindPopup("<b>Punto di Scambio</b><br>{{detailBook.address}}").openPopup();
-
+    /** Aggiunge un cerchio per rappresentare il raggio di ricerca del libro. */
     const circle = L.circle([lat, lon], {
         color: '#0d6efd',       
         fillColor: '#0d6efd',   
         fillOpacity: 0.15,      
         radius: radius    
     }).addTo(map);
-
+   /** Adatta la visualizzazione della mappa per includere il cerchio e il marker. */
    setTimeout(() => {
     map.invalidateSize();
     map.fitBounds(circle.getBounds(), { padding: [20, 20] });
         }, 200);
-
+    
+    /** Funzione per mostrare un alert se l'utente non è loggato. */
     function notLogged(){
         Swal.fire({
             icon: "info",
@@ -81,6 +87,7 @@ ScambioLibro - {{detailBook.title}}
             });
     }
 </script>
+<!-- Swiper JS -->
 <script src="/swiper/swiper-bundle.min.js"></script>
 <script src="/js/book-detail/book-detail.js"></script>
 {{/section}}
