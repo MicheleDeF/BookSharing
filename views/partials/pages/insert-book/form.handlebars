@@ -1,4 +1,17 @@
-<!-- Form utilizzato per la inserire un nuvo libro -->
+<!-- 
+    Form per la modifica di un libro
+    Il form utilizza il motore di template Handlebars per inserire contenuti dinamici come il titolo, l'autore, l'anno di pubblicazione, la categoria, la descrizione e l'immagine di copertina del libro.
+    Il form è progettato per essere responsive, adattandosi a diverse dimensioni dello schermo e garantendo una buona esperienza utente su dispositivi mobili e desktop.
+    La struttura del form è organizzata in diverse sezioni:
+    1. Titolo del libro: un campo di input di testo per inserire il titolo del libro, con validazione per assicurarsi che il campo non sia vuoto.
+    2. Autore: un campo di input di testo per inserire l'autore del libro, con validazione per assicurarsi che il campo non sia vuoto.
+    3. Anno di pubblicazione: un campo di input numerico per inserire l'anno di pubblicazione del libro, con validazione per assicurarsi che il campo non sia vuoto e che l'anno sia compreso tra 1000 e 2026.
+    4. Categoria / Genere: un campo di selezione a discesa per scegliere la categoria o il genere del libro, con validazione per assicurarsi che il campo non sia vuoto.
+    5. Descrizione: un campo di textarea per inserire una breve descrizione del libro, con validazione per assicurarsi che il campo non sia vuoto e che la descrizione non superi i 500 caratteri.
+    6. Immagine di copertina: un campo di input di tipo file per caricare un'immagine di copertina del libro, con validazione per assicurarsi che il campo non sia vuoto e che l'immagine sia in formato JPG o PNG e abbia dimensioni minime di 600x800 pixel.
+    Il form include anche un pulsante di invio per salvare le modifiche apportate al libro. Il pulsante è disabilitato finché tutti i campi obbligatori non sono stati compilati correttamente.
+    Il form utilizza la classe "needs-validation" di Bootstrap per gestire la validazione dei campi e mostrare messaggi di errore appropriati quando i campi obbligatori non sono compilati correttamente.
+    -->
 <form id="insert-book" enctype="multipart/form-data" class="needs-validation" novalidate>
     
     <div class="row g-4">        
