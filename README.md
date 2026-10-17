@@ -1,4 +1,5 @@
 ## Application Installation Guide
+View the guide in Italian [README-it.md](https://github.com/MicheleDeF/BookSharing/blob/main/README-it.md)
 
 ### System Requirements
 * ```Node.js``` version 22.21.1 or higher
