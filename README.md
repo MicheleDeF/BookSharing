@@ -1,5 +1,5 @@
 ## Application Installation Guide
-View the guide in Italian <img src="https://github.com/MicheleDeF/BookSharing/blob/main/public/images/it.png" width="30"> [README-it.md](https://github.com/MicheleDeF/BookSharing/blob/main/README-it.md)
+View the guide in Italian <img src="https://github.com/MicheleDeF/BookSharing/blob/main/public/images/it.png" width="20"> [README-it.md](https://github.com/MicheleDeF/BookSharing/blob/main/README-it.md)
 
 ### System Requirements
 * ```Node.js``` version 22.21.1 or higher
